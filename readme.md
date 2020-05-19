@@ -6,26 +6,29 @@
 *** See the bottom of this document for the declaration of the reference variables
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 
-[![Contributors][contributors-shield]][contributors-url]
+
+
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
+[![Contributors][contributors-shield]][contributors-url]
+-->
+
 [![MIT License][license-shield]][license-url]
+[![Issues][issues-shield]][issues-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/DynamocoLogo.png" alt="Logo" width="256" height="256"/>
+    <img src="images/DynamocoLogo.png" alt="Logo" width="512" height="512"/>
   </a>
 
   <h3 align="center">DynaMoco + MocoQuery</h3>
 
   <p align="center">
-    Like a Carebear giving a little hug to how you might handle DyanmoDB.
+    Like a Carebear giving DyanmoDB a hug
     <br />
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template">
@@ -71,22 +74,12 @@ Writeen in Typescript it should help you with auto-complete etc - if that is of 
 ### The DynaMoco Solution 
 
 Use this package if:
-- you find the Ayanmo API optimzied for AWS and not users.
-- you dont like adding bloated packages to your project.
 
-A list of commonly used resources that I find helpful are listed in the acknowledgements.
-
-### Single dependency
-
-By design, this module has a single, external, run-time dependency (`aws-sdk`). And it uses a few other packages while running tests.
-
-* [aws-sdk](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html)
+- You need to just get going with DynamoDB
+- You find the Dynamo API difficult and seemingly optimzed for AWS engineers and not it's users.
+- You enjoy flexible streamlined modules.
 
 <!-- GETTING STARTED -->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
@@ -107,9 +100,7 @@ The second is a nice query builder - `mocoquery`
 
 Each of them cover some ground on the API surface area exposed by Dyanmo.
 
-
-
-### Full Monty - Get Item
+### Get Item (Full Monty)
 
 ```js
 import {Dynamo} from 'aws-sdk'
@@ -129,12 +120,9 @@ import {credentials} from './credentials'
             } 
         */
 })()
-
-
 ```
 
-
-### Wrinkles Ironed Out
+### Using The Query Builder
 
 ```js
 import {Dynamo} from 'aws-sdk'
@@ -157,18 +145,32 @@ import {credentials} from './credentials'
 })()
 ```
 
+_For more examples, please refer to the [Documentation](https://github.com/federalies/dynamoco/wiki/Documentation)_
 
-_For more examples, please refer to the [Documentation](https://example.com)_
 
+## Technical
+
+### Single dependency
+
+By design, this module has a single, external, run-time dependency (`aws-sdk`). And it uses a few other packages while running tests. It is a stated goal of the project to keep the dependencies as small as reasonable. _(different than as small as possible)_
+
+#### Dependency
+
+* [aws-sdk](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html)
+
+### Codebase
+
+This is a Typescript codebase, and aims to be relatively up to date with the latest version. Adopting new typescript version will likely comence after some  hardening period, but hastened if a new language feature has been added that substantially supports this project.
 
 <!-- ROADMAP -->
 ## Roadmap
 
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
 
-
 <!-- CONTRIBUTING -->
 ## Contributing
+
+Have a question? Ask it in an issue! We'd love to hear from you.
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -178,9 +180,17 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-
 ## Community
 
+
+
+<!--
+- Slack
+- Riot
+- Spectrum 
+-->
+
+See the [Community Standards and Code of Conduct](./CODE_OF_CONDUCT.md)
 
 <!-- CONTACT -->
 ## Contact
@@ -196,21 +206,13 @@ Eric D Moore
 Project Link: [https://github.com/federalies/dynamoco](https://github.com/federalies/dynamoco)
 
 
-
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements & Credits
 * [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
 * [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
 * [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
 * https://github.com/RichardLitt/standard-readme
+* 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -228,25 +230,8 @@ Project Link: [https://github.com/federalies/dynamoco](https://github.com/federa
 [linkedin-url]: https://linkedin.com/in/othneildrew
 [product-screenshot]: images/screenshot.png
 
-
-
-###  History
-
-
-### Codebase
-
-
-### Status
-
-
-### Getting Started
-
-
-### Technical
-
-
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more information.
 
