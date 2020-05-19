@@ -1,0 +1,49 @@
+{
+  "name": "dyna-moco",
+  "version": "0.2.0",
+  "description": "A small but useful set of helpers, making Dynamo more acute and less obtuse. (Member of the Federalies)",
+  "keywords": [
+    "dynamo",
+    "query",
+    "scan",
+    "helper",
+    "query builder",
+    "modands",
+    "fluent",
+    "single dependency",
+    "federalies"
+  ],
+  "main": "build/src/index.js",
+  "types": "src/index.ts",
+  "files": [
+    "build/src"
+  ],
+  "scripts": {
+    "test": "ts-node test/index.test.ts",
+    "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br"
+  },
+  "engines": {
+    "node": ">=7.8.0"
+  },
+  "author": "Eric D Moore",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/federalies/dynaMoco"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.669.0"
+  },
+  "devDependencies": {
+    "deep-diff": "^1.0.2",
+    "p-series": "^2.1.0",
+    "@types/bloomfilter": "0.0.0",
+    "@types/deep-diff": "^1.0.0",
+    "@types/node": "^13.13.4",
+    "bloomfilter": "0.0.18",
+    "chalk": "^4.0.0",
+    "ts-node": "^8.10.1",
+    "globby": "^11.0.0",
+    "typescript": "^3.8.3"
+  }
+}
