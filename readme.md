@@ -31,22 +31,22 @@
     Like a Carebear giving DyanmoDB a hug
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">
+    <a href="https://github.com/federalies/dynamoco/wiki/Documentation">
         <strong>Documnetation »</strong>
     </a>
     <br />
     <br />
-        <a href="https://github.com/othneildrew/Best-README-Template">
+        <a href="https://github.com/federalies/dynamoco/wiki/Documentation">
         Codepen Demo
         </a>
     <br />
     <br />
-        <a href="https://github.com/othneildrew/Best-README-Template/issues">
+        <a href="https://github.com/federalies/dynamoco/issues">
         Report Bug
         </a>
     <br />
     <br />
-        <a href="https://github.com/othneildrew/Best-README-Template/issues">
+        <a href="https://github.com/federalies/dynamoco/issues">
         Request Feature
         </a>
   </p>
@@ -58,7 +58,7 @@ DyanMoCo & MoCoQuery
 
 <!-- ABOUT THE PROJECT -->
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://github.com/federalies/dynamoco)
 
 DynamoDB is great but the way you interact with it is not really great. DynaMoco is small but mighty, wrapper that is strong enough to get what you want out of DynamoDB and gentle enough to act like bowling with bumpers on.
 
@@ -165,7 +165,7 @@ This is a Typescript codebase, and aims to be relatively up to date with the lat
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/federalies/dynamoco/issues) for a list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -208,11 +208,12 @@ Project Link: [https://github.com/federalies/dynamoco](https://github.com/federa
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements & Credits
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+
 * [Img Shields](https://shields.io)
 * [GitHub Pages](https://pages.github.com)
 * https://github.com/RichardLitt/standard-readme
-* 
+
+<!-- * [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet) -->
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
