@@ -19,8 +19,10 @@
     "build/src"
   ],
   "scripts": {
-    "test": "ts-node test/index.test.ts",
-    "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br"
+    "test": "npm run lint && ts-node test/index.test.ts",
+    "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
+    "prepublish": "npm run build && npm run test",
+    "lint": "eslint src/*.ts"
   },
   "engines": {
     "node": ">=7.8.0"
@@ -35,15 +37,22 @@
     "aws-sdk": "^2.669.0"
   },
   "devDependencies": {
-    "deep-diff": "^1.0.2",
-    "p-series": "^2.1.0",
-    "@types/bloomfilter": "0.0.0",
     "@types/deep-diff": "^1.0.0",
     "@types/node": "^13.13.4",
-    "bloomfilter": "0.0.18",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
     "chalk": "^4.0.0",
-    "ts-node": "^8.10.1",
+    "deep-diff": "^1.0.2",
+    "eslint": "^7.0.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "globby": "^11.0.0",
+    "np": "^6.2.3",
+    "p-series": "^2.1.0",
+    "ts-node": "^8.10.1",
     "typescript": "^3.8.3"
   }
 }
