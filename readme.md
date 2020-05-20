@@ -17,6 +17,7 @@
 
 [![MIT License][license-shield]][license-url]
 [![Issues][issues-shield]][issues-url]
+[![Pkg Size][size-shield]][size-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -222,6 +223,9 @@ Project Link: [https://github.com/federalies/dynamoco](https://github.com/federa
 
 [forks-shield]: https://img.shields.io/github/forks/federalies/dynamoco?style=flat-square
 [forks-url]: https://github.com/federalies/dynamoco/network/members
+
+[size-shield]: https://img.shields.io/bundlephobia/minzip/@federalies/dynamoco?style=for-the-badge
+[size-url]: https://bundlephobia.com/result?p=@federalies/dynamoco
 
 [stars-shield]: https://img.shields.io/github/stars/federalies/dynamoco?style=flat-square
 [stars-url]: https://github.com/federalies/dynamoco/stargazers
