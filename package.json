@@ -1,6 +1,6 @@
 {
   "name": "dyna-moco",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A small but useful set of helpers, making Dynamo more acute and less obtuse. (Member of the Federalies)",
   "keywords": [
     "dynamo",
