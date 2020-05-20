@@ -19,7 +19,7 @@
     "build/src"
   ],
   "scripts": {
-    "test": "npm run lint && ts-node test/index.test.ts",
+    "test": "ts-node test/index.test.ts",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
     "publish": "np",
     "prepublish": "npm run build && npm run test",
