@@ -84,19 +84,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     };
     const parseTableProps = (table, tableDef) => {
         const preamble = `Table ${table} {\n`;
-        const indexHeader = `index {`;
-        const tab = `\t`;
+        const indexHeader = 'index {';
+        const tab = '\t';
         const closer = '\n}';
         const mapping = {
-            'S': 'text',
-            'SS': 'text[]',
-            'BOOL': 'boolean',
-            'N': 'numeric',
-            'NS': 'numeric[]',
-            'B': 'bytea',
-            'BS': 'bytea[]',
-            'L': 'JSON',
-            'M': 'JSON'
+            S: 'text',
+            SS: 'text[]',
+            BOOL: 'boolean',
+            N: 'numeric',
+            NS: 'numeric[]',
+            B: 'bytea',
+            BS: 'bytea[]',
+            L: 'JSON',
+            M: 'JSON'
         };
         const columns = (tableDef.AttributeDefinitions || []).reduce((p, c) => {
             var _a;
@@ -126,7 +126,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 return `[${settingsArr.join(', ')}]`;
             }
             else {
-                return ``;
+                return '';
             }
         };
         const cols = Object.values(columns).map(c => `${tab} ${c.columnName} ${c.dbmlType} ${settingsPrint(c.settings)}`).join('\n');
@@ -137,41 +137,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     };
     const _inferDynamoValueTypes = (input) => {
         if (isString(input)) {
-            return { 'S': input };
+            return { S: input };
         }
         else if (isBool(input)) {
-            return { 'BOOL': true };
+            return { BOOL: true };
         }
         else if (isNumber(input)) {
-            return { 'N': input.toString() };
+            return { N: input.toString() };
         }
         else if (isBinary(input)) {
-            return { 'B': Buffer.from(input) };
+            return { B: Buffer.from(input) };
         }
         else if (isNull(input)) {
-            return { 'NULL': true };
+            return { NULL: true };
         }
         else if (isArray(input)) {
             const firstTypeof = typeof input[0];
             const firstProtoOf = Object.getPrototypeOf(input[0]);
-            const allSame = input.every((v) => { typeof v === firstTypeof && Object.getPrototypeOf(v) === firstProtoOf; });
+            const allSame = input.every((v) => typeof v === firstTypeof && Object.getPrototypeOf(v) === firstProtoOf);
             if (!allSame) {
-                return { 'L': input.map((v) => _inferDynamoValueTypes(v)) };
+                return { L: input.map((v) => _inferDynamoValueTypes(v)) };
             }
             else {
                 if (firstTypeof === 'string') {
-                    return { 'SS': input };
+                    return { SS: input };
                 }
                 else if (firstTypeof === 'number') {
-                    return { 'NS': input.map(v => v.toString()) };
+                    return { NS: input.map(v => v.toString()) };
                 }
                 else {
-                    return { 'BS': input };
+                    return { BS: input };
                 }
             }
         }
         else if (isObj(input)) {
-            return { 'M': Object.entries(input).reduce((acc, [attrib, value]) => (Object.assign(Object.assign({}, acc), { [attrib]: _inferDynamoValueTypes(value) })), {}) };
+            return {
+                M: Object.entries(input).reduce((acc, [attrib, value]) => (Object.assign(Object.assign({}, acc), { [attrib]: _inferDynamoValueTypes(value) })), {})
+            };
         }
         else {
             throw new Error('WAT kindof data type did you give???');
@@ -185,22 +187,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             '=': '=',
             '==': '=',
             '===': '=',
-            'EQ': '=',
+            EQ: '=',
             '<': '<',
-            'LT': '<',
+            LT: '<',
             '<<': '<',
             '>': '>',
-            'GT': '>',
+            GT: '>',
             '>>': '>',
             '<=': '<=',
-            'LTE': '<=',
+            LTE: '<=',
             '>=': '>=',
-            'GTE': '>=',
-            'BETWEEN': 'BETWEEN',
-            'between': 'BETWEEN',
-            'begins_with': 'begins_with',
-            'BEGINS_WITH': 'begins_with',
-            'startsWith': 'begins_with'
+            GTE: '>=',
+            BETWEEN: 'BETWEEN',
+            between: 'BETWEEN',
+            begins_with: 'begins_with',
+            BEGINS_WITH: 'begins_with',
+            startsWith: 'begins_with'
         };
         if (inputOpr in local) {
             return local[inputOpr];
@@ -247,9 +249,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         const filterExpression = (filterExpr) => {
             return exports.mocoQuery(state.r.TableName, {
                 _m: state._m,
-                r: Object.assign(Object.assign({}, state.r), (state.r.FilterExpression && state.r.FilterExpression.length > 0
-                    ? { FilterExpression: state.r.FilterExpression.concat(` ${filterExpr}`) }
-                    : {}))
+                r: Object.assign(Object.assign({}, state.r), { FilterExpression: filterExpr })
             });
         };
         const limit = (n) => {
@@ -258,7 +258,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 r: Object.assign(Object.assign({}, state.r), { Limit: n })
             });
         };
-        const projectionExpression = (projExpr) => {
+        const projectionExpression = (...projExpr) => {
             return exports.mocoQuery(state.r.TableName, {
                 _m: state._m,
                 r: Object.assign(Object.assign({}, state.r), { ProjectionExpression: projExpr.join(','), Select: 'SPECIFIC_ATTRIBUTES' })
@@ -295,7 +295,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 r.ProjectionExpression = undefined;
             }
             else {
-                throw new Error("WAT");
+                throw new Error('WAT');
             }
             return exports.mocoQuery(state.r.TableName, {
                 _m: state._m,
@@ -312,11 +312,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const ret = {
                 KeyConditionExpression: '',
                 ExpressionAttributeValues: {},
-                ExpressionAttributeNames: {},
+                ExpressionAttributeNames: {}
             };
             const oper = queryOperators(input[1]);
-            let Attr = input[0];
-            let abbrevAttr = undefined;
+            const Attr = input[0];
+            let abbrevAttr;
             if (Attr.toUpperCase() in state._m.reserved) {
                 abbrevAttr = `#${Attr.toLowerCase().slice(0, 3)}`;
             }
@@ -373,14 +373,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                         ? Object.assign(Object.assign({}, r.ExpressionAttributeValues), ExpressionAttributeValues) : ExpressionAttributeValues;
                     r.ExpressionAttributeNames = Object.keys((r.ExpressionAttributeNames || {})).length > 0
                         ? Object.assign(Object.assign({}, r.ExpressionAttributeNames), ExpressionAttributeNames) : ExpressionAttributeNames;
-                    return exports.mocoQuery(state.r.TableName, { r: Object.assign(Object.assign(Object.assign(Object.assign({}, r), { FilterExpression: r.FilterExpression }), (Object.keys(r.ExpressionAttributeValues).length > 0 ? { ExpressionAttributeValues: r.ExpressionAttributeValues } : {})), (Object.keys(r.ExpressionAttributeNames).length > 0 ? { ExpressionAttributeNames: r.ExpressionAttributeNames } : {})),
-                        _m: state._m });
+                    return exports.mocoQuery(state.r.TableName, {
+                        r: Object.assign(Object.assign(Object.assign(Object.assign({}, r), { FilterExpression: r.FilterExpression }), (Object.keys(r.ExpressionAttributeValues).length > 0 ? { ExpressionAttributeValues: r.ExpressionAttributeValues } : {})), (Object.keys(r.ExpressionAttributeNames).length > 0 ? { ExpressionAttributeNames: r.ExpressionAttributeNames } : {})),
+                        _m: state._m
+                    });
                 }
                 else {
                     const input = _input;
                     const { KeyConditionExpression, ExpressionAttributeValues, ExpressionAttributeNames } = _mocoPredicate(input);
                     const FilterExpression = KeyConditionExpression;
-                    return exports.mocoQuery(state.r.TableName, { r: Object.assign(Object.assign(Object.assign(Object.assign({}, r), { FilterExpression }), (Object.keys(ExpressionAttributeValues).length > 0 ? { ExpressionAttributeValues } : {})), (Object.keys(ExpressionAttributeNames).length > 0 ? { ExpressionAttributeNames } : {})),
+                    return exports.mocoQuery(state.r.TableName, {
+                        r: Object.assign(Object.assign(Object.assign(Object.assign({}, r), { FilterExpression }), (Object.keys(ExpressionAttributeValues).length > 0 ? { ExpressionAttributeValues } : {})), (Object.keys(ExpressionAttributeNames).length > 0 ? { ExpressionAttributeNames } : {})),
                         _m: state._m
                     });
                 }
@@ -407,13 +410,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     ? Object.assign(Object.assign({}, r.ExpressionAttributeValues), ExpressionAttributeValues) : ExpressionAttributeValues;
                 r.ExpressionAttributeNames = Object.keys((r.ExpressionAttributeNames || {})).length > 0
                     ? Object.assign(Object.assign({}, r.ExpressionAttributeNames), ExpressionAttributeNames) : ExpressionAttributeNames;
-                return exports.mocoQuery(state.r.TableName, { r: Object.assign(Object.assign(Object.assign(Object.assign({}, r), { KeyConditionExpression: r.KeyConditionExpression }), (Object.keys(r.ExpressionAttributeValues).length > 0 ? { ExpressionAttributeValues: r.ExpressionAttributeValues } : {})), (Object.keys(r.ExpressionAttributeNames).length > 0 ? { ExpressionAttributeNames: r.ExpressionAttributeNames } : {})),
-                    _m: state._m });
+                return exports.mocoQuery(state.r.TableName, {
+                    r: Object.assign(Object.assign(Object.assign(Object.assign({}, r), { KeyConditionExpression: r.KeyConditionExpression }), (Object.keys(r.ExpressionAttributeValues).length > 0 ? { ExpressionAttributeValues: r.ExpressionAttributeValues } : {})), (Object.keys(r.ExpressionAttributeNames).length > 0 ? { ExpressionAttributeNames: r.ExpressionAttributeNames } : {})),
+                    _m: state._m
+                });
             }
             else {
                 const input = _input;
                 const { KeyConditionExpression, ExpressionAttributeValues, ExpressionAttributeNames } = _mocoPredicate(input);
-                return exports.mocoQuery(state.r.TableName, { r: Object.assign(Object.assign(Object.assign(Object.assign({}, r), { KeyConditionExpression }), (Object.keys(ExpressionAttributeValues).length > 0 ? { ExpressionAttributeValues } : {})), (Object.keys(ExpressionAttributeNames).length > 0 ? { ExpressionAttributeNames } : {})),
+                return exports.mocoQuery(state.r.TableName, {
+                    r: Object.assign(Object.assign(Object.assign(Object.assign({}, r), { KeyConditionExpression }), (Object.keys(ExpressionAttributeValues).length > 0 ? { ExpressionAttributeValues } : {})), (Object.keys(ExpressionAttributeNames).length > 0 ? { ExpressionAttributeNames } : {})),
                     _m: state._m
                 });
             }
@@ -448,7 +454,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const res = await db.putItem(Object.assign({ TableName, Item }, opts)).promise();
             const _Attributes = _stipDynamoTypingsForValues(res.Attributes);
             return Object.assign(Object.assign({}, res), { _Attributes });
-            return;
         };
         const getBatch = async (batchReq) => {
             const RequestItems = Object.entries(batchReq)
@@ -501,7 +506,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             }).promise();
         };
         const updateTable = async (table, onDemandMode, opts) => {
-            return db.updateTable(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ TableName: table, BillingMode: onDemandMode ? "PAY_PER_REQUEST" : "PROVISIONED" }, (opts.attrDefs ? { AttributeDefinitions: opts.attrDefs } : {})), (opts.gsi ? { GlobalSecondaryIndexUpdates: opts.gsi } : {})), (opts.throughput ? { ProvisionedThroughput: { ReadCapacityUnits: opts.throughput.read, WriteCapacityUnits: opts.throughput.write } } : {})), (opts.replicaUpdates ? { ReplicaUpdates: opts.replicaUpdates } : {})), (opts.SSE ? { SSESpecification: opts.SSE } : {})), (opts.streamSpec ? { StreamSpecification: opts.streamSpec } : {}))).promise();
+            return db.updateTable(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ TableName: table, BillingMode: onDemandMode ? 'PAY_PER_REQUEST' : 'PROVISIONED' }, (opts.attrDefs ? { AttributeDefinitions: opts.attrDefs } : {})), (opts.gsi ? { GlobalSecondaryIndexUpdates: opts.gsi } : {})), (opts.throughput ? { ProvisionedThroughput: { ReadCapacityUnits: opts.throughput.read, WriteCapacityUnits: opts.throughput.write } } : {})), (opts.replicaUpdates ? { ReplicaUpdates: opts.replicaUpdates } : {})), (opts.SSE ? { SSESpecification: opts.SSE } : {})), (opts.streamSpec ? { StreamSpecification: opts.streamSpec } : {}))).promise();
         };
         function paginate(req, mode = 'query') {
             return __asyncGenerator(this, arguments, function* paginate_1() {
