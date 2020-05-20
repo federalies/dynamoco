@@ -1,14 +1,6 @@
-
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
-
-
-
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
@@ -19,27 +11,26 @@
 [![Issues][issues-shield]][issues-url]
 [![Pkg Size][size-shield]][size-url]
 
+[![Built By][ftb-by-devs-shield]][federalies-url]
+[![Winter Is Coming][ftb-winter-shield]][federalies-url]
+[![Built With][ftb-builtWith-shield]][federalies-url]
+
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/DynamocoLogo.png" alt="Logo" width="512" height="512"/>
+    <img src="images/DynamocoLogo.png" alt="Logo" width="300" height="300"/>
   </a>
 
-  <h3 align="center">DynaMoco + MocoQuery</h3>
+  <h3 align="center">Dynamoco + Mocoquery</h3>
 
   <p align="center">
-    Like a Carebear giving DyanmoDB a hug
+    Like a Carebear giving DynamoDB a hug
     <br />
     <br />
     <a href="https://github.com/federalies/dynamoco/wiki/Documentation">
-        <strong>Documnetation »</strong>
+        <strong> Documentation » </strong>
     </a>
-    <br />
-    <br />
-        <a href="https://github.com/federalies/dynamoco/wiki/Documentation">
-        Codepen Demo
-        </a>
     <br />
     <br />
         <a href="https://github.com/federalies/dynamoco/issues">
@@ -54,31 +45,38 @@
 </p>
 
 
-DyanMoCo + MoCoQuery
+Dynamoco + Mocoquery
 ====================
 
 <!-- ABOUT THE PROJECT -->
 
+<!-- 
+Screen Shot Example
 [![Product Name Screen Shot][product-screenshot]](https://github.com/federalies/dynamoco)
+-->
 
-DynamoDB is great but the way you interact with it is not really great. DynaMoco is small but mighty, wrapper that is strong enough to get what you want out of DynamoDB and gentle enough to act like bowling with bumpers on.
+DynamoDB is a datastore that allows you to not manage as many details as a regular database. You just give it data; it faithfully holds it, and pretty quickly gives it back to you when you ask for it. Sound geat, right?!?! It's almost great. DynamoDB is a solid product from AWS, but the way you interact with it feels like shoving your finger in your eye.
 
-Writeen in Typescript it should help you with auto-complete etc - if that is of interest.
+Enter: Dynamoco! 
 
-### The DynaMoco Problem 
+A small but mighty, wrapper that is strong enough to get what you want out of DynamoDB, and it's gentle enough to help you feel like you are bowling with bumpers up. #NoGutters
 
-1. The API of Dyanmo has a steep learning curve.
-2. Its flexibiltiy creates too much complexity to comprehend at thge outset.
-3. Dynamoco optimizes for a few use-cases that seem noramtive, making those very easy.
+Writeen in Typescript, it helps you auto-complete your way to valid queries, and other ways to pull your data out.  It also helps you with type-check compiling and all that jazz if you are into that. If not its super easy to add it as regular ol' javascript yall.
+
+### The Dynamoco Problem 
+
+1. The API of DynamoDB has a steep learning curve.
+2. The flexibiltiy in the DynamoDB Client creates too much complexity to comprehend when you are just getting started.
+3. Dynamoco optimizes for a few normative use-cases, and it makes those very easy.
 4. If you need to do the more complicated parts, it attempts to move out of the way.
 
-### The DynaMoco Solution 
+### The Dynamoco Solution 
 
 Use this package if:
 
 - You need to just get going with DynamoDB
-- You find the Dynamo API difficult and seemingly optimzed for AWS engineers and not it's users.
-- You enjoy flexible streamlined modules.
+- You find the DynamoDB API difficult or at least optimzed for AWS engineers and not you.
+- Streamlined and flexible modules are your kind of your thing.
 
 <!-- GETTING STARTED -->
 
@@ -93,23 +91,23 @@ yarn add @federalies/dynamoco
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-There are two independent functions that work nicely together in `dynamoco`.
+First, know that this package is the ultimate BOGO or Two-For-One. Yes friends,there are in fact two, count them, two independent functions that work nicely together in the `dynamoco` module. Both come tested and documented free to you. What a time to be alive!
 
-The first is the gentle wrapper - `dynamoco`
+The first function is the gentle wrapper and the module namesake. (`dynamoco`)
 
-The second is a nice query builder - `mocoquery`
+But wait there's more, for free, you get a second and not to be overlooked, incredibly pleasant query builder - `mocoquery`
 
-Each of them cover some ground on the API surface area exposed by Dyanmo.
+Together this dynamic duo cover ground on the API exposed by DynamoDB.
 
 ### Get Item (Full Monty)
 
 ```js
 import {Dynamo} from 'aws-sdk'
-import {dynamoco} from 'dynamoco'
+import {dynamoco} from '@federalies/dynamoco'  // yay for tree-shaking
 import {credentials} from './credentials'
 
 ;(async ()=>{
-    const d = new Dyanmo({credentials})
+    const d = new Dynamo({credentials})
     const moco = dynamoco(d)
     // using a table that is already available
     const resutls = await moco.getItem('MyTable', {MyKey: 'SomeValue'})
@@ -127,20 +125,21 @@ import {credentials} from './credentials'
 
 ```js
 import {Dynamo} from 'aws-sdk'
-import {mocoquery} from 'dynamoco'
+import {mocoquery, dynamoco} from '@federalies/dynamoco'
 import {credentials} from './credentials'
 
 ;(async ()=>{
-    const d = new Dyanmo({credentials})
+    const d = new Dynamo({credentials})
     const queryParams = mocoquery('MyTable')
                         .select('*')
-                        .where(['Year','>=',2020])
+                        .where(['Year','<=',2020])
                         .extract()
-    // using the regular Dyanmo Client 
+
+    // using the regular DynamoDB Client 
     const regularResults = await d.query(queryParams)
     console.log('regularResults', regularResults.Items)
     
-    // using the regular Dyanmo Client 
+    // using the regular DynamoDB Client 
     const ezResults = await dynamoco(d).query(queryParams)
     console.log('ezResults', ezResults._Items)
 })()
@@ -203,21 +202,18 @@ Eric D Moore
  - [Website](https://ericdmoore.com)
  - [Federalies](https://federali.es)
 
-
-Project Link: [https://github.com/federalies/dynamoco](https://github.com/federalies/dynamoco)
-
-
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements & Credits
 
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
+* Care Bear Picture Logo
 * https://github.com/RichardLitt/standard-readme
+
 
 <!-- * [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet) -->
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/federalies/dynamoco?style=flat-square
 [contributors-url]: https://github.com/federalies/dynamoco/graphs/contributors
 
@@ -240,6 +236,12 @@ Project Link: [https://github.com/federalies/dynamoco](https://github.com/federa
 
 [linkedin-url]: https://linkedin.com/in/othneildrew
 [product-screenshot]: images/screenshot.png
+
+[ftb-winter-shield]: https://forthebadge.com/images/badges/winter-is-coming.svg
+[ftb-builtwith-shield]: https://forthebadge.com/images/badges/built-with-love.svg
+[ftb-by-devs-shield]: https://forthebadge.com/images/badges/built-by-developers.svg
+
+[federalies-url]:https://github.com/federalies
 
 <!-- LICENSE -->
 ## License
