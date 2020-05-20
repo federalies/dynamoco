@@ -22,6 +22,7 @@
     "test": "npm run lint && ts-node test/index.test.ts",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
     "prepublish": "npm run build && npm run test",
+    "publish:dryrun": "np --preview --no-yarn",
     "lint": "eslint src/*.ts"
   },
   "engines": {
@@ -31,12 +32,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/federalies/dynaMoco"
+    "url": "https://github.com/federalies/dynamoco"
   },
   "dependencies": {
     "aws-sdk": "^2.669.0"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/deep-diff": "^1.0.0",
     "@types/node": "^13.13.4",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
@@ -51,6 +53,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "globby": "^11.0.0",
     "np": "^6.2.3",
+    "nyc": "^15.0.1",
     "p-series": "^2.1.0",
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3"
