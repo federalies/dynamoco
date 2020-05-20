@@ -277,13 +277,7 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
     const filterExpression = (filterExpr: string) => {
         return mocoQuery(state.r.TableName, {
             _m: state._m,
-            r: { 
-                ...state.r,
-                ...(state.r.FilterExpression  && state.r.FilterExpression.length > 0
-                    ? { FilterExpression: state.r.FilterExpression.concat(` ${filterExpr}`)}
-                    : {} 
-                )
-            }
+            r: {  ...state.r,FilterExpression: filterExpr }
         })
     }
 
@@ -297,7 +291,7 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
         })
     }
 
-    const projectionExpression = (projExpr: string[]) => {
+    const projectionExpression = (...projExpr: string[]) => {
         return mocoQuery(state.r.TableName,  {
             _m: state._m,
             r: { 
@@ -747,25 +741,6 @@ interface MocoPredicateClauseReturn {
     ExpressionAttributeNames: {[attribute:string]: string}
 }
 
-interface mocoQuery {
-    ascending: ()=>mocoQuery
-    descending: ()=>mocoQuery
-    consistentRead: (useConsistent:boolean)=>mocoQuery
-    expressionAttributeValues: (input: validJs2DynamoDict)=>mocoQuery
-    expressionAttributeNames: (input: {[key: string]: string })=>mocoQuery
-    limit: (n:number)=>mocoQuery
-    projectionExpression: (projectionExpr: string[])=>mocoQuery
-    usingIndex: (index:string)=>mocoQuery
-    returnConsumedCapacity: (input?: 'INDEXES' | 'TOTAL' | 'NONE')=>mocoQuery
-    select: (input:'*'| 'COUNT'|  'ALL_PROJECTED_ATTRIBUTES' | string[] )=>mocoQuery
-    startKey: (lastKeyEvaluated:Key)=>mocoQuery
-    filterExpression: (filterExpr: string)=>mocoQuery
-    filter: (_input: string | MocoPredicateClause  | ['AND' | 'OR', MocoPredicateClause] )=>mocoQuery
-    where: (_input: string | MocoPredicateClause  | ['AND' | 'OR', MocoPredicateClause] )=>mocoQuery
-    //--
-    extract: ()=>QueryInput
-}
-
 interface QueryMetaState {
     table: string
     predicateOpr: string
@@ -864,5 +839,24 @@ interface UpdateTable {
     replicaUpdates?: ReplicationGroupUpdateList;
   }
 
+
+  interface mocoQuery {
+    ascending: ()=>mocoQuery
+    descending: ()=>mocoQuery
+    consistentRead: (useConsistent:boolean)=>mocoQuery
+    expressionAttributeValues: (input: validJs2DynamoDict)=>mocoQuery
+    expressionAttributeNames: (input: {[key: string]: string })=>mocoQuery
+    limit: (n:number)=>mocoQuery
+    projectionExpression: (...projectionExpr: string[])=>mocoQuery
+    usingIndex: (index:string)=>mocoQuery
+    returnConsumedCapacity: (input?: 'INDEXES' | 'TOTAL' | 'NONE')=>mocoQuery
+    select: (input:'*'| 'COUNT'|  'ALL_PROJECTED_ATTRIBUTES' | string[] )=>mocoQuery
+    startKey: (lastKeyEvaluated:Key)=>mocoQuery
+    filterExpression: (filterExpr: string)=>mocoQuery
+    filter: (_input: string | MocoPredicateClause  | ['AND' | 'OR', MocoPredicateClause] )=>mocoQuery
+    where: (_input: string | MocoPredicateClause  | ['AND' | 'OR', MocoPredicateClause] )=>mocoQuery
+    //--
+    extract: ()=>QueryInput
+}
 // #endregion types
 
