@@ -217,16 +217,21 @@ Project Link: [https://github.com/federalies/dynamoco](https://github.com/federa
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/federalies/dynamoco.svg?style=flat-square
+[contributors-shield]: https://img.shields.io/github/contributors/federalies/dynamoco?style=flat-square
 [contributors-url]: https://github.com/federalies/dynamoco/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/federalies/dynamoco.svg?style=flat-square
+
+[forks-shield]: https://img.shields.io/github/forks/federalies/dynamoco?style=flat-square
 [forks-url]: https://github.com/federalies/dynamoco/network/members
-[stars-shield]: https://img.shields.io/github/stars/federalies/dynamoco.svg?style=flat-square
+
+[stars-shield]: https://img.shields.io/github/stars/federalies/dynamoco?style=flat-square
 [stars-url]: https://github.com/federalies/dynamoco/stargazers
+
 [issues-shield]: https://img.shields.io/github/issues/federalies/dynamoco?style=for-the-badge
 [issues-url]: https://github.com/federalies/dynamoco/issues
-[license-shield]: https://img.shields.io/github/federalies/dynamoco.svg?style=for-the-badge
-[license-url]: https://github.com/federalies/dynamoco/blob/master/LICENSE.txt
+
+[license-shield]: https://img.shields.io/github/license/federalies/dynamoco?style=for-the-badge
+[license-url]: https://github.com/federalies/dynamoco/blob/master/LICENSE
+
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 
 [linkedin-url]: https://linkedin.com/in/othneildrew
