@@ -84,9 +84,9 @@ Use this package if:
 ### Installation
 
 ```sh
-npm install dynamoco
+npm install @federalies/dynamoco
 # or
-yarn add dynamoco
+yarn add @federalies/dynamoco
 ```
 
 <!-- USAGE EXAMPLES -->

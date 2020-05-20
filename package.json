@@ -1,5 +1,5 @@
 {
-  "name": "dynamoco",
+  "name": "@federalies/dynamoco",
   "version": "0.2.1",
   "description": "A small but useful set of helpers, making Dynamo more acute and less obtuse. (Member of the Federalies)",
   "keywords": [
@@ -21,8 +21,8 @@
   "scripts": {
     "test": "ts-node test/index.test.ts",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
-    "publish": "np",
-    "prepublish": "npm run build && npm run test",
+    "publishPkg": "np",
+    "beforePublish": "npm run build && npm run test",
     "publish:dryrun": "np --preview --no-yarn",
     "lint": "eslint ./src/*.ts"
   },
