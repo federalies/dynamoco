@@ -102,12 +102,12 @@ Together this dynamic duo cover ground on the API exposed by DynamoDB.
 ### Get Item (Full Monty)
 
 ```js
-import {Dynamo} from 'aws-sdk'
+import {DynamoDB} from 'aws-sdk'
 import {dynamoco} from '@federalies/dynamoco'  // yay for tree-shaking
 import {credentials} from './credentials'
 
 ;(async ()=>{
-    const d = new Dynamo({credentials})
+    const d = new DynamoDB({credentials})
     const moco = dynamoco(d)
     // using a table that is already available
     const resutls = await moco.getItem('MyTable', {MyKey: 'SomeValue'})
@@ -124,12 +124,12 @@ import {credentials} from './credentials'
 ### Using The Query Builder
 
 ```js
-import {Dynamo} from 'aws-sdk'
+import {DynamoDB} from 'aws-sdk'
 import {mocoquery, dynamoco} from '@federalies/dynamoco'
 import {credentials} from './credentials'
 
 ;(async ()=>{
-    const d = new Dynamo({credentials})
+    const d = new DynamoDB({credentials})
     const queryParams = mocoquery('MyTable')
                         .select('*')
                         .where(['Year','<=',2020])
