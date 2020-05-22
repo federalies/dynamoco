@@ -17,11 +17,12 @@
     const src_1 = require("../src");
     const execP = util_1.promisify(child_process_1.exec);
     const toDynamo = dynamodb_1.Converter.marshall;
-    const fromDynamo = dynamodb_1.Converter.unmarshall;
-    const eq = (a, e) => a === e;
     const mockMsgId = () => `${Math.random() * 999999999}`;
     const runTheLocalService = async () => {
-        const ret = await execP('docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &');
+        const cmd = 'docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &';
+        console.log({ cmd });
+        const ret = await execP(cmd);
+        console.log({ ret });
         return null;
     };
     const createTables = async (d, tableDefs) => {
@@ -34,12 +35,12 @@
             TableName: 'Emails',
             KeySchema: [
                 { KeyType: 'HASH', AttributeName: 'User' },
-                { KeyType: 'RANGE', AttributeName: 'Date' },
+                { KeyType: 'RANGE', AttributeName: 'Date' }
             ],
             AttributeDefinitions: [
                 { AttributeType: 'S', AttributeName: 'User' },
                 { AttributeType: 'N', AttributeName: 'Date' },
-                { AttributeType: 'S', AttributeName: 'MsgId' },
+                { AttributeType: 'S', AttributeName: 'MsgId' }
             ],
             GlobalSecondaryIndexes: [
                 {
@@ -59,56 +60,56 @@
     const fillTable = async (d) => {
         const batch = [
             toDynamo({
-                'User': `myAlias`,
-                'Date': 1589303429255,
-                '_UserDate': `myAlias::1589303429255`,
-                'MsgId': "566893153.4859517",
-                'From': 'someGuy@example.com',
-                'To': ['myAlias@filters.email'],
+                User: 'myAlias',
+                Date: 1589303429255,
+                _UserDate: 'myAlias::1589303429255',
+                MsgId: '566893153.4859517',
+                From: 'someGuy@example.com',
+                To: ['myAlias@filters.email'],
                 'Reply-To': 'myAlias+23vqewsfvwesvds@filters.email',
-                'Headers': {
-                    "SPF": 'asdasdsadasd',
-                    "DKIM": 'asdasdasd'
+                Headers: {
+                    SPF: 'asdasdsadasd',
+                    DKIM: 'asdasdasd'
                 },
-                'Subject': 'Fake Data1',
-                'Body': 'This is the body of the email',
-                'BodyText': 'This is the body of the email',
-                'BodyHTML': `<div>This is the body of the email</div>`
+                Subject: 'Fake Data1',
+                Body: 'This is the body of the email',
+                BodyText: 'This is the body of the email',
+                BodyHTML: '<div>This is the body of the email</div>'
             }),
             toDynamo({
-                'User': `myAlias`,
-                'Date': 1589303449032,
-                '_UserDate': `myAlias::1589303449032`,
-                'MsgId': "684463664.036467",
-                'From': 'otherPerson@domain.com',
-                'To': ['myAlias@filters.email'],
+                User: 'myAlias',
+                Date: 1589303449032,
+                _UserDate: 'myAlias::1589303449032',
+                MsgId: '684463664.036467',
+                From: 'otherPerson@domain.com',
+                To: ['myAlias@filters.email'],
                 'Reply-To': 'myAlias+23vqewsfvwesvds@filters.email',
-                'Headers': {
-                    "SPF": 'asdasdsadasd',
-                    "DKIM": 'asdasdasd'
+                Headers: {
+                    SPF: 'asdasdsadasd',
+                    DKIM: 'asdasdasd'
                 },
-                'Subject': 'Fake Data2',
-                'Body': 'This is second body you will see. Maybe its Heaven to see your second body.',
-                'BodyText': 'This is second body you will see. Maybe its Heaven to see your second body.',
-                'BodyHTML': `<div>This is second body you will see. Maybe its Heaven to see your second body.</div>`
+                Subject: 'Fake Data2',
+                Body: 'This is second body you will see. Maybe its Heaven to see your second body.',
+                BodyText: 'This is second body you will see. Maybe its Heaven to see your second body.',
+                BodyHTML: '<div>This is second body you will see. Maybe its Heaven to see your second body.</div>'
             }),
             toDynamo({
-                'User': `myAlias`,
-                'Date': 1589303460428,
-                '_UserDate': `myAlias::1589303460428`,
-                'MsgId': "987090915.6604751",
-                'From': 'somePerson@domain.com',
-                'To': ['myAlias@filters.email'],
+                User: 'myAlias',
+                Date: 1589303460428,
+                _UserDate: 'myAlias::1589303460428',
+                MsgId: '987090915.6604751',
+                From: 'somePerson@domain.com',
+                To: ['myAlias@filters.email'],
                 'Reply-To': 'myAlias+23vqewsfvwesvds@filters.email',
-                'Headers': {
-                    "SPF": 'asdasdsadasd',
-                    "DKIM": 'asdasdasd'
+                Headers: {
+                    SPF: 'asdasdsadasd',
+                    DKIM: 'asdasdasd'
                 },
-                'Subject': 'Fake Data3',
-                'Body': 'When in the third act what happens?',
-                'BodyText': 'When in the third act what happens?',
-                'BodyHTML': `<div>When in the third act what happens?</div>`
-            }),
+                Subject: 'Fake Data3',
+                Body: 'When in the third act what happens?',
+                BodyText: 'When in the third act what happens?',
+                BodyHTML: '<div>When in the third act what happens?</div>'
+            })
         ];
         const RequestItems = { Emails: batch.map(Item => ({ PutRequest: { Item } })) };
         await d.batchWriteItem({ RequestItems }).promise();
@@ -117,7 +118,7 @@
     const listTables = async (d) => { };
     const setupTableDataBeforeTest = async (d) => {
         await runTheLocalService();
-        await createTables(d, {});
+        await createTables(d, {}).catch(er => console.error('is Docker Daemon running?\n\n\n', er));
         await listTables(d);
         await fillTable(d);
     };
@@ -133,23 +134,23 @@
             name: '1.Simple - GetItem Test',
             actual: async (d) => {
                 const r = await src_1.dynamoco(d)
-                    .getItem('Emails', { 'User': `myAlias`, 'Date': 1589303449032 });
-                return r._Item['_UserDate'];
+                    .getItem('Emails', { User: 'myAlias', Date: 1589303449032 });
+                return r._Item._UserDate;
             },
-            expected: async () => 'myAlias::1589303449032',
+            expected: async () => 'myAlias::1589303449032'
         }, {
             name: '2.Simple - GetItem Test',
             actual: async (d) => {
-                const r = await src_1.dynamoco(d).getItem('Emails', { 'User': `myAlias`, 'Date': 1589303460428 });
-                return r._Item['_UserDate'];
+                const r = await src_1.dynamoco(d).getItem('Emails', { User: 'myAlias', Date: 1589303460428 });
+                return r._Item._UserDate;
             },
-            expected: async () => 'myAlias::1589303460428',
+            expected: async () => 'myAlias::1589303460428'
         }, {
             name: '3.Simple - Query Test Using Connection',
             actual: async (d) => {
                 const queryParam = src_1.mocoQuery('Emails')
                     .select('COUNT')
-                    .where(['User', '=', `myAlias`])
+                    .where(['User', '=', 'myAlias'])
                     .where(['AND', ['Date', '<=', 1589303460428 + 1]])
                     .extract();
                 const regular = await d.query(queryParam).promise();
@@ -161,7 +162,7 @@
             actual: async (d) => {
                 const queryParam = src_1.mocoQuery('Emails')
                     .select('COUNT')
-                    .where(['User', '=', `myAlias`])
+                    .where(['User', '=', 'myAlias'])
                     .where(['AND', ['Date', '<=', 1589303460428 + 1]])
                     .extract();
                 const ez = await src_1.dynamoco(d).query('Emails', queryParam);
@@ -173,7 +174,7 @@
             actual: async (d) => {
                 const queryParam = src_1.mocoQuery('Emails')
                     .select('*')
-                    .where(['User', '=', `myAlias`])
+                    .where(['User', '=', 'myAlias'])
                     .where(['AND', ['Date', 'BETWEEN', [1589303440000, 1589303459000]]])
                     .extract();
                 const ez = await src_1.dynamoco(d).query('Emails', queryParam);
@@ -191,12 +192,98 @@
     Date numeric [note: Used as Range Key]
     MsgId text
 }`.replace(/[\s]+/gi, ' ')
+        }, {
+            name: '7.Put Item',
+            actual: async (d) => {
+                const putItemData = {
+                    User: 'myAlias',
+                    Date: 1589303460500,
+                    _UserDate: 'myAlias::1589303460428',
+                    MsgId: mockMsgId(),
+                    From: 'somePerson@domain.com',
+                    To: ['myAlias@filters.email'],
+                    'Reply-To': 'myAlias+23vqewsfvwesvds@filters.email',
+                    Subject: 'Fake Data4',
+                    Body: 'Adding This Dynamically',
+                    BodyText: 'Adding This Dynamically',
+                    BodyHTML: '<div>Adding This Dynamically</div>'
+                };
+                const ez = await src_1.dynamoco(d)
+                    .putItem('Emails', putItemData, {
+                    ReturnConsumedCapacity: 'TOTAL',
+                    ReturnItemCollectionMetrics: 'SIZE'
+                });
+                return ez._Attributes;
+            },
+            expected: async () => ({})
+        }, {
+            name: '8. Put Batch',
+            actual: async (d) => {
+                const batch = [{
+                        User: 'myAlias',
+                        Date: 1589303460600,
+                        _UserDate: 'myAlias::1589303460428',
+                        MsgId: mockMsgId(),
+                        From: 'somePerson@domain.com',
+                        To: ['myAlias@filters.email'],
+                        'Reply-To': 'myAlias+23vqewsfvwesvds@filters.email',
+                        Subject: 'Fake Data4',
+                        Body: 'Adding This Dynamically',
+                        BodyText: 'Adding This Dynamically',
+                        BodyHTML: '<div>Adding This Dynamically</div>'
+                    },
+                    {
+                        User: 'myAlias',
+                        Date: 1589303460700,
+                        _UserDate: 'myAlias::1589303460428',
+                        MsgId: mockMsgId(),
+                        From: 'somePerson@domain.com',
+                        To: ['myAlias@filters.email'],
+                        'Reply-To': 'myAlias+23vqewsfvwesvds@filters.email',
+                        Subject: 'Fake Data4',
+                        Body: 'Adding This Dynamically',
+                        BodyText: 'Adding This Dynamically',
+                        BodyHTML: '<div>Adding This Dynamically</div>'
+                    }];
+                const ez = await src_1.dynamoco(d)
+                    .putBatch({ Emails: batch });
+                return ez;
+            },
+            expected: async () => ({ UnprocessedItems: {} })
+        }, {
+            name: '9. Get Batch',
+            actual: async () => {
+                var _a;
+                const ez = await src_1.dynamoco(d).getBatch({
+                    Emails: [
+                        {
+                            User: 'myAlias',
+                            Date: 1589303429255
+                        },
+                        {
+                            User: 'myAlias',
+                            Date: 1589303449032
+                        }
+                    ]
+                });
+                return (_a = ez._Responses) === null || _a === void 0 ? void 0 : _a.Emails.length;
+            },
+            expected: async () => 2
+        }, {
+            name: '10. Delete Batch',
+            actual: async () => ({}),
+            expected: async () => ({})
+        }, {
+            name: '11. Scan',
+            actual: async () => ({}),
+            expected: async () => ({})
         }));
     };
     exports.default = allGroups;
     (async () => {
         if (!module.parent) {
             const r = await allGroups();
+            console.log(JSON.stringify({ r }, null, 2));
         }
     })();
 });

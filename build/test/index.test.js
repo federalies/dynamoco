@@ -37,12 +37,30 @@ var __importStar = (this && this.__importStar) || function (mod) {
         return true;
     };
     exports.eq = (a, e) => a === e;
+    exports.isErrorThrown = (f) => {
+        try {
+            f();
+        }
+        catch (er) {
+            return true;
+        }
+        return false;
+    };
+    exports.findErrorThrown = (f) => {
+        try {
+            f();
+        }
+        catch (er) {
+            return er;
+        }
+        return null;
+    };
     exports.isPrimitiveInstance = (input) => {
-        return isPrimitive(input)
-            || input instanceof String
-            || input instanceof Number
-            || input instanceof Boolean
-            || input instanceof BigInt;
+        return isPrimitive(input) ||
+            input instanceof String ||
+            input instanceof Number ||
+            input instanceof Boolean ||
+            input instanceof BigInt;
     };
     exports.isObject = (input) => {
         if (isPrimitive(input)) {
@@ -70,23 +88,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
     exports.isGroupReturn = (i) => {
         return isArray(i)
             ? false
-            : 'setName' in i
-                && 'fileName' in i
-                && 'groupPassed' in i
-                && 'numPass' in i
-                && 'numFail' in i
-                && 'testDetails' in i;
+            : 'setName' in i &&
+                'fileName' in i &&
+                'groupPassed' in i &&
+                'numPass' in i &&
+                'numFail' in i &&
+                'testDetails' in i;
     };
     exports.isGroupReturnArr = (i) => {
         return Array.isArray(i)
             ? i.length === 0
                 ? true
-                : 'setName' in i[0]
-                    && 'fileName' in i[0]
-                    && 'groupPassed' in i[0]
-                    && 'numPass' in i[0]
-                    && 'numFail' in i[0]
-                    && 'testDetails' in i[0]
+                : 'setName' in i[0] &&
+                    'fileName' in i[0] &&
+                    'groupPassed' in i[0] &&
+                    'numPass' in i[0] &&
+                    'numFail' in i[0] &&
+                    'testDetails' in i[0]
             : false;
     };
     const groupUpTests = (group, ...tests) => {
@@ -181,7 +199,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
             return globby_1.default(globs);
         }
         else {
-            return globby_1.default(['**/*test.ts', '!test/index.test.ts']);
+            return globby_1.default(['./test/**/*test.ts', '!./test/index.test.ts']);
         }
     };
     const importTests = async (pathForTests) => {
@@ -210,9 +228,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     };
     (async () => {
         if (!module.parent) {
-            const tests = (await importTests(findTestPaths()));
+            const testsPaths = await findTestPaths();
+            console.log({ testsPaths });
+            const tests = await importTests(testsPaths);
             const fileResultsArr = await Promise.all(tests.map(t => t()));
-            const results = flattenToGrpReturns(...fileResultsArr);
         }
     })();
     exports.default = localTests;
