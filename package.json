@@ -19,7 +19,7 @@
     "build/src"
   ],
   "scripts": {
-    "test": "ts-node test/index.test.ts",
+    "test": "nyc ts-node test/index.test.ts",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
     "publishPkg": "np",
     "beforePublish": "npm run build && npm run test",
@@ -27,7 +27,7 @@
     "lint": "eslint ./src/*.ts"
   },
   "engines": {
-    "node": ">=7.8.0"
+    "node": ">=10.8.0"
   },
   "author": "Eric D Moore",
   "license": "MIT",
@@ -52,10 +52,10 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "esm": "^3.2.25",
     "globby": "^11.0.0",
     "np": "^6.2.3",
     "nyc": "^15.0.1",
-    "p-series": "^2.1.0",
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3"
   }

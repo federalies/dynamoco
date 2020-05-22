@@ -1,18 +1,24 @@
 'use strict'
 
-// const isWindows = require('is-windows')
-// const defaultExclude = require('@istanbuljs/schema/default-exclude')
-
-// const platformExclude = [
-// isWindows() ? 'lib/posix.js' : 'lib/win32.js'
-// ]
-
 module.exports = {
   extends: '@istanbuljs/nyc-config-typescript',
-  include: [
-    'src/**/*.ts'
-  ],
-  'check-coverage': true
-  // all: true,
-  // exclude: platformExclude.concat(defaultExclude)
+  'skip-full': true,
+  include: ['src/**/*.ts'],
+  'check-coverage': {
+    branches: 80,
+    lines: 80,
+    functions: 80,
+    statements: 80
+  },
+  watermarks: {
+    lines: [80, 90],
+    functions: [80, 90],
+    branches: [80, 90],
+    statements: [80, 90]
+  }
 }
+
+/* istanbul ignore if */ /// /// ignore the next if statement.
+/* istanbul ignore else */ /// ///  ignore the else portion of an if statement.
+/* istanbul ignore next */ /// ///  ignore the next thing in the source-code ( functions, if statements, classes, you name it).
+/* istanbul ignore file */ /// ///  ignore an entire source-file (this should be placed at the top of the file).

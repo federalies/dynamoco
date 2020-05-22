@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import type { DynamoDB } from 'aws-sdk'
+import { DynamoDB } from 'aws-sdk'
 import type {
   Key,
   PutItemInputAttributeMap,
@@ -23,25 +23,28 @@ import { reservedWords } from './dynamoReservedWords'
 import fs from 'fs'
 import path from 'path'
 
+const isError = (input:any):input is Error => input instanceof Error
 const { isArray } = Array
+const isBuffer = Buffer.isBuffer
 const isString = (i:string | any): i is string => typeof i === 'string' || i instanceof String
 const isBool = (i:boolean | any): i is boolean => typeof i === 'boolean' || i instanceof Boolean
 const isNumber = (i:number | any): i is number => typeof i === 'number' || i instanceof Number
 const isObj = (i:object | any): i is object => typeof i === 'object' || i instanceof Object
 const isBinary = (i:Buffer | any): i is Buffer => Buffer.isBuffer(i)
 const isNull = (i:null | any): i is null => i === null
+const isPrimitive = (value:any): value is string | number |Buffer | null | boolean => (typeof value !== 'object' && typeof value !== 'function') || value === null
 
-const _inferJsValues = (input: DynamoAttrValueType): jsTypesFromDynamo => {
+export const _inferJsValues = (input: DynamoAttrValueType): jsTypesFromDynamo => {
   if ('S' in input) {
     return Object.values(input)[0].toString() as string
   } else if ('N' in input) {
-    return Number.parseInt(Object.values(input)[0]) as number
+    return Number.parseFloat(Object.values(input)[0]) as number
   } else if ('B' in input) {
     return Buffer.from(Object.values(input)[0]) as Buffer
   } else if ('SS' in input) {
     return Object.values(input)[0] as string[]
   } else if ('NS' in input) {
-    return Object.values(input)[0].map(v => Number.parseInt(v)) as number[]
+    return Object.values(input)[0].map(v => Number.parseFloat(v)) as number[]
   } else if ('BS' in input) {
     return Object.values(input)[0].map(b => Buffer.from(b)) as Buffer[]
   } else if ('NULL' in input) {
@@ -57,9 +60,120 @@ const _inferJsValues = (input: DynamoAttrValueType): jsTypesFromDynamo => {
       [keyname]: _inferJsValues(item)
     }), {}) as {[attribute:string]:jsTypesFromDynamo}
   } else {
-    throw new Error('')
+    return Object.entries(input as {[Attr:string]:DynamoAttrValueType}).reduce((acc, [keyname, item]) => ({
+      ...acc,
+      [keyname]: _inferJsValues(item)
+    }), {}) as {[attribute:string]:jsTypesFromDynamo}
   }
 }
+
+export const parseNumber = (input:string): Number | Error => {
+  return !Number.isNaN(Number.parseFloat(input))
+    ? Number.parseFloat(input)
+    : new Error('Got an N or NS typed data element that was not a parsable string')
+}
+
+export const parseNumberOrThrow = (input:string): number => {
+  const numErr = parseNumber(input)
+  if (isError(numErr)) {
+    throw numErr
+  } else {
+    return numErr as number
+  }
+}
+
+export const ___inferJsValues = (input: DynamoAttrValueType): jsTypesFromDynamo => {
+  const typeLetter = Object.keys(input)[0] as 'S' | 'N' | 'B' | 'BOOL' | 'NULL' | 'BS' | 'SS' | 'NS' | 'L' | 'M'
+  const value = Object.values(input)[0]
+
+  switch (typeLetter) {
+    case 'N':
+      return parseNumberOrThrow(value)
+    case 'S':
+    case 'B':
+    case 'BOOL':
+    case 'NULL':
+      return DynamoDB.Converter.output(input)
+    case 'NS':
+      return (value as string[]).map(parseNumberOrThrow)
+    case 'BS':
+      return (value as string[]).map(v => Buffer.from(v))
+    case 'SS':
+      return value as string[]
+    case 'L':
+      return (value as DynamoAttrValueType[]).map(___inferJsValues) as any[]
+    case 'M':
+      return DynamoDB.Converter.unmarshall(input as any)
+  }
+}
+// export const _inferJsValues = ___inferJsValues
+
+export const __inferDynamoValueTypes = (input:validJsDynamoTypes):DynamoAttrValueType => {
+  if (isString(input)) {
+    return { S: input }
+  } else if (isBool(input)) {
+    return { BOOL: true }
+  } else if (isNumber(input)) {
+    return { N: input.toString() }
+  } else if (isBinary(input)) {
+    return { B: Buffer.from(input) }
+  } else if (isNull(input)) {
+    return { NULL: true }
+  } else if (isArray(input)) {
+    // all same same typed array?
+    const firstTypeof = typeof input[0]
+    const firstProtoOf = Object.getPrototypeOf(input[0])
+    // eslint-disable-next-line valid-typeof
+    const allSame = input.every((v :string | number | Buffer) => typeof v === firstTypeof && Object.getPrototypeOf(v) === Object.getPrototypeOf(input[0]))
+    if (!allSame) {
+      return { L: (input as (string | Buffer | number)[]).map((v: string | number | Buffer) => _inferDynamoValueTypes(v)) }
+    } else {
+      if (firstTypeof === 'string') {
+        return { SS: input as string[] }
+      } else if (firstTypeof === 'number') {
+        return { NS: (input as number[]).map(v => v.toString()) }
+      } else {
+        return { BS: input as Buffer[] }
+      }
+    }
+  } else if (isObj(input)) {
+    return {
+      M: Object.entries(input).reduce((acc, [attrib, value]) => ({
+        ...acc,
+        [attrib]: _inferDynamoValueTypes(value) as DynamoAttrValueType
+      }), {} as {[Attribute:string]: DynamoAttrValueType})
+    } as DynamoMap
+  } else {
+    throw new Error('WAT kindof data type did you give???')
+  }
+}
+
+export const _inferDynamoValueTypes = (input: jsTypesFromDynamo): DynamoAttrValueType => {
+  if (isPrimitive(input) || isBuffer(input)) {
+    return DynamoDB.Converter.input(input) as DynamoAttrValueType
+  } else {
+    if (!isArray(input)) {
+      return DynamoDB.Converter.marshall(input as any) as DynamoAttrValueType
+    } else {
+      const firstTypeof = typeof input[0]
+      const firstProtoOf = Object.getPrototypeOf(input[0])
+      // eslint-disable-next-line valid-typeof
+      const allSame = input.every((v: any) => typeof v === firstTypeof && Object.getPrototypeOf(v) === firstProtoOf)
+      if (!allSame) {
+        return { L: (input as (string | Buffer | number)[]).map((v: string | number | Buffer) => __inferDynamoValueTypes(v)) }
+      } else {
+        if (firstTypeof === 'string') {
+          return { SS: input as string[] }
+        } else if (firstTypeof === 'number') {
+          return { NS: (input as number[]).map(v => v.toString()) }
+        } else {
+          return { BS: input as Buffer[] }
+        }
+      }
+    }
+  }
+}
+// export const _inferJsValues = ___inferJsValues
 
 const parseTableProps = (table:string, tableDef: TableDescription): string => {
   const preamble = `Table ${table} {\n`
@@ -127,51 +241,11 @@ const parseTableProps = (table:string, tableDef: TableDescription): string => {
   return preamble + cols + closer
 }
 
-const _stipDynamoTypingsForValues = (input: {[sttibuteName:string]:AttributeValue | DynamoAttrValueType} = {}): {[sttibuteName:string]:jsTypesFromDynamo} => {
+export const _stipDynamoTypingsForValues = (input: {[sttibuteName:string]:AttributeValue | DynamoAttrValueType} = {}): {[sttibuteName:string]:jsTypesFromDynamo} => {
   return Object.entries(input).reduce((acc, [attrib, typedDynamoVal]) => ({
     ...acc,
     [attrib]: _inferJsValues(typedDynamoVal as DynamoAttrValueType)
   }), {} as {[sttibuteName:string]:jsTypesFromDynamo})
-}
-
-const _inferDynamoValueTypes = (input:validJsDynamoTypes):DynamoAttrValueType => {
-  if (isString(input)) {
-    return { S: input }
-  } else if (isBool(input)) {
-    return { BOOL: true }
-  } else if (isNumber(input)) {
-    return { N: input.toString() }
-  } else if (isBinary(input)) {
-    return { B: Buffer.from(input) }
-  } else if (isNull(input)) {
-    return { NULL: true }
-  } else if (isArray(input)) {
-    // all same same typed array?
-    const firstTypeof = typeof input[0]
-    const firstProtoOf = Object.getPrototypeOf(input[0])
-    // eslint-disable-next-line valid-typeof
-    const allSame = input.every((v :string | number | Buffer) => typeof v === firstTypeof && Object.getPrototypeOf(v) === firstProtoOf)
-    if (!allSame) {
-      return { L: (input as (string | Buffer | number)[]).map((v: string | number | Buffer) => _inferDynamoValueTypes(v)) }
-    } else {
-      if (firstTypeof === 'string') {
-        return { SS: input as string[] }
-      } else if (firstTypeof === 'number') {
-        return { NS: (input as number[]).map(v => v.toString()) }
-      } else {
-        return { BS: input as Buffer[] }
-      }
-    }
-  } else if (isObj(input)) {
-    return {
-      M: Object.entries(input).reduce((acc, [attrib, value]) => ({
-        ...acc,
-        [attrib]: _inferDynamoValueTypes(value) as DynamoAttrValueType
-      }), {} as {[Attribute:string]: DynamoAttrValueType})
-    } as DynamoMap
-  } else {
-    throw new Error('WAT kindof data type did you give???')
-  }
 }
 
 const _giveDynamoTypesToValues = (i:validJs2DynamoDict):Key => {
@@ -259,7 +333,13 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
       _m: state._m,
       r: {
         ...state.r,
-        ExpressionAttributeValues: _giveDynamoTypesToValues(input) as {[key: string]: DynamoAttrValueType}
+        ExpressionAttributeValues:
+        state.r.ExpressionAttributeValues
+          ? {
+            ...state.r.ExpressionAttributeValues,
+            ..._giveDynamoTypesToValues(input) as {[key: string]: DynamoAttrValueType}
+          }
+          : _giveDynamoTypesToValues(input) as {[key: string]: DynamoAttrValueType}
       }
     })
   }
@@ -269,7 +349,13 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
       _m: state._m,
       r: {
         ...state.r,
-        ExpressionAttributeNames: input
+        ExpressionAttributeNames:
+        state.r.ExpressionAttributeNames
+          ? {
+            ...state.r.ExpressionAttributeNames,
+            ...input
+          }
+          : input
       }
     })
   }
@@ -563,7 +649,9 @@ export const dynamoco = (db: DynamoDB, defaults?:{}) => {
 
   const putItem = async (TableName:string, item:validJs2DynamoDict, opts?:putItemOpts) => {
     const Item = _giveDynamoTypesToValues(item) as PutItemInputAttributeMap
+    // console.log('before:', { TableName, Item, opts })
     const res = await db.putItem({ TableName, Item, ...opts }).promise()
+    // console.log('after:', { res })
     const _Attributes = _stipDynamoTypingsForValues(res.Attributes)
     return { ...res, _Attributes }
   }
@@ -723,11 +811,11 @@ type DynamoBinary = {'B':Buffer | string | Blob } // @todo add in TypedArray for
 type DynamoStringSet = {'SS':string[]}
 type DynamoNumberSet = {'NS':string[]}
 type DynamoBinarySet = {'BS':(Buffer | string | Blob)[]}
-type DynamoNull = {'NULL': true}
-type DynamoBool = {'BOOL': true}
-type DynamoMap = {'M': {[Attribute:string]: DynamoAttrValueType} }
+type DynamoNull = {'NULL': boolean}
+type DynamoBool = {'BOOL': boolean}
+type DynamoMap = {'M': {[Attribute:string]: DynamoAttrValueType }}
 type DynamoList = {'L': DynamoAttrValueType[]}
-type DynamoAttrValueType =
+export type DynamoAttrValueType =
 | DynamoString
 | DynamoNumber
 | DynamoBinary
@@ -743,7 +831,7 @@ type jsTypesFromDynamo = boolean | null | string | number | Buffer| string[] | n
 type validplainJSTypesInDynamo = boolean | null | string | number | Buffer | string[] | number[] | Buffer[]
 type validJsDynamoTypes = validplainJSTypesInDynamo | {[Attribute:string]: validJsDynamoTypes }
 type validJs2DynamoDict = {[Attribute: string]: validJsDynamoTypes}
-type MocoPredicateClause = [string, '='| '<'| '>'| '<='| '>='| 'BETWEEN'| 'begins_with', null | boolean | string | number | (string| number)[]]
+type MocoPredicateClause = [string, '='| '<'| '>'| '<='| '>='| 'BETWEEN'| 'begins_with', null | boolean | string | number | Buffer | (Buffer | string| number)[] ]
 interface MocoPredicateClauseReturn {
     KeyConditionExpression:string,
     ExpressionAttributeValues:{[attribute:string]: DynamoAttrValueType}
@@ -803,12 +891,12 @@ interface getItemOpts {
 }
 
 interface putItemOpts {
-    ConditionExpression: string // similar to KeyConditionExpressions @see https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ConditionExpressions.html
+    ConditionExpression?: string // similar to KeyConditionExpressions @see https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.ConditionExpressions.html
     ExpressionAttributeNames?: {[key: string]: string }
     ExpressionAttributeValues?: {[key: string]: DynamoAttrValueType}
-    ReturnValues: 'NONE'| 'ALL_OLD'| 'UPDATED_OLD'| 'ALL_NEW'| 'UPDATED_NEW'
-    ReturnConsumedCapacity: 'INDEXES'| 'TOTAL'| 'NONE'
-    ReturnItemCollectionMetrics: 'SIZE'| 'NONE'
+    ReturnValues?: 'NONE'| 'ALL_OLD'| 'UPDATED_OLD'| 'ALL_NEW'| 'UPDATED_NEW'
+    ReturnConsumedCapacity?: 'INDEXES'| 'TOTAL'| 'NONE'
+    ReturnItemCollectionMetrics?: 'SIZE'| 'NONE'
 }
 
 interface writeBatchOpts{
