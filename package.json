@@ -19,7 +19,8 @@
     "build/src"
   ],
   "scripts": {
-    "test": "nyc ts-node test/index.test.ts && nyc report --reporter=text-lcov | coveralls",
+    "reportCov": "nyc report --reporter=text-lcov | tee ./coverage/lcov.info | coveralls",
+    "test": "nyc ts-node test/index.test.ts",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
     "publishPkg": "np",
     "beforePublish": "npm run build && npm run test",
