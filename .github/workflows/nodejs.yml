@@ -16,7 +16,17 @@ jobs:
         node-version: [10.x, 12.x, 14.x]
 
     steps:
+
+    
+
     - uses: actions/checkout@v2
+    
+    - name: Grab DockerImage for Service\:DynamoLocal 
+      run: docker pull amazon/dynamodb-local
+    
+    - name: Run the Docker Instance
+      run: docker run -p 8000:8000 amazon/dynamodb-local
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
