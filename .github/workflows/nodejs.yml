@@ -16,20 +16,23 @@ jobs:
         node-version: [10.x, 12.x, 14.x]
 
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Grab DockerImage for Service:DynamoLocal 
-      run: docker pull amazon/dynamodb-local
     
-    - name: Run Dockerized DynamoSvc & Bg It
-      run: docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - uses: actions/checkout@v2
     - run: npm ci
     - run: npm run lint
+
+    - name: Grab DockerImage for Service:DynamoLocal 
+      run: docker pull amazon/dynamodb-local
+    
+    - name: Run Dockerized DynamoSvc & Bg It
+      uses: docker://amazon/dynamodb-local
+      run: docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &
+  
     - run: npm run build --if-present
     - run: npm test
     - name: Coveralls
