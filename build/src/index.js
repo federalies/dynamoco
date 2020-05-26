@@ -31,12 +31,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "aws-sdk", "./dynamoReservedWords", "fs", "path"], factory);
+        define(["require", "exports", "./dynamoReservedWords", "fs", "path"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    const aws_sdk_1 = require("aws-sdk");
     const dynamoReservedWords_1 = require("./dynamoReservedWords");
     const fs_1 = __importDefault(require("fs"));
     const path_1 = __importDefault(require("path"));
@@ -50,42 +49,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const isBinary = (i) => Buffer.isBuffer(i);
     const isNull = (i) => i === null;
     const isPrimitive = (value) => (typeof value !== 'object' && typeof value !== 'function') || value === null;
-    exports._inferJsValues = (input) => {
-        if ('S' in input) {
-            return Object.values(input)[0].toString();
-        }
-        else if ('N' in input) {
-            return Number.parseFloat(Object.values(input)[0]);
-        }
-        else if ('B' in input) {
-            return Buffer.from(Object.values(input)[0]);
-        }
-        else if ('SS' in input) {
-            return Object.values(input)[0];
-        }
-        else if ('NS' in input) {
-            return Object.values(input)[0].map(v => Number.parseFloat(v));
-        }
-        else if ('BS' in input) {
-            return Object.values(input)[0].map(b => Buffer.from(b));
-        }
-        else if ('NULL' in input) {
-            return null;
-        }
-        else if ('BOOL' in input) {
-            return Object.values(input)[0];
-        }
-        else if ('L' in input) {
-            return Object.values(input)[0].map(item => exports._inferJsValues(item));
-        }
-        else if ('M' in input) {
-            const dictOfTypedVals = Object.values(input)[0];
-            return Object.entries(dictOfTypedVals).reduce((acc, [keyname, item]) => (Object.assign(Object.assign({}, acc), { [keyname]: exports._inferJsValues(item) })), {});
-        }
-        else {
-            return Object.entries(input).reduce((acc, [keyname, item]) => (Object.assign(Object.assign({}, acc), { [keyname]: exports._inferJsValues(item) })), {});
-        }
-    };
     exports.parseNumber = (input) => {
         return !Number.isNaN(Number.parseFloat(input))
             ? Number.parseFloat(input)
@@ -100,35 +63,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             return numErr;
         }
     };
-    exports.___inferJsValues = (input) => {
-        const typeLetter = Object.keys(input)[0];
-        const value = Object.values(input)[0];
-        switch (typeLetter) {
-            case 'N':
-                return exports.parseNumberOrThrow(value);
-            case 'S':
-            case 'B':
-            case 'BOOL':
-            case 'NULL':
-                return aws_sdk_1.DynamoDB.Converter.output(input);
-            case 'NS':
-                return value.map(exports.parseNumberOrThrow);
-            case 'BS':
-                return value.map(v => Buffer.from(v));
-            case 'SS':
-                return value;
-            case 'L':
-                return value.map(exports.___inferJsValues);
-            case 'M':
-                return aws_sdk_1.DynamoDB.Converter.unmarshall(input);
+    exports.toDynamo = (input) => {
+        if (isPrimitive(input) || isArray(input) || isBuffer(input)) {
+            return _inferDynamoValueTypes(input);
+        }
+        else {
+            return Object.entries(input).reduce((p, [key, val], i, a) => {
+                return Object.assign(Object.assign({}, p), { [key]: _inferDynamoValueTypes(val) });
+            }, {});
         }
     };
-    exports.__inferDynamoValueTypes = (input) => {
+    const _inferDynamoValueTypes = (input) => {
         if (isString(input)) {
             return { S: input };
         }
         else if (isBool(input)) {
-            return { BOOL: true };
+            return { BOOL: input };
         }
         else if (isNumber(input)) {
             return { N: input.toString() };
@@ -144,7 +94,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const firstProtoOf = Object.getPrototypeOf(input[0]);
             const allSame = input.every((v) => typeof v === firstTypeof && Object.getPrototypeOf(v) === Object.getPrototypeOf(input[0]));
             if (!allSame) {
-                return { L: input.map((v) => exports._inferDynamoValueTypes(v)) };
+                return { L: input.map((v) => _inferDynamoValueTypes(v)) };
             }
             else {
                 if (firstTypeof === 'string') {
@@ -160,40 +110,56 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
         else if (isObj(input)) {
             return {
-                M: Object.entries(input).reduce((acc, [attrib, value]) => (Object.assign(Object.assign({}, acc), { [attrib]: exports._inferDynamoValueTypes(value) })), {})
+                M: Object.entries(input).reduce((acc, [attrib, value]) => (Object.assign(Object.assign({}, acc), { [attrib]: _inferDynamoValueTypes(value) })), {})
             };
         }
         else {
             throw new Error('WAT kindof data type did you give???');
         }
     };
-    exports._inferDynamoValueTypes = (input) => {
-        if (isPrimitive(input) || isBuffer(input)) {
-            return aws_sdk_1.DynamoDB.Converter.input(input);
+    exports.fromDynamo = (input) => {
+        const typeKey = Object.keys(input)[0];
+        if (['S', 'N', 'B', 'BOOL', 'NULL', 'BS', 'SS', 'NS', 'L', 'M'].includes(typeKey)) {
+            return _inferJsValues(input);
         }
         else {
-            if (!isArray(input)) {
-                return aws_sdk_1.DynamoDB.Converter.marshall(input);
-            }
-            else {
-                const firstTypeof = typeof input[0];
-                const firstProtoOf = Object.getPrototypeOf(input[0]);
-                const allSame = input.every((v) => typeof v === firstTypeof && Object.getPrototypeOf(v) === firstProtoOf);
-                if (!allSame) {
-                    return { L: input.map((v) => exports.__inferDynamoValueTypes(v)) };
-                }
-                else {
-                    if (firstTypeof === 'string') {
-                        return { SS: input };
-                    }
-                    else if (firstTypeof === 'number') {
-                        return { NS: input.map(v => v.toString()) };
-                    }
-                    else {
-                        return { BS: input };
-                    }
-                }
-            }
+            return _inferJsValues(input);
+        }
+    };
+    const _inferJsValues = (input) => {
+        if ('S' in input) {
+            return Object.values(input)[0].toString();
+        }
+        else if ('N' in input) {
+            return exports.parseNumberOrThrow(Object.values(input)[0]);
+        }
+        else if ('B' in input) {
+            return Buffer.from(Object.values(input)[0]);
+        }
+        else if ('SS' in input) {
+            return Object.values(input)[0];
+        }
+        else if ('NS' in input) {
+            return Object.values(input)[0].map(exports.parseNumberOrThrow);
+        }
+        else if ('BS' in input) {
+            return Object.values(input)[0].map(b => Buffer.from(b));
+        }
+        else if ('NULL' in input) {
+            return null;
+        }
+        else if ('BOOL' in input) {
+            return Object.values(input)[0];
+        }
+        else if ('L' in input) {
+            return Object.values(input)[0].map(item => _inferJsValues(item));
+        }
+        else if ('M' in input) {
+            const dictOfTypedVals = Object.values(input)[0];
+            return Object.entries(dictOfTypedVals).reduce((acc, [keyname, item]) => (Object.assign(Object.assign({}, acc), { [keyname]: _inferJsValues(item) })), {});
+        }
+        else {
+            return Object.entries(input).reduce((acc, [keyname, item]) => (Object.assign(Object.assign({}, acc), { [keyname]: _inferJsValues(item) })), {});
         }
     };
     const parseTableProps = (table, tableDef) => {
@@ -247,10 +213,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         return preamble + cols + closer;
     };
     exports._stipDynamoTypingsForValues = (input = {}) => {
-        return Object.entries(input).reduce((acc, [attrib, typedDynamoVal]) => (Object.assign(Object.assign({}, acc), { [attrib]: exports._inferJsValues(typedDynamoVal) })), {});
+        return Object.entries(input).reduce((acc, [attrib, typedDynamoVal]) => (Object.assign(Object.assign({}, acc), { [attrib]: _inferJsValues(typedDynamoVal) })), {});
     };
     const _giveDynamoTypesToValues = (i) => {
-        return Object.entries(i).reduce((acc, [attribute, value]) => (Object.assign(Object.assign({}, acc), { [attribute]: exports._inferDynamoValueTypes(value) })), {});
+        return Object.entries(i).reduce((acc, [attribute, value]) => (Object.assign(Object.assign({}, acc), { [attribute]: _inferDynamoValueTypes(value) })), {});
     };
     const queryOperators = (inputOpr, logLevel = 5) => {
         const local = {
@@ -394,8 +360,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             }
             if (oper === 'BETWEEN') {
                 const [valueLo, valueHi] = input[2];
-                const typedValueLo = exports._inferDynamoValueTypes(valueLo);
-                const typedValueHi = exports._inferDynamoValueTypes(valueHi);
+                const typedValueLo = _inferDynamoValueTypes(valueLo);
+                const typedValueHi = _inferDynamoValueTypes(valueHi);
                 const placeholderLo = `:${Attr.toLowerCase().slice(0, 3)}Lo`;
                 const placeholderHi = `:${Attr.toLowerCase().slice(0, 3)}Hi`;
                 ret.KeyConditionExpression = `${abbrevAttr || Attr} BETWEEN ${placeholderLo} AND ${placeholderHi}`;
@@ -408,7 +374,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             }
             else {
                 const value = input[2];
-                const typedValue = exports._inferDynamoValueTypes(value);
+                const typedValue = _inferDynamoValueTypes(value);
                 const placeholder = `:${Attr.toLowerCase().slice(0, 3)}`;
                 ret.ExpressionAttributeValues = { [placeholder]: typedValue };
                 ret.ExpressionAttributeNames = abbrevAttr ? { [abbrevAttr]: Attr } : {};
@@ -616,7 +582,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             updateTable,
             paginate,
             mocoQuery: exports.mocoQuery,
-            _inferValueTypes: exports._inferDynamoValueTypes,
+            _inferValueTypes: _inferDynamoValueTypes,
             _giveTypesToValues: _giveDynamoTypesToValues,
             _db: db
         };
