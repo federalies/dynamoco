@@ -1,3 +1,4 @@
+import isCi from 'is-ci'
 import { groupOfTestsNeedingSetup, testMaker } from './index.test'
 import { DynamoDB, SharedIniFileCredentials } from 'aws-sdk'
 import { Converter } from 'aws-sdk/clients/dynamodb'
@@ -16,10 +17,14 @@ const toDynamo = Converter.marshall
 const mockMsgId = () => `${Math.random() * 999_999_999}`
 
 const runTheLocalService = async () => {
-  const cmd = 'docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &'
-  console.log({ cmd })
-  const ret = await execP(cmd)
-  console.log({ ret })
+  const pullCmd = 'docker pull amazon/dynamodb-local'
+  const runCmd = 'docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &'
+
+  console.log({ pullCmd })
+  await execP(pullCmd)
+  console.log({ runCmd })
+  await execP(runCmd)
+
   return null
 }
 /*
@@ -128,7 +133,7 @@ const fillTable = async (d:DynamoDB) => {
 const listTables = async (d:DynamoDB) => {}
 
 const setupTableDataBeforeTest = async (d:DynamoDB):Promise<void> => {
-  await runTheLocalService()
+  !isCi && await runTheLocalService()
   await createTables(d, {}).catch(er => console.error('is Docker Daemon running?\n\n\n', er))
   await listTables(d)
   await fillTable(d)
