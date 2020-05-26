@@ -1,14 +1,18 @@
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./index.test", "aws-sdk", "aws-sdk/clients/dynamodb", "util", "child_process", "../src"], factory);
+        define(["require", "exports", "is-ci", "./index.test", "aws-sdk", "aws-sdk/clients/dynamodb", "util", "child_process", "../src"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    const is_ci_1 = __importDefault(require("is-ci"));
     const index_test_1 = require("./index.test");
     const aws_sdk_1 = require("aws-sdk");
     const dynamodb_1 = require("aws-sdk/clients/dynamodb");
@@ -19,10 +23,12 @@
     const toDynamo = dynamodb_1.Converter.marshall;
     const mockMsgId = () => `${Math.random() * 999999999}`;
     const runTheLocalService = async () => {
-        const cmd = 'docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &';
-        console.log({ cmd });
-        const ret = await execP(cmd);
-        console.log({ ret });
+        const pullCmd = 'docker pull amazon/dynamodb-local';
+        const runCmd = 'docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &';
+        console.log({ pullCmd });
+        await execP(pullCmd);
+        console.log({ runCmd });
+        await execP(runCmd);
         return null;
     };
     const createTables = async (d, tableDefs) => {
@@ -117,7 +123,7 @@
     };
     const listTables = async (d) => { };
     const setupTableDataBeforeTest = async (d) => {
-        await runTheLocalService();
+        !is_ci_1.default && await runTheLocalService();
         await createTables(d, {}).catch(er => console.error('is Docker Daemon running?\n\n\n', er));
         await listTables(d);
         await fillTable(d);
@@ -127,8 +133,14 @@
     };
     const allGroups = async () => {
         const [test, groupTest] = index_test_1.testMaker(__filename);
-        const credentials = new aws_sdk_1.SharedIniFileCredentials({ profile: 'personal_default' });
-        const d = new aws_sdk_1.DynamoDB({ credentials, region: 'us-west-2', endpoint: 'http://localhost:8000' });
+        let d;
+        if (is_ci_1.default) {
+            d = new aws_sdk_1.DynamoDB({ region: 'us-west-2', endpoint: 'http://localhost:8000' });
+        }
+        else {
+            const credentials = new aws_sdk_1.SharedIniFileCredentials({ profile: 'personal_default' });
+            d = new aws_sdk_1.DynamoDB({ credentials, region: 'us-west-2', endpoint: 'http://localhost:8000' });
+        }
         const groupContext = index_test_1.groupOfTestsNeedingSetup(d, test, setupTableDataBeforeTest, deleteTable);
         return groupTest('DynaMoco Mock TestsFor Email Table', groupContext({
             name: '1.Simple - GetItem Test',
@@ -283,7 +295,6 @@
     (async () => {
         if (!module.parent) {
             const r = await allGroups();
-            console.log(JSON.stringify({ r }, null, 2));
         }
     })();
 });

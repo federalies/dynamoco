@@ -10,6 +10,7 @@
 [![MIT License][license-shield]][license-url]
 [![Issues][issues-shield]][issues-url]
 [![Pkg Size][size-shield]][size-url]
+[![Code Coverage][coveralls-sheild]][coveralls-url]
 
 [![Built By][ftb-by-devs-shield]][federalies-url]
 [![Winter Is Coming][ftb-winter-shield]][federalies-url]
@@ -240,6 +241,8 @@ Eric D Moore
 [ftb-winter-shield]: https://forthebadge.com/images/badges/winter-is-coming.svg
 [ftb-builtwith-shield]: https://forthebadge.com/images/badges/built-with-love.svg
 [ftb-by-devs-shield]: https://forthebadge.com/images/badges/built-by-developers.svg
+[coveralls-sheild]:https://coveralls.io/repos/github/federalies/dynamoco/badge.svg
+[coveralls-url]:https://coveralls.io/github/federalies/dynamoco
 
 [federalies-url]:https://github.com/federalies
 

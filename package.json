@@ -19,7 +19,7 @@
     "build/src"
   ],
   "scripts": {
-    "reportCov": "nyc report --reporter=text-lcov | tee ./coverage/lcov.info | coveralls",
+    "reportCov": "nyc report --reporter=text-lcov | tee .coverage/lcov.info | node -r dotenv/config node_modules/coveralls/bin/coveralls.js",
     "test": "nyc ts-node test/index.test.ts",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
     "publishPkg": "np",
@@ -49,6 +49,7 @@
     "chalk": "^4.0.0",
     "coveralls": "^3.1.0",
     "deep-diff": "^1.0.2",
+    "dotenv": "^8.2.0",
     "eslint": "^7.0.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",

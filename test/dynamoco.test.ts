@@ -146,8 +146,14 @@ const deleteTable = async (d:DynamoDB) => {
 // main
 const allGroups = async () => {
   const [test, groupTest] = testMaker(__filename)
-  const credentials = new SharedIniFileCredentials({ profile: 'personal_default' })
-  const d = new DynamoDB({ credentials, region: 'us-west-2', endpoint: 'http://localhost:8000' })
+  let d:DynamoDB
+  if (isCi) {
+    d = new DynamoDB({ region: 'us-west-2', endpoint: 'http://localhost:8000' })
+  } else {
+    const credentials = new SharedIniFileCredentials({ profile: 'personal_default' })
+    d = new DynamoDB({ credentials, region: 'us-west-2', endpoint: 'http://localhost:8000' })
+  }
+
   // console.log({d})
 
   const groupContext = groupOfTestsNeedingSetup(d, test, setupTableDataBeforeTest, deleteTable)
@@ -327,7 +333,8 @@ export default allGroups
 
 ;(async () => {
   if (!module.parent) {
+    // eslint-disable-next-line no-unused-vars
     const r = await allGroups()
-    console.log(JSON.stringify({ r }, null, 2))
+    // console.log(JSON.stringify({ r }, null, 2))
   }
 })()
