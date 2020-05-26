@@ -19,7 +19,7 @@
     "build/src"
   ],
   "scripts": {
-    "test": "nyc ts-node test/index.test.ts",
+    "test": "nyc ts-node test/index.test.ts && nyc report --reporter=text-lcov | coveralls",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
     "publishPkg": "np",
     "beforePublish": "npm run build && npm run test",
@@ -46,6 +46,7 @@
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "chalk": "^4.0.0",
+    "coveralls": "^3.1.0",
     "deep-diff": "^1.0.2",
     "eslint": "^7.0.0",
     "eslint-config-standard": "^14.1.1",
