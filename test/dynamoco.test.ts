@@ -1,4 +1,4 @@
-import isCi from 'is-ci'
+import isCI from 'is-ci'
 import { groupOfTestsNeedingSetup, testMaker } from './index.test'
 import { DynamoDB, SharedIniFileCredentials } from 'aws-sdk'
 import { Converter } from 'aws-sdk/clients/dynamodb'
@@ -133,7 +133,7 @@ const fillTable = async (d:DynamoDB) => {
 const listTables = async (d:DynamoDB) => {}
 
 const setupTableDataBeforeTest = async (d:DynamoDB):Promise<void> => {
-  !isCi && await runTheLocalService()
+  !isCI && await runTheLocalService()
   await createTables(d, {}).catch(er => console.error('is Docker Daemon running?\n\n\n', er))
   await listTables(d)
   await fillTable(d)
@@ -147,14 +147,19 @@ const deleteTable = async (d:DynamoDB) => {
 const allGroups = async () => {
   const [test, groupTest] = testMaker(__filename)
   let d:DynamoDB
-  if (isCi) {
-    d = new DynamoDB({ region: 'us-west-2', endpoint: 'http://localhost:8000' })
+  if (isCI) {
+    console.log('Testing in a CI Environment')
+    d = new DynamoDB({
+      region: 'us-west-2',
+      accessKeyId: 'xxxx_DO_NOT_USE_REAL_VALUES_HERE_xxxx',
+      secretAccessKey: 'xxxx_DO_NOT_USE_REAL_VALUES_HERE_xxxx',
+      endpoint: 'http://localhost:8000'
+    })
   } else {
+    console.log('Testing in a regular (NON-CI Environment)')
     const credentials = new SharedIniFileCredentials({ profile: 'personal_default' })
     d = new DynamoDB({ credentials, region: 'us-west-2', endpoint: 'http://localhost:8000' })
   }
-
-  // console.log({d})
 
   const groupContext = groupOfTestsNeedingSetup(d, test, setupTableDataBeforeTest, deleteTable)
 

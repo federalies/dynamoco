@@ -37,7 +37,7 @@ jobs:
 
     - run: npm run build --if-present
     
-    - name: Run Dockerized DynamoSvc & Bg It
+    - name: Grab Docker Image > Start Docker Container > Run Tests with Local DynamoDb
       run: | 
         npm run dockerPull && 
         npm run dockerStart && 
