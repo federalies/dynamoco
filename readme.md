@@ -217,6 +217,9 @@ Eric D Moore
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
+
+[federalies-url]:https://github.com/federalies
+
 [contributors-shield]: https://img.shields.io/github/contributors/federalies/dynamoco?style=flat-square
 [contributors-url]: https://github.com/federalies/dynamoco/graphs/contributors
 
@@ -249,11 +252,8 @@ Eric D Moore
 [coveralls-sheild]:https://img.shields.io/coveralls/github/federalies/dynamoco?style=for-the-badge
 [coveralls-url]:https://coveralls.io/github/federalies/dynamoco
 
-[github-action-(build/test)-url]:https://github.com/federalies/dynamoco/workflows/Node%20Integration%20Build
-[github-action-(build/test)-shield]:https://github.com/federalies/dynamoco/workflows/Node%20Integration%20Build/Test/badge.svg
-
-
-[federalies-url]:https://github.com/federalies
+[github-action-(build/test)-url]:https://github.com/federalies/dynamoco/actions?query=workflow%3A%22Build+%26+Tests%22
+[github-action-(build/test)-shield]:https://github.com/federalies/dynamoco/workflows/Build%20&%20Tests/badge.svg
 
 <!-- LICENSE -->
 ## License
