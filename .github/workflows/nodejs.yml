@@ -37,7 +37,7 @@ jobs:
 
     - run: npm run build --if-present
     
-    - name: Grab Docker Image > Start Docker Container > Run Tests with Local DynamoDb
+    - name: Grab Docker Image > Start Docker Container > Run Tests using Local DynamoDb
       run: | 
         npm run dockerPull && 
         npm run dockerStart && 
@@ -47,6 +47,8 @@ jobs:
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
+      env: 
+        NODE_COVERALLS_DEBUG: 1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
     
