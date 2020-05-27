@@ -79,13 +79,9 @@ const allGroups = async () => {
     ),
     groupTest('Js To Dynamo',
       test('a1.Number To Dynamo', toDynamo(1), { N: '1' }),
-      // test('a2.Number To Dynamo', __inferDynamoValueTypes(1), { N: '1' }),
       test('b1.String To Dynamo', toDynamo('1'), { S: '1' }),
-      // test('b2.String To Dynamo', __inferDynamoValueTypes('1'), { S: '1' }),
       test('c1.Buffer To Dynamo', toDynamo(Buffer.from('Buf1')), { B: Buffer.from('Buf1') }),
-      // test('c2.Buffer To Dynamo', __inferDynamoValueTypes(Buffer.from('Buf1')), { B: Buffer.from('Buf1') }),
       test('d1.String Set To Dynamo', toDynamo(['', '', '']), { SS: ['', '', ''] }),
-      // test('d2.String Set To Dynamo', __inferDynamoValueTypes(['', '', '']), { SS: ['', '', ''] }),
       test('e1.Buffer Set To Dynamo',
         toDynamo([Buffer.from('Buf1'), Buffer.from('Buf1')]),
         { BS: [Buffer.from('Buf1'), Buffer.from('Buf1')] }),
@@ -115,6 +111,14 @@ const allGroups = async () => {
       test('3. toDynamo is equiv to built in converter',
         toDynamo(testToDyanmo[2].input as any),
         convertToDynamo(testToDyanmo[2].input)
+      ),
+      test('4. toDynamo throws an Error for odd inbound data types',
+        isErrorThrown(() => toDynamo(new Error('someStrange input type') as any)),
+        true
+      ),
+      test('5. toDynamo throws an Error for odd inbound data types',
+        isErrorThrown(() => toDynamo(new Date() as any)),
+        true
       )
     ),
     groupTest('Parsing Numbers',

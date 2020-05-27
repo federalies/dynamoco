@@ -54,12 +54,18 @@ export const toDynamo = (input: validJsDynamoTypes):DynamoAttrValueType => {
   if (isPrimitive(input) || isArray(input) || isBuffer(input)) {
     return _inferDynamoValueTypes(input)
   } else {
-    return Object.entries(input).reduce((p, [key, val], i, a) => {
+    const ret = Object.entries(input).reduce((p, [key, val], i, a) => {
       return {
         ...p,
         [key]: _inferDynamoValueTypes(val)
       }
     }, {} as DynamoAttrValueType)
+
+    if (Object.keys(ret).length === 0) {
+      throw new Error('WAT kindof data type did you give???')
+    } else {
+      return ret
+    }
   }
 }
 
@@ -91,15 +97,14 @@ const _inferDynamoValueTypes = (input:validJsDynamoTypes):DynamoAttrValueType =>
         return { BS: input as Buffer[] }
       }
     }
-  } else if (isObj(input)) {
+  } else {
+    // if (isObj(input))
     return {
       M: Object.entries(input).reduce((acc, [attrib, value]) => ({
         ...acc,
         [attrib]: _inferDynamoValueTypes(value) as DynamoAttrValueType
       }), {} as {[Attribute:string]: DynamoAttrValueType})
     } as DynamoMap
-  } else {
-    throw new Error('WAT kindof data type did you give???')
   }
 }
 
@@ -685,7 +690,7 @@ export const dynamoco = (db: DynamoDB, defaults?:{}) => {
   const scan = async (table:string, mocoFilterClause:MocoPredicateClause, mocoScanState?: ScanReqState) => {
     const scanParam = mocoQuery(table)
     const scanWithThis = scanParam.filter(mocoFilterClause).extract()
-    const res = await db.scan({ ...mocoScanState, ...scanWithThis }).promise()
+    const res = await db.scan({ TableName: table, ...mocoScanState, ...scanWithThis }).promise()
     return {
       ...res,
       ...(res.Items
@@ -724,7 +729,7 @@ export const dynamoco = (db: DynamoDB, defaults?:{}) => {
     }).promise()
   }
 
-  async function * paginate (req: ScanReqState | QueryReqState, mode:'scan' | 'query' = 'query'):AsyncGenerator<QueryOutput | ScanOutput> {
+  async function * paginate (req: ScanReqState & {TableName:string} | QueryReqState, mode:'scan' | 'query' = 'query'):AsyncGenerator<QueryOutput | ScanOutput> {
     let res: QueryOutput | ScanOutput
     if (mode === 'query' || 'KeyConditionExpression' in req || 'ScanIndexForward' in req) {
       // If given a conflicting `mode` and `RequestType`, use the `RequestType` structure,  Since it makes things extract faster.
@@ -738,19 +743,19 @@ export const dynamoco = (db: DynamoDB, defaults?:{}) => {
     }
   }
 
-  const updateItem = async (table:string, opts:unknown) => {
-    // const scanParams = {TableName:table} as ScanReqState
-    // return db.updateItem().promise()
-    throw new Error('not implemented yet need help')
-  }
+  // const updateItem = async (table:string, opts:unknown) => {
+  //   // const scanParams = {TableName:table} as ScanReqState
+  //   // return db.updateItem().promise()
+  //   throw new Error('not implemented yet need help')
+  // }
 
-  const transactGetItems = async (table:string, opts:unknown) => {
-    throw new Error('not implemented yet! Need help')
-  }
+  // const transactGetItems = async (table:string, opts:unknown) => {
+  //   throw new Error('not implemented yet! Need help')
+  // }
 
-  const transactWriteItems = async () => {
-    throw new Error('not implemented yet! Need help')
-  }
+  // const transactWriteItems = async () => {
+  //   throw new Error('not implemented yet! Need help')
+  // }
 
   return {
     getItem,
@@ -837,7 +842,7 @@ interface QueryReqState {
 }
 
 interface ScanReqState{
-    TableName: string
+    // TableName: string - omitted here - used once as is and added back in another time
     Select?:
         | 'ALL_ATTRIBUTES'
         | 'ALL_PROJECTED_ATTRIBUTES' /* only for index - and depends on how index is setup */

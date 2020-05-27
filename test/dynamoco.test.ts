@@ -2,11 +2,13 @@ import isCI from 'is-ci'
 import { groupOfTestsNeedingSetup, testMaker } from './index.test'
 import { DynamoDB, SharedIniFileCredentials } from 'aws-sdk'
 import { Converter } from 'aws-sdk/clients/dynamodb'
-// eslint-disable-next-line no-unused-vars
-import type { IGroupReturn } from './index.test' // IComparitorFn, ITestReturn, ITestFn
 import { promisify } from 'util'
 import { exec } from 'child_process'
 import { dynamoco, mocoQuery } from '../src'
+// eslint-disable-next-line no-unused-vars
+import type { QueryInput } from 'aws-sdk/clients/dynamodb'
+// eslint-disable-next-line no-unused-vars
+import type { IGroupReturn } from './index.test' // IComparitorFn, ITestReturn, ITestFn
 
 const execP = promisify(exec)
 const toDynamo = Converter.marshall
@@ -16,6 +18,7 @@ const toDynamo = Converter.marshall
 // const eq = (a:unknown, e:unknown) => a === e
 const mockMsgId = () => `${Math.random() * 999_999_999}`
 
+// #region TestBed Setup
 const runTheLocalService = async () => {
   const pullCmd = 'docker pull amazon/dynamodb-local'
   const runCmd = 'docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &'
@@ -27,16 +30,9 @@ const runTheLocalService = async () => {
 
   return null
 }
-/*
-    Could do this...
-
-    {[tableName:string]:{
-        tableDef: [{AttributeName:'', AttributeType:'S', KeyRange: 'HASH' | 'RANGE' }],
-        throughput: {read:5, write:5}
-        gsi?:[],
-        lsi?:[]
-    }
- */
+const deleteTable = async (d:DynamoDB) => {
+  await d.deleteTable({ TableName: 'Emails' }).promise()
+}
 const createTables = async (d:DynamoDB, tableDefs:unknown) => {
   const tbls = await d.listTables().promise()
 
@@ -138,10 +134,7 @@ const setupTableDataBeforeTest = async (d:DynamoDB):Promise<void> => {
   await listTables(d)
   await fillTable(d)
 }
-
-const deleteTable = async (d:DynamoDB) => {
-  await d.deleteTable({ TableName: 'Emails' }).promise()
-}
+// #endregion TestBed Setup
 
 // main
 const allGroups = async () => {
@@ -161,7 +154,11 @@ const allGroups = async () => {
     d = new DynamoDB({ credentials, region: 'us-west-2', endpoint: 'http://localhost:8000' })
   }
 
-  const groupContext = groupOfTestsNeedingSetup(d, test, setupTableDataBeforeTest, deleteTable)
+  const groupContext = groupOfTestsNeedingSetup(
+    d,
+    test,
+    setupTableDataBeforeTest,
+    deleteTable)
 
   return groupTest('DynaMoco Mock TestsFor Email Table',
     groupContext(
@@ -169,7 +166,8 @@ const allGroups = async () => {
         name: '1.Simple - GetItem Test',
         actual: async (d:DynamoDB) => {
           const r = await dynamoco(d)
-            .getItem('Emails', { User: 'myAlias', Date: 1589303449032 })
+            .getItem('Emails',
+              { User: 'myAlias', Date: 1589303449032 })
           return r._Item._UserDate
         },
         expected: async () => 'myAlias::1589303449032'
@@ -177,7 +175,8 @@ const allGroups = async () => {
       {
         name: '2.Simple - GetItem Test',
         actual: async (d:DynamoDB) => {
-          const r = await dynamoco(d).getItem('Emails', { User: 'myAlias', Date: 1589303460428 })
+          const r = await dynamoco(d).getItem('Emails',
+            { User: 'myAlias', Date: 1589303460428 })
           return r._Item._UserDate
         },
         expected: async () => 'myAlias::1589303460428'
@@ -321,13 +320,41 @@ const allGroups = async () => {
       },
       {
         name: '10. Delete Batch',
-        actual: async () => ({}),
-        expected: async () => ({})
+        actual: async (d:DynamoDB) => dynamoco(d)
+          .deleteBatch({
+            Emails: [
+              { User: 'myAlias', Date: 1_589_303_460_500 }
+            ]
+          }),
+        expected: async () => ({ UnprocessedItems: {} })
       },
       {
         name: '11. Scan',
-        actual: async () => ({}),
-        expected: async () => ({})
+        actual: async (d:DynamoDB) => {
+          const r = await dynamoco(d)
+            .scan('Emails', [
+              'Date', 'BETWEEN', [1_589_303_429_254, 1_589_303_460_429]],
+            { ReturnConsumedCapacity: 'TOTAL' })
+          return r._Items.length
+        },
+        expected: async () => 3
+      },
+      {
+        name: '12. Paginate',
+        actual: async (d:DynamoDB) => {
+          const qParam = mocoQuery('Emails').select('*').filter(['Date', '>', 2020]).extract()
+          return typeof dynamoco(d).paginate(qParam as QueryInput & {Select?:
+            | 'ALL_ATTRIBUTES'
+            | 'ALL_PROJECTED_ATTRIBUTES'
+            | 'COUNT'
+            | 'SPECIFIC_ATTRIBUTES'})
+        },
+        expected: async () => {
+          async function * test () {
+            yield 1
+          }
+          return typeof test()
+        }
       }
 
     )
