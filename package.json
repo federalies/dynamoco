@@ -25,7 +25,8 @@
     "test": "nyc ts-node test/index.test.ts",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
     "publishPkg": "np",
-    "beforePublish": "npm run build && npm run test",
+    "validate": "ts-node utils/validate.ts",
+    "publish:before": "npm run build && npm run test",
     "publish:dryrun": "np --preview --no-yarn",
     "lint": "eslint ./src/*.ts"
   },
@@ -41,6 +42,12 @@
   "dependencies": {
     "aws-sdk": "^2.669.0"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run validate && npm test",
+      "pre-push": "npm run build && npm run reportCov"
+    }
+  },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/deep-diff": "^1.0.0",
@@ -48,6 +55,7 @@
     "@types/js-yaml": "^3.12.4",
     "@types/json5": "0.0.30",
     "@types/node": "^13.13.4",
+    "@types/node-fetch": "^2.5.7",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
     "chalk": "^4.0.0",
@@ -67,14 +75,9 @@
     "js-yaml": "^3.14.0",
     "json5": "^2.1.3",
     "np": "^6.2.3",
+    "node-fetch": "^2.6.0",
     "nyc": "^15.0.1",
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run validate && npm test",
-      "pre-push": "npm run build && npm run reportCov"
-    }
   }
 }
