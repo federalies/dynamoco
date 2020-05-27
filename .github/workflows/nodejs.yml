@@ -41,16 +41,18 @@ jobs:
       run: | 
         npm run dockerPull && 
         npm run dockerStart && 
+        mkdir .coverage && 
+        touch lcov.info && 
         npm run test
 
     # - run: npm run reportCov  
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      env: 
-        NODE_COVERALLS_DEBUG: 1
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Coveralls
+    #   uses: coverallsapp/github-action@master
+    #   env: 
+    #     NODE_COVERALLS_DEBUG: 1
+    #   with:
+    #     github-token: ${{ secrets.GITHUB_TOKEN }}
   
   test:
     runs-on: ubuntu-latest
@@ -72,14 +74,16 @@ jobs:
       run: | 
         npm run dockerPull && 
         npm run dockerStart && 
+        mkdir .coverage && 
+        touch lcov.info && 
         npm run test
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      env: 
-        NODE_COVERALLS_DEBUG: 1
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Coveralls
+    #   uses: coverallsapp/github-action@master
+    #   env: 
+    #     NODE_COVERALLS_DEBUG: 1
+    #   with:
+    #     github-token: ${{ secrets.GITHUB_TOKEN }}
     
 
     
