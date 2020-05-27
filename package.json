@@ -70,5 +70,11 @@
     "nyc": "^15.0.1",
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run validate && npm test",
+      "pre-push": "npm run build && npm run reportCov"
+    }
   }
 }
