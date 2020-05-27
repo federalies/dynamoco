@@ -13,8 +13,10 @@
 [![Code Coverage][coveralls-sheild]][coveralls-url]
 
 [![Built By][ftb-by-devs-shield]][federalies-url]
-[![Winter Is Coming][ftb-winter-shield]][federalies-url]
+[![Winter Is Coming][ftb-winter-shield]][ftb-winter-url]
 [![Built With][ftb-builtWith-shield]][federalies-url]
+
+[![Github Action - Node Integration Build/Test][github-action-(build/test)-shield]][github-action-(build/test)-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -239,12 +241,17 @@ Eric D Moore
 [product-screenshot]: images/screenshot.png
 
 [ftb-winter-shield]: https://forthebadge.com/images/badges/winter-is-coming.svg
+[ftb-winter-url]: https://github.com/federalies/dynamoco/wiki#winter-is-coming
 
 [ftb-builtwith-shield]: https://forthebadge.com/images/badges/built-with-love.svg
 [ftb-by-devs-shield]: https://forthebadge.com/images/badges/built-by-developers.svg
 
 [coveralls-sheild]:https://img.shields.io/coveralls/github/federalies/dynamoco?style=for-the-badge
 [coveralls-url]:https://coveralls.io/github/federalies/dynamoco
+
+[github-action-(build/test)-url]:https://github.com/federalies/dynamoco/workflows/Node%20Integration%20Build
+[github-action-(build/test)-shield]:https://github.com/federalies/dynamoco/workflows/Node%20Integration%20Build/Test/badge.svg
+
 
 [federalies-url]:https://github.com/federalies
 
