@@ -706,40 +706,41 @@ export const dynamoco = (db: DynamoDB, defaults?:{}) => {
     return { ...res, DBML }
   }
 
-  const updateTTL = async (TableName:string, AttributeName:string, Enabled:boolean) => {
-    return db.updateTimeToLive({
-      TableName,
-      TimeToLiveSpecification: {
-        AttributeName,
-        Enabled
-      }
-    }).promise()
-  }
+  // const updateTTL = async (TableName:string, AttributeName:string, Enabled:boolean) => {
+  //   return db.updateTimeToLive({
+  //     TableName,
+  //     TimeToLiveSpecification: {
+  //       AttributeName,
+  //       Enabled
+  //     }
+  //   }).promise()
+  // }
 
-  const updateTable = async (table: string, onDemandMode:boolean, opts:UpdateTable) => {
+  const updateTable = async (table: string, onDemandMode:boolean, opts?:UpdateTable) => {
     return db.updateTable({
       TableName: table,
       BillingMode: onDemandMode ? 'PAY_PER_REQUEST' : 'PROVISIONED',
-      ...(opts.attrDefs ? { AttributeDefinitions: opts.attrDefs } : {}),
-      ...(opts.gsi ? { GlobalSecondaryIndexUpdates: opts.gsi } : {}),
-      ...(opts.throughput ? { ProvisionedThroughput: { ReadCapacityUnits: opts.throughput.read, WriteCapacityUnits: opts.throughput.write } } : {}),
-      ...(opts.replicaUpdates ? { ReplicaUpdates: opts.replicaUpdates } : {}),
-      ...(opts.SSE ? { SSESpecification: opts.SSE } : {}),
-      ...(opts.streamSpec ? { StreamSpecification: opts.streamSpec } : {})
+      ...(opts?.attrDefs ? { AttributeDefinitions: opts.attrDefs } : {}),
+      ...(opts?.gsi ? { GlobalSecondaryIndexUpdates: opts.gsi } : {}),
+      ...(opts?.throughput ? { ProvisionedThroughput: { ReadCapacityUnits: opts.throughput.read, WriteCapacityUnits: opts.throughput.write } } : {}),
+      ...(opts?.replicaUpdates ? { ReplicaUpdates: opts.replicaUpdates } : {}),
+      ...(opts?.SSE ? { SSESpecification: opts.SSE } : {}),
+      ...(opts?.streamSpec ? { StreamSpecification: opts.streamSpec } : {})
     }).promise()
   }
 
-  async function * paginate (req: ScanReqState & {TableName:string} | QueryReqState, mode:'scan' | 'query' = 'query'):AsyncGenerator<QueryOutput | ScanOutput> {
+  async function * paginate (req: ScanReqState & {TableName:string} | QueryReqState):AsyncGenerator<(QueryOutput | ScanOutput) & {_Items?: jsTypesFromDynamo[] }> {
     let res: QueryOutput | ScanOutput
-    if (mode === 'query' || 'KeyConditionExpression' in req || 'ScanIndexForward' in req) {
+    if ('KeyConditionExpression' in req || 'ScanIndexForward' in req) {
       // If given a conflicting `mode` and `RequestType`, use the `RequestType` structure,  Since it makes things extract faster.
       res = await db.query(req).promise()
     } else {
       res = await db.scan(req).promise()
     }
-    yield res
+    const _Items = res.Items ? res.Items.map(entry => fromDynamo(entry as DynamoAttrValueType)) : undefined
+    yield { ...res, _Items }
     if (res.LastEvaluatedKey) {
-      yield * paginate({ ...req, ExclusiveStartKey: res.LastEvaluatedKey }, mode)
+      yield * paginate({ ...req, ExclusiveStartKey: res.LastEvaluatedKey })
     }
   }
 
@@ -803,7 +804,7 @@ export type DynamoAttrValueType =
 | DynamoNull
 | DynamoBool
 
-type jsTypesFromDynamo = boolean | null | string | number | Buffer| string[] | number[] | Buffer[] | jsTypesFromDynamo[] | {[attribute:string]:jsTypesFromDynamo}
+export type jsTypesFromDynamo = boolean | null | string | number | Buffer| string[] | number[] | Buffer[] | jsTypesFromDynamo[] | {[attribute:string]:jsTypesFromDynamo}
 type validplainJSTypesInDynamo = boolean | null | string | number | Buffer | string[] | number[] | Buffer[]
 type validJsDynamoTypes = validplainJSTypesInDynamo | {[Attribute:string]: validJsDynamoTypes }
 type validJs2DynamoDict = {[Attribute: string]: validJsDynamoTypes}
@@ -821,7 +822,7 @@ interface QueryMetaState {
 
 }
 
-interface QueryReqState {
+export interface QueryReqState {
     TableName: string //!
     Select?:
         | 'ALL_ATTRIBUTES'
@@ -841,7 +842,7 @@ interface QueryReqState {
     ExpressionAttributeValues?: {[key: string]: DynamoAttrValueType};
 }
 
-interface ScanReqState{
+export interface ScanReqState{
     // TableName: string - omitted here - used once as is and added back in another time
     Select?:
         | 'ALL_ATTRIBUTES'

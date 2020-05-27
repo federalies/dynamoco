@@ -6,7 +6,7 @@ import { promisify } from 'util'
 import { exec } from 'child_process'
 import { dynamoco, mocoQuery } from '../src'
 // eslint-disable-next-line no-unused-vars
-import type { QueryInput } from 'aws-sdk/clients/dynamodb'
+import type { QueryReqState, jsTypesFromDynamo } from '../src'
 // eslint-disable-next-line no-unused-vars
 import type { IGroupReturn } from './index.test' // IComparitorFn, ITestReturn, ITestFn
 
@@ -342,21 +342,29 @@ const allGroups = async () => {
       {
         name: '12. Paginate',
         actual: async (d:DynamoDB) => {
-          const qParam = mocoQuery('Emails').select('*').filter(['Date', '>', 2020]).extract()
-          return typeof dynamoco(d).paginate(qParam as QueryInput & {Select?:
-            | 'ALL_ATTRIBUTES'
-            | 'ALL_PROJECTED_ATTRIBUTES'
-            | 'COUNT'
-            | 'SPECIFIC_ATTRIBUTES'})
-        },
-        expected: async () => {
-          async function * test () {
-            yield 1
+          //
+          const pager = dynamoco(d).paginate(
+            mocoQuery('Emails')
+              .select('*')
+              .filter(['Date', '=', 1_589_303_429_255]).extract() as QueryReqState
+          )
+          let collect: jsTypesFromDynamo[] = []
+          for await (const pagedData of pager) {
+            const _Items = pagedData._Items || []
+            collect = [..._Items]
           }
-          return typeof test()
-        }
+          console.log({ collect })
+          return collect.length
+        },
+        expected: async () => 1
+      }, {
+        name: '13. Update Table',
+        actual: async (d:DynamoDB) => {
+          const r = await dynamoco(d).updateTable('Emails', true)
+          return r.TableDescription?.BillingModeSummary?.BillingMode
+        },
+        expected: async () => 'PAY_PER_REQUEST'
       }
-
     )
   )as Promise<IGroupReturn[]>
 }

@@ -119,10 +119,16 @@ export const groupOfTestsNeedingSetup = <T>(
     async (...testsConfigs: ITestConfig<T>[]) => {
       await before(ctx)
       const testResults = await Promise.all(
-        testsConfigs.map(async (t) => {
-          const actual = typeof t.actual === 'function' ? t.actual(ctx) : t.actual
-          const expected = typeof t.expected === 'function' ? t.expected(ctx) : t.expected
-          return testFn(t.name, actual, expected)
+        testsConfigs.map(async t => {
+          try {
+            const actual = typeof t.actual === 'function' ? await t.actual(ctx) : t.actual
+            const expected = typeof t.expected === 'function' ? await t.expected(ctx) : t.expected
+            return testFn(t.name, actual, expected)
+          } catch (err) {
+            console.error(t.name)
+            console.error(err)
+            return testFn(t.name, err, undefined)
+          }
         })
       )
       // console.log(JSON.stringify(testResults,null,2))

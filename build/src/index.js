@@ -538,30 +538,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const DBML = parseTableProps(TableName, res.Table);
             return Object.assign(Object.assign({}, res), { DBML });
         };
-        const updateTTL = async (TableName, AttributeName, Enabled) => {
-            return db.updateTimeToLive({
-                TableName,
-                TimeToLiveSpecification: {
-                    AttributeName,
-                    Enabled
-                }
-            }).promise();
-        };
         const updateTable = async (table, onDemandMode, opts) => {
-            return db.updateTable(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ TableName: table, BillingMode: onDemandMode ? 'PAY_PER_REQUEST' : 'PROVISIONED' }, (opts.attrDefs ? { AttributeDefinitions: opts.attrDefs } : {})), (opts.gsi ? { GlobalSecondaryIndexUpdates: opts.gsi } : {})), (opts.throughput ? { ProvisionedThroughput: { ReadCapacityUnits: opts.throughput.read, WriteCapacityUnits: opts.throughput.write } } : {})), (opts.replicaUpdates ? { ReplicaUpdates: opts.replicaUpdates } : {})), (opts.SSE ? { SSESpecification: opts.SSE } : {})), (opts.streamSpec ? { StreamSpecification: opts.streamSpec } : {}))).promise();
+            return db.updateTable(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ TableName: table, BillingMode: onDemandMode ? 'PAY_PER_REQUEST' : 'PROVISIONED' }, ((opts === null || opts === void 0 ? void 0 : opts.attrDefs) ? { AttributeDefinitions: opts.attrDefs } : {})), ((opts === null || opts === void 0 ? void 0 : opts.gsi) ? { GlobalSecondaryIndexUpdates: opts.gsi } : {})), ((opts === null || opts === void 0 ? void 0 : opts.throughput) ? { ProvisionedThroughput: { ReadCapacityUnits: opts.throughput.read, WriteCapacityUnits: opts.throughput.write } } : {})), ((opts === null || opts === void 0 ? void 0 : opts.replicaUpdates) ? { ReplicaUpdates: opts.replicaUpdates } : {})), ((opts === null || opts === void 0 ? void 0 : opts.SSE) ? { SSESpecification: opts.SSE } : {})), ((opts === null || opts === void 0 ? void 0 : opts.streamSpec) ? { StreamSpecification: opts.streamSpec } : {}))).promise();
         };
-        function paginate(req, mode = 'query') {
+        function paginate(req) {
             return __asyncGenerator(this, arguments, function* paginate_1() {
                 let res;
-                if (mode === 'query' || 'KeyConditionExpression' in req || 'ScanIndexForward' in req) {
+                if ('KeyConditionExpression' in req || 'ScanIndexForward' in req) {
                     res = yield __await(db.query(req).promise());
                 }
                 else {
                     res = yield __await(db.scan(req).promise());
                 }
-                yield yield __await(res);
+                const _Items = res.Items ? res.Items.map(entry => exports.fromDynamo(entry)) : undefined;
+                yield yield __await(Object.assign(Object.assign({}, res), { _Items }));
                 if (res.LastEvaluatedKey) {
-                    yield __await(yield* __asyncDelegator(__asyncValues(paginate(Object.assign(Object.assign({}, req), { ExclusiveStartKey: res.LastEvaluatedKey }), mode))));
+                    yield __await(yield* __asyncDelegator(__asyncValues(paginate(Object.assign(Object.assign({}, req), { ExclusiveStartKey: res.LastEvaluatedKey })))));
                 }
             });
         }

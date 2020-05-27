@@ -121,9 +121,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     exports.groupOfTestsNeedingSetup = (ctx, testFn, before, after) => async (...testsConfigs) => {
         await before(ctx);
         const testResults = await Promise.all(testsConfigs.map(async (t) => {
-            const actual = typeof t.actual === 'function' ? t.actual(ctx) : t.actual;
-            const expected = typeof t.expected === 'function' ? t.expected(ctx) : t.expected;
-            return testFn(t.name, actual, expected);
+            try {
+                const actual = typeof t.actual === 'function' ? await t.actual(ctx) : t.actual;
+                const expected = typeof t.expected === 'function' ? await t.expected(ctx) : t.expected;
+                return testFn(t.name, actual, expected);
+            }
+            catch (err) {
+                console.error(t.name);
+                console.error(err);
+                return testFn(t.name, err, undefined);
+            }
         }));
         await after(ctx);
         return testResults;
