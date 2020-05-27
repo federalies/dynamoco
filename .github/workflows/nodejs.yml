@@ -7,7 +7,12 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-jobs:
+jobs: 
+  
+  # test:
+   # needs:
+     # build
+  
   build:
     runs-on: ubuntu-latest
 
@@ -21,23 +26,29 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     
-    - uses: actions/checkout@v2
+    - name: CheckOut Latest
+      uses: actions/checkout@v2
     
     - run: npm ci
     - run: npm run lint
+    
+    # - name: Grab DockerImage for Service:DynamoLocal 
+    #   uses: docker://amazon/dynamodb-local
 
-    - name: Grab DockerImage for Service:DynamoLocal 
-      run: docker pull amazon/dynamodb-local
+    - run: npm run build --if-present
     
     - name: Run Dockerized DynamoSvc & Bg It
-      uses: docker://amazon/dynamodb-local
-      run: docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &
-  
-    - run: npm run build --if-present
-    - run: npm test
+      run: | 
+      npm run dockerPull && 
+      npm run dockerStart && 
+      npm run test
+
+    # - run: npm run reportCov  
+
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    - run: npm run reportCov
+    
+
     

@@ -239,9 +239,11 @@ Eric D Moore
 [product-screenshot]: images/screenshot.png
 
 [ftb-winter-shield]: https://forthebadge.com/images/badges/winter-is-coming.svg
+
 [ftb-builtwith-shield]: https://forthebadge.com/images/badges/built-with-love.svg
 [ftb-by-devs-shield]: https://forthebadge.com/images/badges/built-by-developers.svg
-[coveralls-sheild]:https://coveralls.io/repos/github/federalies/dynamoco/badge.svg
+
+[coveralls-sheild]:https://img.shields.io/coveralls/github/federalies/dynamoco?style=for-the-badge
 [coveralls-url]:https://coveralls.io/github/federalies/dynamoco
 
 [federalies-url]:https://github.com/federalies

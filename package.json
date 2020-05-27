@@ -19,6 +19,8 @@
     "build/src"
   ],
   "scripts": {
+    "dockerPull":"docker pull amazon/dynamodb-local",
+    "dockerStart":"docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &",
     "reportCov": "nyc report --reporter=text-lcov | tee .coverage/lcov.info | node -r dotenv/config node_modules/coveralls/bin/coveralls.js",
     "test": "nyc ts-node test/index.test.ts",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
