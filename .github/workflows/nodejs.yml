@@ -39,9 +39,9 @@ jobs:
     
     - name: Run Dockerized DynamoSvc & Bg It
       run: | 
-      npm run dockerPull && 
-      npm run dockerStart && 
-      npm run test
+        npm run dockerPull && 
+        npm run dockerStart && 
+        npm run test
 
     # - run: npm run reportCov  
 

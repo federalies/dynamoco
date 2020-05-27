@@ -19,8 +19,8 @@
     "build/src"
   ],
   "scripts": {
-    "dockerPull":"docker pull amazon/dynamodb-local",
-    "dockerStart":"docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &",
+    "dockerPull": "docker pull amazon/dynamodb-local",
+    "dockerStart": "docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &",
     "reportCov": "nyc report --reporter=text-lcov | tee .coverage/lcov.info | node -r dotenv/config node_modules/coveralls/bin/coveralls.js",
     "test": "nyc ts-node test/index.test.ts",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
@@ -45,6 +45,8 @@
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/deep-diff": "^1.0.0",
     "@types/is-ci": "^2.0.0",
+    "@types/js-yaml": "^3.12.4",
+    "@types/json5": "0.0.30",
     "@types/node": "^13.13.4",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
@@ -61,6 +63,8 @@
     "esm": "^3.2.25",
     "globby": "^11.0.0",
     "is-ci": "^2.0.0",
+    "js-yaml": "^3.14.0",
+    "json5": "^2.1.3",
     "np": "^6.2.3",
     "nyc": "^15.0.1",
     "ts-node": "^8.10.1",
