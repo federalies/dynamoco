@@ -1,9 +1,7 @@
-// import {fetch} from 'node-fetch'
 
 export const reservedWords = (fs:fsLike, path: pathLike, decompressSync: IbrotliDecompressSync) => {
   const compressedBuff = fs.readFileSync(path.resolve('./src/reserved.txt.br'))
   // const compressedBuff = fetch('https://github.com/federalies/dynamoco/blob/master/utils/reserved.txt.br?raw=true') //=  but this is a promise
-
   const bufOpen = decompressSync(compressedBuff)
   const words = bufOpen.toString().split('\n')
   return words.reduce((p, w) => ({ ...p, [w]: true }), {})

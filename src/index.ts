@@ -20,6 +20,7 @@ import type {
   ReplicationGroupUpdateList
 } from 'aws-sdk/clients/dynamodb'
 import { reservedWords } from './dynamoReservedWords'
+import { brotliDecompressSync } from 'zlib'
 import fs from 'fs'
 import path from 'path'
 
@@ -269,7 +270,7 @@ const queryOperators = (inputOpr:string, logLevel: number = 5): string => {
 export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: QueryMetaState}):mocoQuery => {
   const state = {
     _m: {
-      reserved: reservedWords(fs, path),
+      reserved: reservedWords(fs, path, brotliDecompressSync),
       ...startingState?._m
     } as QueryMetaState, // letter m for meta
     r: {
