@@ -1,3 +1,15 @@
+var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
+var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -30,6 +42,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         console.log({ runCmd });
         await execP(runCmd);
         return null;
+    };
+    const deleteTable = async (d) => {
+        await d.deleteTable({ TableName: 'Emails' }).promise();
     };
     const createTables = async (d, tableDefs) => {
         var _a;
@@ -127,9 +142,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         await createTables(d, {}).catch(er => console.error('is Docker Daemon running?\n\n\n', er));
         await listTables(d);
         await fillTable(d);
-    };
-    const deleteTable = async (d) => {
-        await d.deleteTable({ TableName: 'Emails' }).promise();
     };
     const allGroups = async () => {
         const [test, groupTest] = index_test_1.testMaker(__filename);
@@ -290,12 +302,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             expected: async () => 2
         }, {
             name: '10. Delete Batch',
-            actual: async () => ({}),
-            expected: async () => ({})
+            actual: async (d) => src_1.dynamoco(d)
+                .deleteBatch({
+                Emails: [
+                    { User: 'myAlias', Date: 1589303460500 }
+                ]
+            }),
+            expected: async () => ({ UnprocessedItems: {} })
         }, {
             name: '11. Scan',
-            actual: async () => ({}),
-            expected: async () => ({})
+            actual: async (d) => {
+                const r = await src_1.dynamoco(d)
+                    .scan('Emails', [
+                    'Date', 'BETWEEN', [1589303429254, 1589303460429]
+                ], { ReturnConsumedCapacity: 'TOTAL' });
+                return r._Items.length;
+            },
+            expected: async () => 3
+        }, {
+            name: '12. Paginate',
+            actual: async (d) => {
+                const qParam = src_1.mocoQuery('Emails').select('*').filter(['Date', '>', 2020]).extract();
+                return typeof src_1.dynamoco(d).paginate(qParam);
+            },
+            expected: async () => {
+                function test() {
+                    return __asyncGenerator(this, arguments, function* test_1() {
+                        yield yield __await(1);
+                    });
+                }
+                return typeof test();
+            }
         }));
     };
     exports.default = allGroups;

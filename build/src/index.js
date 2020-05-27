@@ -69,9 +69,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             return _inferDynamoValueTypes(input);
         }
         else {
-            return Object.entries(input).reduce((p, [key, val], i, a) => {
+            const ret = Object.entries(input).reduce((p, [key, val], i, a) => {
                 return Object.assign(Object.assign({}, p), { [key]: _inferDynamoValueTypes(val) });
             }, {});
+            if (Object.keys(ret).length === 0) {
+                throw new Error('WAT kindof data type did you give???');
+            }
+            else {
+                return ret;
+            }
         }
     };
     const _inferDynamoValueTypes = (input) => {
@@ -109,13 +115,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 }
             }
         }
-        else if (isObj(input)) {
+        else {
             return {
                 M: Object.entries(input).reduce((acc, [attrib, value]) => (Object.assign(Object.assign({}, acc), { [attrib]: _inferDynamoValueTypes(value) })), {})
             };
-        }
-        else {
-            throw new Error('WAT kindof data type did you give???');
         }
     };
     exports.fromDynamo = (input) => {
@@ -525,7 +528,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         const scan = async (table, mocoFilterClause, mocoScanState) => {
             const scanParam = exports.mocoQuery(table);
             const scanWithThis = scanParam.filter(mocoFilterClause).extract();
-            const res = await db.scan(Object.assign(Object.assign({}, mocoScanState), scanWithThis)).promise();
+            const res = await db.scan(Object.assign(Object.assign({ TableName: table }, mocoScanState), scanWithThis)).promise();
             return Object.assign(Object.assign({}, res), (res.Items
                 ? { _Items: res.Items.map(v => exports._stipDynamoTypingsForValues(v)) }
                 : {}));
@@ -562,15 +565,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 }
             });
         }
-        const updateItem = async (table, opts) => {
-            throw new Error('not implemented yet need help');
-        };
-        const transactGetItems = async (table, opts) => {
-            throw new Error('not implemented yet! Need help');
-        };
-        const transactWriteItems = async () => {
-            throw new Error('not implemented yet! Need help');
-        };
         return {
             getItem,
             putItem,
