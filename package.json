@@ -1,6 +1,6 @@
 {
   "name": "@federalies/dynamoco",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A small but useful set of helpers, making Dynamo more acute and less obtuse. (Member of the Federalies)",
   "keywords": [
     "dynamo",
