@@ -135,9 +135,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         const [test, groupTest] = index_test_1.testMaker(__filename);
         let d;
         if (is_ci_1.default) {
-            d = new aws_sdk_1.DynamoDB({ region: 'us-west-2', endpoint: 'http://localhost:8000' });
+            console.log('Testing in a CI Environment');
+            d = new aws_sdk_1.DynamoDB({
+                region: 'us-west-2',
+                accessKeyId: 'xxxx_DO_NOT_USE_REAL_VALUES_HERE_xxxx',
+                secretAccessKey: 'xxxx_DO_NOT_USE_REAL_VALUES_HERE_xxxx',
+                endpoint: 'http://localhost:8000'
+            });
         }
         else {
+            console.log('Testing in a regular (NON-CI Environment)');
             const credentials = new aws_sdk_1.SharedIniFileCredentials({ profile: 'personal_default' });
             d = new aws_sdk_1.DynamoDB({ credentials, region: 'us-west-2', endpoint: 'http://localhost:8000' });
         }

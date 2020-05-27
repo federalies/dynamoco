@@ -31,12 +31,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./dynamoReservedWords", "fs", "path"], factory);
+        define(["require", "exports", "./dynamoReservedWords", "zlib", "fs", "path"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     const dynamoReservedWords_1 = require("./dynamoReservedWords");
+    const zlib_1 = require("zlib");
     const fs_1 = __importDefault(require("fs"));
     const path_1 = __importDefault(require("path"));
     const isError = (input) => input instanceof Error;
@@ -252,7 +253,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     };
     exports.mocoQuery = (table, startingState) => {
         const state = {
-            _m: Object.assign({ reserved: dynamoReservedWords_1.reservedWords(fs_1.default, path_1.default) }, startingState === null || startingState === void 0 ? void 0 : startingState._m),
+            _m: Object.assign({ reserved: dynamoReservedWords_1.reservedWords(fs_1.default, path_1.default, zlib_1.brotliDecompressSync) }, startingState === null || startingState === void 0 ? void 0 : startingState._m),
             r: Object.assign({ TableName: table, Select: 'ALL_ATTRIBUTES', ReturnConsumedCapacity: 'TOTAL' }, startingState === null || startingState === void 0 ? void 0 : startingState.r)
         };
         const ascending = () => {
