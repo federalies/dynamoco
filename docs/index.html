@@ -1,0 +1,475 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@federalies/dynamoco</title>
+	<meta name="description" content="Documentation for @federalies/dynamoco">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@federalies/dynamoco</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>@federalies/dynamoco</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<!-- PROJECT SHIELDS -->
+				<!--
+*** I'm using markdown "reference style" links for readability.
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+[![Contributors][contributors-shield]][contributors-url]
+-->
+				<p><a href="https://img.shields.io/npm/v/@federalies/dynamoco?style=for-the-badge"><img src="https://img.shields.io/npm/v/@federalies/dynamoco?style=for-the-badge" alt="NPM Version"></a>
+					<a href="https://bundlephobia.com/result?p=@federalies/dynamoco"><img src="https://img.shields.io/bundlephobia/minzip/@federalies/dynamoco?style=for-the-badge" alt="Pkg Size"></a>
+					<a href="https://coveralls.io/github/federalies/dynamoco"><img src="https://img.shields.io/coveralls/github/federalies/dynamoco?style=for-the-badge" alt="Code Coverage"></a>
+				<a href="https://github.com/federalies/dynamoco/blob/master/LICENSE"><img src="https://img.shields.io/github/license/federalies/dynamoco?style=for-the-badge" alt="MIT License"></a></p>
+				<p><a href="https://img.shields.io/github/commit-activity/m/federalies/dynamoco?style=for-the-badge"><img src="https://img.shields.io/github/commit-activity/m/federalies/dynamoco?style=for-the-badge" alt="Github Activity"></a>
+					<a href="https://github.com/federalies/dynamoco/issues?q=is%3Aissue+is%3Aclosed+"><img src="https://img.shields.io/github/issues-closed-raw/federalies/dynamoco?style=for-the-badge" alt="Issues Closed "></a>
+				<a href="https://github.com/federalies/dynamoco/issues"><img src="https://img.shields.io/github/issues/federalies/dynamoco?style=for-the-badge" alt="Issues"></a></p>
+				<!-- [![Built By][ftb-by-devs-shield]][federalies-url] -->
+				<!-- [![Winter Is Coming][ftb-winter-shield]][ftb-winter-url] -->
+				<!-- [![Built With][ftb-builtWith-shield]][federalies-url] -->
+				<!-- PROJECT LOGO -->
+				<br />
+				<p align="center">
+					<a href="https://github.com/federalies/dynamoco/wiki/Documentation">
+						<img src="images/DynamocoLogo.png" alt="Logo" width="300" height="300"/>
+					</a>
+					<h3 align="center">Dynamoco + Mocoquery</h3>
+					<p align="center">
+						Like a Carebear giving DynamoDB a hug
+						<br />
+						<br />
+						<a href="https://github.com/federalies/dynamoco/wiki/Documentation">
+							<strong> Documentation » </strong>
+						</a>
+						<br />
+						<br />
+						<a href="https://github.com/federalies/dynamoco/issues">
+							Report Bug
+						</a>
+						<br />
+						<br />
+						<a href="https://github.com/federalies/dynamoco/issues">
+							Request Feature
+						</a>
+					</p>
+				</p>
+				<a href="#dynamoco--mocoquery" id="dynamoco--mocoquery" style="color: inherit; text-decoration: none;">
+					<h1>Dynamoco + Mocoquery</h1>
+				</a>
+				<!-- ABOUT THE PROJECT -->
+				<!--
+Screen Shot Example
+[![Product Name Screen Shot][product-screenshot]](https://github.com/federalies/dynamoco)
+-->
+				<p><a href="https://github.com/federalies/dynamoco/actions?query=workflow%3A%22Build+%26+Tests%22"><img src="https://github.com/federalies/dynamoco/workflows/Build%20&%20Tests/badge.svg" alt="Github Action - Node Integration Build/Test"></a></p>
+				<a href="#overview" id="overview" style="color: inherit; text-decoration: none;">
+					<h2>Overview</h2>
+				</a>
+				<p>DynamoDB is a datastore that allows you to not manage as many details as a regular database. You just give it data; it faithfully holds it, and pretty quickly gives it back to you when you ask for it. Sound geat, right?!?! It&#39;s almost great. DynamoDB is a solid product from AWS, but the way you interact with it feels like shoving your finger in your eye.</p>
+				<p>Enter: Dynamoco! </p>
+				<p>A small but mighty, wrapper that is strong enough to get what you want out of DynamoDB, and it&#39;s gentle enough to help you feel like you are bowling with bumpers up. #NoGutters</p>
+				<p>Writeen in Typescript, it helps you auto-complete your way to valid queries, and other ways to pull your data out.  It also helps you with type-check compiling and all that jazz if you are into that. If not its super easy to add it as regular ol&#39; javascript yall.</p>
+				<a href="#the-dynamoco-problem" id="the-dynamoco-problem" style="color: inherit; text-decoration: none;">
+					<h3>The Dynamoco Problem</h3>
+				</a>
+				<ol>
+					<li>The API of DynamoDB has a steep learning curve.</li>
+					<li>The flexibiltiy in the DynamoDB Client creates too much complexity to comprehend when you are just getting started.</li>
+					<li>Dynamoco optimizes for a few normative use-cases, and it makes those very easy.</li>
+					<li>If you need to do the more complicated parts, it attempts to move out of the way.</li>
+				</ol>
+				<a href="#the-dynamoco-solution" id="the-dynamoco-solution" style="color: inherit; text-decoration: none;">
+					<h3>The Dynamoco Solution</h3>
+				</a>
+				<p>Use this package if:</p>
+				<ul>
+					<li>You need to just get going with DynamoDB</li>
+					<li>You find the DynamoDB API difficult or at least optimzed for AWS engineers and not you.</li>
+					<li>Streamlined and flexible modules are your kind of your thing.</li>
+				</ul>
+				<!-- GETTING STARTED -->
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h3>Installation</h3>
+				</a>
+				<pre><code class="language-sh">npm install @federalies/dynamoco
+<span class="hljs-comment"># or</span>
+yarn add @federalies/dynamoco</code></pre>
+				<!-- USAGE EXAMPLES -->
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<p>First, know that this package is the ultimate BOGO or Two-For-One. Yes friends,there are in fact two, count them, two independent functions that work nicely together in the <code>dynamoco</code> module. Both come tested and documented free to you. What a time to be alive!</p>
+				<p>The first function is the gentle wrapper and the module namesake. (<code>dynamoco</code>)</p>
+				<p>But wait there&#39;s more, for free, you get a second and not to be overlooked, incredibly pleasant query builder - <code>mocoquery</code></p>
+				<p>Together this dynamic duo cover ground on the API exposed by DynamoDB.</p>
+				<a href="#get-item-full-monty" id="get-item-full-monty" style="color: inherit; text-decoration: none;">
+					<h3>Get Item (Full Monty)</h3>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> {DynamoDB} <span class="hljs-keyword">from</span> <span class="hljs-string">'aws-sdk'</span>
+<span class="hljs-keyword">import</span> {dynamoco} <span class="hljs-keyword">from</span> <span class="hljs-string">'@federalies/dynamoco'</span>  <span class="hljs-comment">// yay for tree-shaking</span>
+<span class="hljs-keyword">import</span> {credentials} <span class="hljs-keyword">from</span> <span class="hljs-string">'./credentials'</span>
+
+;<span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span> (</span>)=&gt;</span>{
+    <span class="hljs-keyword">const</span> d = <span class="hljs-keyword">new</span> DynamoDB({credentials})
+    <span class="hljs-keyword">const</span> moco = dynamoco(d)
+    <span class="hljs-comment">// using a table that is already available</span>
+    <span class="hljs-keyword">const</span> resutls = <span class="hljs-keyword">await</span> moco.getItem(<span class="hljs-string">'MyTable'</span>, {<span class="hljs-attr">MyKey</span>: <span class="hljs-string">'SomeValue'</span>})
+    <span class="hljs-built_in">console</span>.log(results._Item) 
+        <span class="hljs-comment">/* {    
+                MyKey: 'SomeValue', 
+                numberValues: 1,
+                stringValues: 'strings are strings'
+            } 
+        */</span>
+})()</code></pre>
+				<a href="#using-the-query-builder" id="using-the-query-builder" style="color: inherit; text-decoration: none;">
+					<h3>Using The Query Builder</h3>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> {DynamoDB} <span class="hljs-keyword">from</span> <span class="hljs-string">'aws-sdk'</span>
+<span class="hljs-keyword">import</span> {mocoquery, dynamoco} <span class="hljs-keyword">from</span> <span class="hljs-string">'@federalies/dynamoco'</span>
+<span class="hljs-keyword">import</span> {credentials} <span class="hljs-keyword">from</span> <span class="hljs-string">'./credentials'</span>
+
+;<span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span> (</span>)=&gt;</span>{
+    <span class="hljs-keyword">const</span> d = <span class="hljs-keyword">new</span> DynamoDB({credentials})
+    <span class="hljs-keyword">const</span> queryParams = mocoquery(<span class="hljs-string">'MyTable'</span>)
+                        .select(<span class="hljs-string">'*'</span>)
+                        .where([<span class="hljs-string">'Year'</span>,<span class="hljs-string">'&lt;='</span>,<span class="hljs-number">2020</span>])
+                        .extract()
+
+    <span class="hljs-comment">// using the regular DynamoDB Client </span>
+    <span class="hljs-keyword">const</span> regularResults = <span class="hljs-keyword">await</span> d.query(queryParams)
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'regularResults'</span>, regularResults.Items)
+
+    <span class="hljs-comment">// using the regular DynamoDB Client </span>
+    <span class="hljs-keyword">const</span> ezResults = <span class="hljs-keyword">await</span> dynamoco(d).query(queryParams)
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'ezResults'</span>, ezResults._Items)
+})()</code></pre>
+				<p><em>For more examples, please refer to the <a href="https://github.com/federalies/dynamoco/wiki/Documentation">Documentation</a></em></p>
+				<a href="#technical" id="technical" style="color: inherit; text-decoration: none;">
+					<h2>Technical</h2>
+				</a>
+				<a href="#single-dependency" id="single-dependency" style="color: inherit; text-decoration: none;">
+					<h3>Single dependency</h3>
+				</a>
+				<p>By design, this module has a single, external, run-time dependency (<code>aws-sdk</code>). It uses a few other packages with tests, and some built-in modules to node.
+				It is a stated goal of the project to keep the dependencies as small as reasonable. <em>(NOTE: that is not equivalent to &quot;as small as possible&quot;)</em></p>
+				<a href="#dependencies" id="dependencies" style="color: inherit; text-decoration: none;">
+					<h4>Dependencies</h4>
+				</a>
+				<ul>
+					<li><a href="https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html">aws-sdk</a></li>
+				</ul>
+				<a href="#codebase" id="codebase" style="color: inherit; text-decoration: none;">
+					<h3>Codebase</h3>
+				</a>
+				<p>This is a Typescript codebase, and aims to be relatively up to date with the latest version. Adopting typescript versions updates will likely comence after a version hardening period in the wild, but might be hastened if a new language feature has been added that substantially supports this project.</p>
+				<!-- ROADMAP -->
+				<a href="#roadmap" id="roadmap" style="color: inherit; text-decoration: none;">
+					<h2>Roadmap</h2>
+				</a>
+				<p>See the <a href="https://github.com/federalies/dynamoco/issues">open issues</a> for a list of proposed features (and known issues).</p>
+				<!-- CONTRIBUTING -->
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<p>Have a question? Ask your question inside an issue!
+				We&#39;d love to hear from you.</p>
+				<p>Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are <strong>greatly appreciated</strong>.</p>
+				<ol>
+					<li>Fork the Project</li>
+					<li>Create your Feature Branch (<code>git checkout -b feature/AmazingFeature</code>)</li>
+					<li>Commit your Changes (<code>git commit -m &#39;Add some AmazingFeature&#39;</code>)</li>
+					<li>Push to the Branch (<code>git push origin feature/AmazingFeature</code>)</li>
+					<li>Open a Pull Request</li>
+				</ol>
+				<a href="#community" id="community" style="color: inherit; text-decoration: none;">
+					<h2>Community</h2>
+				</a>
+				<p>Coming soon: </p>
+				<ul>
+					<li>Community Chat</li>
+					<li>Stack Overflow hashtags</li>
+					<li>And Other Supporting Documentation</li>
+				</ul>
+				<!--
+- Slack
+- Riot
+- Spectrum 
+-->
+				<p>See the <a href="./CODE_OF_CONDUCT.md">Community Standards and Code of Conduct</a></p>
+				<!-- CONTACT -->
+				<a href="#contact" id="contact" style="color: inherit; text-decoration: none;">
+					<h2>Contact</h2>
+				</a>
+				<p>Eric D Moore</p>
+				<ul>
+					<li><a href="mailto:dynaMoco@filters.email">Email</a></li>
+					<li><a href="https://twitter.com/ericdmoore">Twitter</a></li>
+					<li><a href="https://ericdmoore.com">Website</a></li>
+					<li><a href="https://federali.es">Federalies</a></li>
+				</ul>
+				<!-- ACKNOWLEDGEMENTS -->
+				<a href="#acknowledgements-amp-credits" id="acknowledgements-amp-credits" style="color: inherit; text-decoration: none;">
+					<h2>Acknowledgements &amp; Credits</h2>
+				</a>
+				<ul>
+					<li>Care Bear Picture Logo</li>
+					<li><a href="https://github.com/RichardLitt/standard-readme">https://github.com/RichardLitt/standard-readme</a></li>
+				</ul>
+				<!-- LICENSE -->
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
+				<p>Distributed under the MIT License. See <a href="./LICENSE"><code>LICENSE</code></a> for more information.</p>
+				<!-- MARKDOWN LINKS & IMAGES -->
+				<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/brotlioptions.html" class="tsd-kind-icon">Brotli<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mocopredicateclausereturn.html" class="tsd-kind-icon">Moco<wbr>Predicate<wbr>Clause<wbr>Return</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/querymetastate.html" class="tsd-kind-icon">Query<wbr>Meta<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queryreqstate.html" class="tsd-kind-icon">Query<wbr>Req<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scanreqstate.html" class="tsd-kind-icon">Scan<wbr>Req<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatetable.html" class="tsd-kind-icon">Update<wbr>Table</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/extraqueryoptions.html" class="tsd-kind-icon">extra<wbr>Query<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fslike.html" class="tsd-kind-icon">fs<wbr>Like</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/getitemopts.html" class="tsd-kind-icon">get<wbr>Item<wbr>Opts</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mocoquery.html" class="tsd-kind-icon">moco<wbr>Query</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pathlike.html" class="tsd-kind-icon">path<wbr>Like</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/putitemopts.html" class="tsd-kind-icon">put<wbr>Item<wbr>Opts</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/writebatchopts.html" class="tsd-kind-icon">write<wbr>Batch<wbr>Opts</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dynamoattrvaluetype" class="tsd-kind-icon">Dynamo<wbr>Attr<wbr>Value<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dynamobinary" class="tsd-kind-icon">Dynamo<wbr>Binary</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dynamobinaryset" class="tsd-kind-icon">Dynamo<wbr>Binary<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dynamobool" class="tsd-kind-icon">Dynamo<wbr>Bool</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dynamolist" class="tsd-kind-icon">Dynamo<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dynamomap" class="tsd-kind-icon">Dynamo<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dynamonull" class="tsd-kind-icon">Dynamo<wbr>Null</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dynamonumber" class="tsd-kind-icon">Dynamo<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dynamonumberset" class="tsd-kind-icon">Dynamo<wbr>Number<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dynamostring" class="tsd-kind-icon">Dynamo<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dynamostringset" class="tsd-kind-icon">Dynamo<wbr>String<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ibrotlidecompresssync" class="tsd-kind-icon">Ibrotli<wbr>Decompress<wbr>Sync</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mocopredicateclause" class="tsd-kind-icon">Moco<wbr>Predicate<wbr>Clause</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jstypesfromdynamo" class="tsd-kind-icon">js<wbr>Types<wbr>From<wbr>Dynamo</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#validjs2dynamodict" class="tsd-kind-icon">valid<wbr>Js2<wbr>Dynamo<wbr>Dict</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#validjsdynamotypes" class="tsd-kind-icon">valid<wbr>JsDynamo<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#validplainjstypesindynamo" class="tsd-kind-icon">validplainJSTypes<wbr>InDynamo</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#isarray" class="tsd-kind-icon">is<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#isbuffer" class="tsd-kind-icon">is<wbr>Buffer</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#_givedynamotypestovalues" class="tsd-kind-icon">_give<wbr>Dynamo<wbr>Types<wbr>ToValues</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#_inferdynamovaluetypes" class="tsd-kind-icon">_infer<wbr>Dynamo<wbr>Value<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#_inferjsvalues" class="tsd-kind-icon">_infer<wbr>JsValues</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#_stipdynamotypingsforvalues" class="tsd-kind-icon">_stip<wbr>Dynamo<wbr>Typings<wbr>For<wbr>Values</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#dynamoco" class="tsd-kind-icon">dynamoco</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#fromdynamo" class="tsd-kind-icon">from<wbr>Dynamo</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isbinary" class="tsd-kind-icon">is<wbr>Binary</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isbool" class="tsd-kind-icon">is<wbr>Bool</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iserror" class="tsd-kind-icon">is<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isnull" class="tsd-kind-icon">is<wbr>Null</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isnumber" class="tsd-kind-icon">is<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isobj" class="tsd-kind-icon">is<wbr>Obj</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isprimitive" class="tsd-kind-icon">is<wbr>Primitive</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isstring" class="tsd-kind-icon">is<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#mocoquery" class="tsd-kind-icon">moco<wbr>Query</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#parsenumber" class="tsd-kind-icon">parse<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#parsenumberorthrow" class="tsd-kind-icon">parse<wbr>Number<wbr>OrThrow</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#parsetableprops" class="tsd-kind-icon">parse<wbr>Table<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#queryoperators" class="tsd-kind-icon">query<wbr>Operators</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#reservedwords" class="tsd-kind-icon">reserved<wbr>Words</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#todynamo" class="tsd-kind-icon">to<wbr>Dynamo</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
