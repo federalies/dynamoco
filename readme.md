@@ -7,21 +7,23 @@
 [![Contributors][contributors-shield]][contributors-url]
 -->
 
-[![MIT License][license-shield]][license-url]
-[![Issues][issues-shield]][issues-url]
+[![NPM Version][npm-version-shield]][npm-version-url]
 [![Pkg Size][size-shield]][size-url]
 [![Code Coverage][coveralls-sheild]][coveralls-url]
+[![MIT License][license-shield]][license-url]
 
-[![Built By][ftb-by-devs-shield]][federalies-url]
-[![Winter Is Coming][ftb-winter-shield]][ftb-winter-url]
-[![Built With][ftb-builtWith-shield]][federalies-url]
+[![Github Activity][gh-commit-activity-shield]][gh-commit-activity-url]
+[![Issues Closed ][github-issues-closed-shield]][github-issues-closed-url]
+[![Issues][issues-shield]][issues-url]
 
-[![Github Action - Node Integration Build/Test][github-action-(build/test)-shield]][github-action-(build/test)-url]
+<!-- [![Built By][ftb-by-devs-shield]][federalies-url] -->
+<!-- [![Winter Is Coming][ftb-winter-shield]][ftb-winter-url] -->
+<!-- [![Built With][ftb-builtWith-shield]][federalies-url] -->
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/federalies/dynamoco/wiki/Documentation">
     <img src="images/DynamocoLogo.png" alt="Logo" width="300" height="300"/>
   </a>
 
@@ -57,6 +59,11 @@ Dynamoco + Mocoquery
 Screen Shot Example
 [![Product Name Screen Shot][product-screenshot]](https://github.com/federalies/dynamoco)
 -->
+
+[![Github Action - Node Integration Build/Test][github-action-(build/test)-shield]][github-action-(build/test)-url]
+
+
+## Overview
 
 DynamoDB is a datastore that allows you to not manage as many details as a regular database. You just give it data; it faithfully holds it, and pretty quickly gives it back to you when you ask for it. Sound geat, right?!?! It's almost great. DynamoDB is a solid product from AWS, but the way you interact with it feels like shoving your finger in your eye.
 
@@ -155,15 +162,16 @@ _For more examples, please refer to the [Documentation](https://github.com/feder
 
 ### Single dependency
 
-By design, this module has a single, external, run-time dependency (`aws-sdk`). And it uses a few other packages while running tests. It is a stated goal of the project to keep the dependencies as small as reasonable. _(different than as small as possible)_
+By design, this module has a single, external, run-time dependency (`aws-sdk`). It uses a few other packages with tests, and some built-in modules to node. 
+It is a stated goal of the project to keep the dependencies as small as reasonable. _(NOTE: that is not equivalent to "as small as possible")_
 
-#### Dependency
+#### Dependencies
 
 * [aws-sdk](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html)
 
 ### Codebase
 
-This is a Typescript codebase, and aims to be relatively up to date with the latest version. Adopting new typescript version will likely comence after some  hardening period, but hastened if a new language feature has been added that substantially supports this project.
+This is a Typescript codebase, and aims to be relatively up to date with the latest version. Adopting typescript versions updates will likely comence after a version hardening period in the wild, but might be hastened if a new language feature has been added that substantially supports this project.
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -173,7 +181,8 @@ See the [open issues](https://github.com/federalies/dynamoco/issues) for a list 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Have a question? Ask it in an issue! We'd love to hear from you.
+Have a question? Ask your question inside an issue! 
+We'd love to hear from you.
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -185,7 +194,11 @@ Contributions are what make the open source community such an amazing place to b
 
 ## Community
 
+Coming soon: 
 
+- Community Chat
+- Stack Overflow hashtags
+- And Other Supporting Documentation
 
 <!--
 - Slack
@@ -212,24 +225,25 @@ Eric D Moore
 * https://github.com/RichardLitt/standard-readme
 
 
-<!-- * [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet) -->
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-
 [federalies-url]:https://github.com/federalies
 
-[contributors-shield]: https://img.shields.io/github/contributors/federalies/dynamoco?style=flat-square
+[contributors-shield]: https://img.shields.io/github/contributors/federalies/dynamoco?style=for-the-badge
 [contributors-url]: https://github.com/federalies/dynamoco/graphs/contributors
 
-[forks-shield]: https://img.shields.io/github/forks/federalies/dynamoco?style=flat-square
+[forks-shield]: https://img.shields.io/github/forks/federalies/dynamoco?style=for-the-badge
 [forks-url]: https://github.com/federalies/dynamoco/network/members
 
 [size-shield]: https://img.shields.io/bundlephobia/minzip/@federalies/dynamoco?style=for-the-badge
 [size-url]: https://bundlephobia.com/result?p=@federalies/dynamoco
 
-[stars-shield]: https://img.shields.io/github/stars/federalies/dynamoco?style=flat-square
+[stars-shield]: https://img.shields.io/github/stars/federalies/dynamoco?style=for-the-badge
 [stars-url]: https://github.com/federalies/dynamoco/stargazers
 
 [issues-shield]: https://img.shields.io/github/issues/federalies/dynamoco?style=for-the-badge
@@ -238,9 +252,9 @@ Eric D Moore
 [license-shield]: https://img.shields.io/github/license/federalies/dynamoco?style=for-the-badge
 [license-url]: https://github.com/federalies/dynamoco/blob/master/LICENSE
 
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 
-[linkedin-url]: https://linkedin.com/in/othneildrew
+[linkedin-url]: https://linkedin.com/in/eric.moore
 [product-screenshot]: images/screenshot.png
 
 [ftb-winter-shield]: https://forthebadge.com/images/badges/winter-is-coming.svg
@@ -252,11 +266,16 @@ Eric D Moore
 [coveralls-sheild]:https://img.shields.io/coveralls/github/federalies/dynamoco?style=for-the-badge
 [coveralls-url]:https://coveralls.io/github/federalies/dynamoco
 
+[npm-version-url]:https://img.shields.io/npm/v/@federalies/dynamoco?style=for-the-badge
+[npm-version-shield]:https://img.shields.io/npm/v/@federalies/dynamoco?style=for-the-badge
+
 [github-action-(build/test)-url]:https://github.com/federalies/dynamoco/actions?query=workflow%3A%22Build+%26+Tests%22
 [github-action-(build/test)-shield]:https://github.com/federalies/dynamoco/workflows/Build%20&%20Tests/badge.svg
 
-<!-- LICENSE -->
-## License
+[github-issues-closed-url]:https://github.com/federalies/dynamoco/issues?q=is%3Aissue+is%3Aclosed+
+[github-issues-closed-shield]:https://img.shields.io/github/issues-closed-raw/federalies/dynamoco?style=for-the-badge
 
-Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more information.
+[gh-commit-activity-url]:https://img.shields.io/github/commit-activity/m/federalies/dynamoco?style=for-the-badge
+[gh-commit-activity-shield]:https://img.shields.io/github/commit-activity/m/federalies/dynamoco?style=for-the-badge
+
 

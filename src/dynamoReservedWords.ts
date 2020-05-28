@@ -37,4 +37,5 @@ interface BrotliOptions {
       [key: number]: boolean | number;
   };
 }
+
 type IbrotliDecompressSync = (buf: string | ArrayBuffer | Buffer, options?: BrotliOptions) => Buffer

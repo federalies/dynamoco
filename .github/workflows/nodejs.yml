@@ -7,66 +7,34 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-jobs: 
-  
-  # test:
-   # needs:
-     # build
-  
+jobs:
+
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [10.x, 12.x, 14.x]
-
     steps:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    
     - name: CheckOut Latest
       uses: actions/checkout@v2
-    
     - run: npm ci
     - run: npm run lint
-    
-    # - name: Grab DockerImage for Service:DynamoLocal 
-    #   uses: docker://amazon/dynamodb-local
-
     - run: npm run build --if-present
     
-    - name: Grab Docker Image > Start Docker Container > Run Tests using Local DynamoDb
-      run: | 
-        npm run dockerPull && 
-        npm run dockerStart && 
-        mkdir .coverage && 
-        touch lcov.info && 
-        npm run test
-
-    # - run: npm run reportCov  
-
-    # - name: Coveralls
-    #   uses: coverallsapp/github-action@master
-    #   env: 
-    #     NODE_COVERALLS_DEBUG: 1
-    #   with:
-    #     github-token: ${{ secrets.GITHUB_TOKEN }}
-  
   test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [10.x, 12.x, 14.x]
-
     steps:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    
     - name: CheckOut Latest
       uses: actions/checkout@v2
     - run: npm ci
@@ -84,6 +52,3 @@ jobs:
     #     NODE_COVERALLS_DEBUG: 1
     #   with:
     #     github-token: ${{ secrets.GITHUB_TOKEN }}
-    
-
-    

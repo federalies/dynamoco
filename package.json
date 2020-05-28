@@ -33,6 +33,7 @@
     "reportCov": "cat .coverage/lcov.info | node -r dotenv/config node_modules/coveralls/bin/coveralls.js",
     "test": "nyc ts-node test/index.test.ts && nyc report --reporter=text-lcov > .coverage/lcov.info",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
+    "docs":"typedoc && open docs/index.html",
     "publishPkg": "np",
     "validate": "ts-node utils/validate.ts",
     "publish:before": "npm run build && npm run test",
@@ -78,6 +79,7 @@
     "np": "^6.2.3",
     "nyc": "^15.0.1",
     "ts-node": "^8.10.1",
+    "typedoc": "^0.17.7",
     "typescript": "^3.8.3"
   }
 }
