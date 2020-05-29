@@ -2,17 +2,8 @@
   "name": "@federalies/dynamoco",
   "version": "0.5.0",
   "description": "A small but useful set of helpers, making Dynamo more acute and less obtuse. (Member of the Federalies)",
-  "keywords": [
-    "dynamo",
-    "query",
-    "scan",
-    "helper",
-    "query builder",
-    "modands",
-    "fluent",
-    "single dependency",
-    "federalies"
-  ],
+  "author": "Eric D Moore",
+  "license": "MIT",
   "main": "build/src/index.js",
   "types": "src/index.ts",
   "files": [
@@ -21,8 +12,7 @@
   "engines": {
     "node": ">=10.8.0"
   },
-  "author": "Eric D Moore",
-  "license": "MIT",
+  "homepage": "https://federalies.github.io/dynamoco/",
   "repository": {
     "type": "git",
     "url": "https://github.com/federalies/dynamoco"
@@ -49,6 +39,21 @@
       "pre-push": "npm test && npm run docs && npm run reportCov"
     }
   },
+  "keywords": [
+    "dynamo",
+    "dynamoDB",
+    "query",
+    "scan",
+    "database",
+    "helper",
+    "wrapper",
+    "query builder",
+    "monads",
+    "fluent",
+    "fluentAPI",
+    "single dependency",
+    "federalies"
+  ],
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/deep-diff": "^1.0.0",
