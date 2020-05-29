@@ -19,7 +19,6 @@
   },
   "scripts": {
     "test": "npm run test:pre && npm run test:cmd && npm run test:post",
-    
     "test:pre":"npm run dockerPull && npm run dockerStart",
     "test:cmd":"nyc ts-node test/index.test.ts && nyc report --reporter=text-lcov > lcov.info ",
     "test:post":"echo 'Tests Completed'",
@@ -45,8 +44,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build && npm test && npm run docs",
-      "pre-push": "npm test && npm run validate "
+      "pre-commit": "npm run build && npm test",
+      "pre-push": "npm test && npm run validate && npm run docs "
     }
   },
   "keywords": [
