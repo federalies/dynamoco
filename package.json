@@ -18,10 +18,16 @@
     "url": "https://github.com/federalies/dynamoco"
   },
   "scripts": {
+    "test": "npm run test:pre && npm run test:cmd && npm run test:post",
+    
+    "test:pre":"npm run dockerPull && npm run dockerStart",
+    "test:cmd":"nyc ts-node test/index.test.ts && nyc report --reporter=text-lcov > lcov.info ",
+    "test:post":"echo 'Tests Completed'",
+
     "dockerPull": "docker pull amazon/dynamodb-local",
     "dockerStart": "docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &",
     "reportCov": "cat lcov.info | coveralls",
-    "test": "nyc ts-node test/index.test.ts && nyc report --reporter=text-lcov > lcov.info ",
+
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
     "docs": "typedoc",
     "contribs": "all-contributors generate",
