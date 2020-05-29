@@ -26,7 +26,7 @@
     "dockerStart": "docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &",
     "reportCov": "nyc report --reporter=text-lcov | coveralls",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
-    "docs": "typedoc",
+    "docs": "npm run contribs && typedoc",
     "contribs": "all-contributors generate",
     "contribs:add": "all-contributors add",
     "contribs:types": "ts-node utils/all-contrib-types.ts",
