@@ -68,7 +68,6 @@ Screen Shot Example
 
 [![Github Action - Node Integration Build/Test][github-action-(build/test)-shield]][github-action-(build/test)-url]
 
-
 ## Overview
 
 DynamoDB is a datastore that allows you to not manage as many details as a regular database. You just give it data; it faithfully holds it, and pretty quickly gives it back to you when you ask for it. Sound geat, right?!?! It's almost great. DynamoDB is a solid product from AWS, but the way you interact with it feels like shoving your finger in your eye.
@@ -93,6 +92,8 @@ Use this package if:
 - You need to just get going with DynamoDB
 - You find the DynamoDB API difficult or at least optimzed for AWS engineers and not you.
 - Streamlined and flexible modules are your kind of your thing.
+
+- its like getting `dynamo-converter`, and `dynamo-client` and `dynamo-plus` all for the price of one.
 
 <!-- GETTING STARTED -->
 
@@ -184,20 +185,6 @@ This is a Typescript codebase, and aims to be relatively up to date with the lat
 
 See the [open issues](https://github.com/federalies/dynamoco/issues) for a list of proposed features (and known issues).
 
-<!-- CONTRIBUTING -->
-## Contributing
-
-Have a question? Ask your question inside an issue! 
-We'd love to hear from you.
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ## Community
 
 Coming soon: 
@@ -224,22 +211,56 @@ Eric D Moore
  - [Website](https://ericdmoore.com)
  - [Federalies](https://federali.es)
 
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements & Credits
+<!-- CONTRIBUTING -->
+## Contributing
 
-* Care Bear Picture Logo
-* https://github.com/RichardLitt/standard-readme
+Have a question? Ask your question inside an issue! 
+We'd love to hear from you.
+
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## Contributors
-Made with :heart: by [@ericdmoore](https://github.com/ericdmoore) and maybe you could be next? 
-([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
+Made with :heart: by [@ericdmoore](https://github.com/ericdmoore) and maybe you?
+
+_[use the emoji legend](https://github.com/kentcdodds/all-contributors#emoji-key)_
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-
+<table>
+    <tr>
+        <td align="center">
+            <a href="https://federali.es">
+                <img src="https://avatars3.githubusercontent.com/u/25398118?v=4" width="100px" alt="Eric Moore">
+                <br />
+                <sub>
+                    <b>Eric Moore</b>
+                </sub>
+            </a>
+            <br />
+            <a href="#ideas-michaelwittwer" 
+                title="Ideas, Planning, & Feedback">🤔</a> 
+            <a href="https://github.com/federalies/dynamoco/commits?author=ericdmoore" title="Code">💻</a> 
+            <a href="https://github.com/federalies/dynamoco/commits?author=ericdmoore" title="Tests">⚠️</a> 
+            <a href="https://github.com/federalies/dynamoco/commits?author=ericdmoore" title="Documentation">📖</a>
+        </td>
+    </tr>
+</table>
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-<!-- This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome! -->
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
+
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements & Credits
+
+- Care Bear Picture Logo
+- [standard-readme](https://github.com/RichardLitt/standard-readme)
+
 
 <!-- LICENSE -->
 ## License
