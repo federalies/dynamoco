@@ -42,7 +42,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run build && npm test && npm run lint",
-      "pre-push": "npm run validate && npm run docs"
+      "pre-push": "npm run validate"
     }
   },
   "keywords": [
