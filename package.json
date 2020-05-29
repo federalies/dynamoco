@@ -20,10 +20,13 @@
   "scripts": {
     "dockerPull": "docker pull amazon/dynamodb-local",
     "dockerStart": "docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &",
-    "reportCov": "cat .coverage/lcov.info | node -r dotenv/config node_modules/coveralls/bin/coveralls.js",
-    "test": "nyc ts-node test/index.test.ts && nyc report --reporter=text-lcov > .coverage/lcov.info",
+    "reportCov": "cat lcov.info | coveralls",
+    "test": "nyc ts-node test/index.test.ts && nyc report --reporter=text-lcov > lcov.info ",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
-    "docs":"typedoc",
+    "docs": "typedoc",
+    "contribs": "all-contributors generate",
+    "contribs:add": "all-contributors add",
+    "contribs:types": "ts-node utils/all-contrib-types.ts",
     "publishPkg": "np",
     "validate": "ts-node utils/validate.ts",
     "publish:before": "npm run build && npm run test",
@@ -31,12 +34,13 @@
     "lint": "eslint ./src/*.ts"
   },
   "dependencies": {
+    "@actions/core": "^1.2.4",
     "aws-sdk": "^2.669.0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run validate && npm run build && npm test",
-      "pre-push": "npm test && npm run docs && npm run reportCov"
+      "pre-commit": "npm run build && npm test && npm run docs",
+      "pre-push": "npm test && npm run validate "
     }
   },
   "keywords": [
@@ -55,6 +59,7 @@
     "federalies"
   ],
   "devDependencies": {
+    "@actions/github": "^2.2.0",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/deep-diff": "^1.0.0",
     "@types/is-ci": "^2.0.0",
@@ -64,6 +69,7 @@
     "@types/node-fetch": "^2.5.7",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
+    "all-contributors-cli": "^6.15.0",
     "chalk": "^4.0.0",
     "coveralls": "^3.1.0",
     "deep-diff": "^1.0.2",

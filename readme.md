@@ -1,4 +1,10 @@
 <!-- PROJECT SHIELDS -->
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 <!--
 *** I'm using markdown "reference style" links for readability.
 [![Forks][forks-shield]][forks-url]
@@ -229,31 +235,21 @@ Contributions are what make the open source community such an amazing place to b
 Made with :heart: by [@ericdmoore](https://github.com/ericdmoore) and maybe you?
 
 _[use the emoji legend](https://github.com/kentcdodds/all-contributors#emoji-key)_
-
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
 <table>
-    <tr>
-        <td align="center">
-            <a href="https://federali.es">
-                <img src="https://avatars3.githubusercontent.com/u/25398118?v=4" width="100px" alt="Eric Moore">
-                <br />
-                <sub>
-                    <b>Eric Moore</b>
-                </sub>
-            </a>
-            <br />
-            <a href="#ideas-michaelwittwer" 
-                title="Ideas, Planning, & Feedback">🤔</a> 
-            <a href="https://github.com/federalies/dynamoco/commits?author=ericdmoore" title="Code">💻</a> 
-            <a href="https://github.com/federalies/dynamoco/commits?author=ericdmoore" title="Tests">⚠️</a> 
-            <a href="https://github.com/federalies/dynamoco/commits?author=ericdmoore" title="Documentation">📖</a>
-        </td>
-    </tr>
+  <tr>
+    <td align="center"><a href="https://im.ericdmoore.com"><img src="https://avatars0.githubusercontent.com/u/25398118?v=4" width="100px;" alt=""/><br /><sub><b>Eric D Moore</b></sub></a><br /><a href="#question-ericdmoore" title="Answering Questions">💬</a> <a href="#tutorial-ericdmoore" title="Tutorials">✅</a> <a href="https://github.com/federalies/dynamoco/commits?author=ericdmoore" title="Documentation">📖</a> <a href="https://github.com/federalies/dynamoco/commits?author=ericdmoore" title="Code">💻</a> <a href="https://github.com/federalies/dynamoco/commits?author=ericdmoore" title="Tests">⚠️</a> <a href="#design-ericdmoore" title="Design">🎨</a> <a href="#example-ericdmoore" title="Examples">💡</a></td>
+  </tr>
 </table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
+
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements & Credits

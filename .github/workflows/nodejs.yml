@@ -38,17 +38,14 @@ jobs:
     - name: CheckOut Latest
       uses: actions/checkout@v2
     - run: npm ci
-    - name: Grab Docker Image > Start Docker Container > Run Tests using Local DynamoDb
-      run: | 
+    - name: Setup Tests, Run, + Report Coverage
+      env: 
+        COVERALLS_SERVICE_NAME: 'GitHub CI'
+        COVERALLS_GIT_BRANCH: master
+        COVERALLS_REPO_TOKEN : {{ secrets.COVERALLS_REPO_TOKEN }}
+        NODE_COVERALLS_DEBUG: 1 # or 1 for verbsoe
+      run: |
         npm run dockerPull && 
         npm run dockerStart && 
-        mkdir .coverage && 
-        touch lcov.info && 
-        npm run test
-
-    # - name: Coveralls
-    #   uses: coverallsapp/github-action@master
-    #   env: 
-    #     NODE_COVERALLS_DEBUG: 1
-    #   with:
-    #     github-token: ${{ secrets.GITHUB_TOKEN }}
+        npm run test && 
+        npm run reportCov

@@ -23,7 +23,7 @@ const readFileP = promisify(readFile)
 })()
 
 ;(async () => {
-  const jsonRelPaths = await globby(['./**/*.json', '!node_modules/'])
+  const jsonRelPaths = await globby(['./**/*.json', '.all-contributorsrc', '!node_modules/'])
   const jsonPaths = jsonRelPaths.map(p => resolve('', p))
   console.log({ jsonPaths })
   const jsonFiles = await Promise.all(jsonPaths.map(async p => ({ path: p, file: await readFileP(p) })))
