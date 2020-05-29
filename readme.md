@@ -24,7 +24,8 @@
 <br />
 <p align="center">
   <a href="https://github.com/federalies/dynamoco/wiki/Documentation">
-    <img src="images/DynamocoLogo.png" alt="Logo" width="300" height="300"/>
+    <img src="https://raw.githubusercontent.com/federalies/dynamoco/master/images/DynamocoLogo.png" 
+         alt="Logo" width="300" height="300"/>
   </a>
 
   <h3 align="center">Dynamoco + Mocoquery</h3>
