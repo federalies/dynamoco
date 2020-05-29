@@ -312,7 +312,5 @@ Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more informati
 [github-issues-closed-url]:https://github.com/federalies/dynamoco/issues?q=is%3Aissue+is%3Aclosed+
 [github-issues-closed-shield]:https://img.shields.io/github/issues-closed-raw/federalies/dynamoco?style=for-the-badge
 
-[gh-commit-activity-url]:https://img.shields.io/github/commit-activity/m/federalies/dynamoco?style=for-the-badge
+[gh-commit-activity-url]:https://github.com/federalies/dynamoco/pulse/monthly
 [gh-commit-activity-shield]:https://img.shields.io/github/commit-activity/m/federalies/dynamoco?style=for-the-badge
-
-
