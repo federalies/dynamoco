@@ -116,7 +116,7 @@ But wait there's more, for free, you get a second and not to be overlooked, incr
 
 Together this dynamic duo cover ground on the API exposed by DynamoDB.
 
-### Get Item (Full Monty)
+### Using Get Item 
 
 ```js
 import {DynamoDB} from 'aws-sdk'
@@ -138,7 +138,7 @@ import {credentials} from './credentials'
 })()
 ```
 
-### Using The Query Builder
+### Using The MocoQuery Builder
 
 ```js
 import {DynamoDB} from 'aws-sdk'

@@ -23,7 +23,7 @@
     "reportCov": "cat .coverage/lcov.info | node -r dotenv/config node_modules/coveralls/bin/coveralls.js",
     "test": "nyc ts-node test/index.test.ts && nyc report --reporter=text-lcov > .coverage/lcov.info",
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
-    "docs":"typedoc && open docs/index.html",
+    "docs":"typedoc",
     "publishPkg": "np",
     "validate": "ts-node utils/validate.ts",
     "publish:before": "npm run build && npm run test",
