@@ -43,9 +43,7 @@ jobs:
         COVERALLS_SERVICE_NAME: 'GitHub CI'
         COVERALLS_GIT_BRANCH: master
         COVERALLS_REPO_TOKEN : ${{ secrets.COVERALLS_REPO_TOKEN }}
-        NODE_COVERALLS_DEBUG: 1 # or 1 for verbsoe
+        NODE_COVERALLS_DEBUG: 0 # or 1 for verbsoe
       run: |
-        npm run dockerPull && 
-        npm run dockerStart && 
         npm run test && 
         npm run reportCov

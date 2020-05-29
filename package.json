@@ -19,13 +19,13 @@
   },
   "scripts": {
     "test": "npm run test:pre && npm run test:cmd && npm run test:post",
-    "test:pre":"npm run dockerPull && npm run dockerStart",
-    "test:cmd":"nyc ts-node test/index.test.ts && nyc report --reporter=text-lcov > lcov.info ",
-    "test:post":"echo 'Tests Completed'",
+    "test:pre": "npm run dockerPull && npm run dockerStart",
+    "test:cmd": "nyc ts-node test/index.test.ts",
+    "test:post": "echo 'Tests Completed'",
 
     "dockerPull": "docker pull amazon/dynamodb-local",
     "dockerStart": "docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &",
-    "reportCov": "cat lcov.info | coveralls",
+    "reportCov": "nyc report --reporter=text-lcov | coveralls",
 
     "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
     "docs": "typedoc",
@@ -39,13 +39,12 @@
     "lint": "eslint ./src/*.ts"
   },
   "dependencies": {
-    "@actions/core": "^1.2.4",
     "aws-sdk": "^2.669.0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build && npm test",
-      "pre-push": "npm test && npm run validate && npm run docs "
+      "pre-commit": "npm run build && npm test && npm run lint",
+      "pre-push": "npm run validate && npm run docs"
     }
   },
   "keywords": [
