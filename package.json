@@ -1,10 +1,10 @@
 {
   "name": "@federalies/dynamoco",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "A small but mighty wrapper for AWS.DynamoDB that make it actually fun to use. (Maintained by The Federalies)",
   "author": "Eric D Moore",
   "license": "MIT",
-  "main":  "build/src/index.js",
+  "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "files": [
     "build/"
