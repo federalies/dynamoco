@@ -293,7 +293,7 @@ Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more informati
 [coveralls-sheild]:https://img.shields.io/coveralls/github/federalies/dynamoco?style=for-the-badge
 [coveralls-url]:https://coveralls.io/github/federalies/dynamoco
 
-[npm-version-url]:https://img.shields.io/npm/v/@federalies/dynamoco?style=for-the-badge
+[npm-version-url]:https://www.npmjs.com/package/@federalies/dynamoco
 [npm-version-shield]:https://img.shields.io/npm/v/@federalies/dynamoco?style=for-the-badge
 
 [github-action-(build/test)-url]:https://github.com/federalies/dynamoco/actions?query=workflow%3A%22Build+%26+Tests%22
