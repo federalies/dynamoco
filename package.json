@@ -5,7 +5,7 @@
   "author": "Eric D Moore",
   "license": "MIT",
   "main": "build/src/index.js",
-  "types": "src/index.ts",
+  "types": "build/src/index.ts",
   "files": [
     "build/"
   ],
