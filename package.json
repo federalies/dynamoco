@@ -1,6 +1,6 @@
 {
   "name": "@federalies/dynamoco",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A small but mighty wrapper for AWS.DynamoDB that make it actually fun to use. (Maintained by The Federalies)",
   "author": "Eric D Moore",
   "license": "MIT",
