@@ -204,6 +204,9 @@ Lesson(s) Learned:
 
 - Importance of **Reading The Docs**
 - How to Publish an NPM module :P ( thanks [`np`](npm.im/np) )
+- Github Pages
+- Github Actions
+- lots more
 
 Would I recommend anyone use this module - I tihnk so :shrug:
 
