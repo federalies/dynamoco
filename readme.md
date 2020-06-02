@@ -192,7 +192,7 @@ But hey Eric, didn't you see any of :
 
 - [Dynamo Easy](https://github.com/shiftcode/dynamo-easy)
 - [Dynamo Converters](https://github.com/chrisguttandin/dynamo-converters)
-- [Dynamo Coverters](https://github.com/Sleavely/dynamo-plus)
+- [Dynamo Plus](https://github.com/Sleavely/dynamo-plus)
 - [Dynamo Client](https://github.com/goldcaddy77/serverless-dynamo-client)
 - [or especially AWS Document Client](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#constructor-property)
 
