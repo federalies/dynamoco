@@ -18,6 +18,7 @@
     "url": "https://github.com/federalies/dynamoco"
   },
   "scripts": {
+    
     "test": "npm run test:pre && npm run test:cmd && npm run test:post",
     "test:pre": "npm run dockerPull && npm run dockerStart",
     "test:cmd": "nyc ts-node test/index.test.ts",
@@ -25,12 +26,17 @@
     "dockerPull": "docker pull amazon/dynamodb-local",
     "dockerStart": "docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &",
     "reportCov": "nyc report --reporter=text-lcov | coveralls",
-    "build": "rm -rf build && tsc && cp utils/reserved.txt.br build/src/reserved.txt.br",
+    
+    "build": "npm run build:clean && npm run build:esm && npm run build:umd",
+    "build:clean":"rm -rf build",
+    "build:umd": "tsc --outDir build/esm/ -t ES2020 -m ES2020 && cp utils/reserved.txt.br build/esm/src/reserved.txt.br",
+    "build:esm": "tsc --outDir build/umd/ && cp utils/reserved.txt.br build/umd/src/reserved.txt.br",
+    
     "docs": "npm run contribs && typedoc",
     "contribs": "all-contributors generate",
     "contribs:add": "all-contributors add",
     "contribs:types": "ts-node utils/all-contrib-types.ts",
-    "publishPkg": "np",
+
     "validate": "ts-node utils/validate.ts",
     "publish:before": "npm run build && npm run test",
     "publish:dryrun": "np --preview --no-yarn",
