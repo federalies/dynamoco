@@ -4,19 +4,16 @@
   "description": "A small but mighty wrapper for AWS.DynamoDB that make it actually fun to use. (Maintained by The Federalies)",
   "author": "Eric D Moore",
   "license": "MIT",
-  "main": "./build/src/umd/index.js",
-  "types": "./build/src/index.d.ts",
-  "files": [
-    "build/"
-  ],
-  "engines": {
-    "node": ">=10.8.0"
+  "type": "module",
+  "main": "./build/umd/src/index.js",
+  "exports":{
+    "./esm":"./build/esm/src/index.js"
   },
+  "types": "./build/umd/src/index.d.ts",
+  "files": [ "build/" ],
+  "engines": { "node": ">=10.8.0" },
   "homepage": "https://federalies.github.io/dynamoco/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/federalies/dynamoco"
-  },
+  "repository": { "type": "git", "url": "https://github.com/federalies/dynamoco" },
   "scripts": {
     
     "test": "npm run test:pre && npm run test:cmd && npm run test:post",
@@ -27,16 +24,18 @@
     "dockerStart": "docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &",
     "reportCov": "nyc report --reporter=text-lcov | coveralls",
     
-    "build": "npm run build:clean && npm run build:esm && npm run build:umd",
+    "build": "npm run build:clean && npm run build:esm && npm run build:umd && npm run build:copyReserveWords",
     "build:clean":"rm -rf build",
-    "build:umd": "tsc --outDir build/esm/ -t ES2020 -m ES2020 && cp utils/reserved.txt.br build/esm/src/reserved.txt.br",
-    "build:esm": "tsc --outDir build/umd/ && cp utils/reserved.txt.br build/umd/src/reserved.txt.br",
+    "build:esm": "tsc --outDir build/esm/ -t ES2020 -m ES2020",
+    "build:umd": "tsc --outDir build/umd/ && cp utils/reserved.txt.br build/esm/src/reserved.txt.br",
+    "build:copyReserveWords":"cp utils/CJSpackage.json build/umd/package.json",
     
     "docs": "npm run contribs && typedoc",
     "contribs": "all-contributors generate",
     "contribs:add": "all-contributors add",
     "contribs:types": "ts-node utils/all-contrib-types.ts",
 
+    "pkgSize":"npm publish --dry-run",
     "validate": "ts-node utils/validate.ts",
     "publish:before": "npm run build && npm run test",
     "publish:dryrun": "np --preview --no-yarn",
