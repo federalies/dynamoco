@@ -6,7 +6,7 @@ import { promisify } from 'util'
 import { exec } from 'child_process'
 import { dynamoco, mocoQuery } from '../src'
 // eslint-disable-next-line no-unused-vars
-import type { QueryReqState, jsTypesFromDynamo } from '../src'
+import type { QueryReqState, jsTypesFromDynamo } from '../src/mocoQuery'
 // eslint-disable-next-line no-unused-vars
 import type { IGroupReturn } from './index.test' // IComparitorFn, ITestReturn, ITestFn
 
