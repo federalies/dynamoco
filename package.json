@@ -28,7 +28,7 @@
     "build": "npm run build:clean && npm run build:esm && npm run build:umd && npm run build:packages",
     "build:clean":"rm -rf build",
     "build:esm": "tsc --outDir build/esm/ -t ES2020 -m ES2020 && cp utils/reserved.txt.br build/esm/src/reserved.txt.br",
-    "build:umd": "tsc --outDir build/umd/ && cp utils/reserved.txt.br build/esm/src/reserved.txt.br",
+    "build:umd": "tsc --outDir build/umd/ && cp utils/reserved.txt.br build/umd/src/reserved.txt.br",
     "build:packages":"cp utils/CJSpackage.json build/umd/package.json && cp utils/ESMpackage.json build/esm/package.json",
     
     "docs": "npm run contribs && typedoc",
