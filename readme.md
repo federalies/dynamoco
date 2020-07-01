@@ -185,6 +185,31 @@ This is a Typescript codebase, and aims to be relatively up to date with the lat
 
 See the [open issues](https://github.com/federalies/dynamoco/issues) for a list of proposed features (and known issues).
 
+<!-- REASON -->
+## Wait, But WHY?
+
+But hey Eric, didn't you see any of :
+
+- [Dynamo Easy](https://github.com/shiftcode/dynamo-easy)
+- [Dynamo Converters](https://github.com/chrisguttandin/dynamo-converters)
+- [Dynamo Plus](https://github.com/Sleavely/dynamo-plus)
+- [Dynamo Client](https://github.com/goldcaddy77/serverless-dynamo-client)
+- [or especially AWS Document Client](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#constructor-property)
+
+Quite simply... Nope. Nope. Nope. 
+
+I did not. This project was made in anger after dealing with the regular documentation for Dynamo that NEVER even mentions there is an easier way. Not once... Not until had dug to the bottom of thier docs, did I discover that the Document API and higher level API exist.
+
+Lesson(s) Learned:
+
+- Importance of **Reading The Docs**
+- How to Publish an NPM module :P ( thanks [`np`](npm.im/np) )
+- Github Pages
+- Github Actions
+- lots more
+
+Would I recommend anyone use this module - I tihnk so :shrug:
+
 ## Community
 
 Coming soon: 
@@ -250,7 +275,6 @@ This project follows the [all-contributors](https://github.com/kentcdodds/all-co
 
 - Care Bear Picture Logo
 - [standard-readme](https://github.com/RichardLitt/standard-readme)
-
 
 <!-- LICENSE -->
 ## License
