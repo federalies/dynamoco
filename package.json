@@ -25,11 +25,12 @@
     "dockerStart": "docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &",
     "reportCov": "nyc report --reporter=text-lcov | coveralls",
     
-    "build": "npm run build:clean && npm run build:esm && npm run build:umd && npm run build:packages",
+    "build": "npm run build:clean && npm run build:esm && npm run build:umd && npm run build:packages && npm run build:prune",
     "build:clean":"rm -rf build",
     "build:esm": "tsc --outDir build/esm/ -t ES2020 -m ES2020 && cp utils/reserved.txt.br build/esm/src/reserved.txt.br",
     "build:umd": "tsc --outDir build/umd/ && cp utils/reserved.txt.br build/umd/src/reserved.txt.br",
     "build:packages":"cp utils/CJSpackage.json build/umd/package.json && cp utils/ESMpackage.json build/esm/package.json",
+    "build:prune":"rm build/umd/*.tsbuildinfo && rm build/esm/*.tsbuildinfo",
     
     "docs": "npm run contribs && typedoc",
     "contribs": "all-contributors generate",
