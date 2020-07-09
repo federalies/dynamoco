@@ -320,7 +320,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 var e_1, _a;
                 const pager = src_1.dynamoco(d).paginate(src_1.mocoQuery('Emails')
                     .select('*')
-                    .filter(['Date', '=', 1589303429255]).extract());
+                    .filter(['Date', '=', 1589303429255])
+                    .extract());
                 let collect = [];
                 try {
                     for (var pager_1 = __asyncValues(pager), pager_1_1; pager_1_1 = await pager_1.next(), !pager_1_1.done;) {

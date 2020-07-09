@@ -142,7 +142,9 @@ export const dynamoco = (db, defaults) => {
         else {
             res = await db.scan(req).promise();
         }
-        const _Items = res.Items ? res.Items.map(entry => fromDynamo(entry)) : undefined;
+        const _Items = res.Items
+            ? res.Items.map(entry => fromDynamo(entry))
+            : undefined;
         yield { ...res, _Items };
         if (res.LastEvaluatedKey) {
             yield* paginate({ ...req, ExclusiveStartKey: res.LastEvaluatedKey });

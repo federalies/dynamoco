@@ -154,7 +154,9 @@ var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _ar
                 else {
                     res = yield __await(db.scan(req).promise());
                 }
-                const _Items = res.Items ? res.Items.map(entry => mocoQuery_1.fromDynamo(entry)) : undefined;
+                const _Items = res.Items
+                    ? res.Items.map(entry => mocoQuery_1.fromDynamo(entry))
+                    : undefined;
                 yield yield __await(Object.assign(Object.assign({}, res), { _Items }));
                 if (res.LastEvaluatedKey) {
                     yield __await(yield* __asyncDelegator(__asyncValues(paginate(Object.assign(Object.assign({}, req), { ExclusiveStartKey: res.LastEvaluatedKey })))));

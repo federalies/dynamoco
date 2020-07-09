@@ -296,7 +296,8 @@ const allGroups = async () => {
         actual: async (d) => {
             const pager = dynamoco(d).paginate(mocoQuery('Emails')
                 .select('*')
-                .filter(['Date', '=', 1589303429255]).extract());
+                .filter(['Date', '=', 1589303429255])
+                .extract());
             let collect = [];
             for await (const pagedData of pager) {
                 const _Items = pagedData._Items || [];

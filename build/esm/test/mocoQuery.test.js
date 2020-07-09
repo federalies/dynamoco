@@ -1,5 +1,6 @@
-import { mocoQuery } from '../src/index';
+import { URL } from 'url';
 import { testMaker, isErrorThrown } from './index.test';
+import { mocoQuery } from '../src/index';
 const allGroups = async () => {
     const [test, groupTest] = testMaker(__filename);
     return groupTest('MocoQuery Query Builder', groupTest('Easy Tests', test('Check Defaults', mocoQuery('table1').extract(), {
@@ -127,6 +128,7 @@ const allGroups = async () => {
         .filter(['attr1', '<>', false])
         .filter(['AND', ['attr2', '=', null]])
         .filter(['AND', ['attr3Not42', '<>', 42]])
+        .descending()
         .consistentRead(true)
         .toUrlString()).toUrlString(), () => mocoQuery('table1')
         .select('COUNT')
@@ -135,8 +137,20 @@ const allGroups = async () => {
         .filter(['attr1', '<>', false])
         .filter(['AND', ['attr2', '=', null]])
         .filter(['AND', ['attr3Not42', '<>', 42]])
+        .descending()
         .consistentRead(true)
-        .toUrlString()), test('Dyanmo Query from URL', () => mocoQuery('').fromUrl(mocoQuery('table1')
+        .toUrlString()), test('Dyanmo Query from URL', () => {
+        const url = mocoQuery('table1')
+            .select('COUNT')
+            .where(['pk', '=', 'Value1'])
+            .where(['AND', ['sk', 'begins_with', 'prefix']])
+            .filter(['attr1', '<>', false])
+            .filter(['AND', ['attr2', '=', null]])
+            .filter(['AND', ['attr3Not42', '<>', 42]])
+            .consistentRead(true)
+            .toURL();
+        return mocoQuery('').fromUrl(url).toUrlString();
+    }, () => mocoQuery('table1')
         .select('COUNT')
         .where(['pk', '=', 'Value1'])
         .where(['AND', ['sk', 'begins_with', 'prefix']])
@@ -144,7 +158,34 @@ const allGroups = async () => {
         .filter(['AND', ['attr2', '=', null]])
         .filter(['AND', ['attr3Not42', '<>', 42]])
         .consistentRead(true)
-        .toURL()).toUrlString(), () => mocoQuery('table1')
+        .toUrlString()), test('Dyanmo Query from URLString', () => {
+        const url = mocoQuery('table1')
+            .select('COUNT')
+            .where(['pk', '=', 'Value1'])
+            .where(['AND', ['sk', 'begins_with', 'prefix']])
+            .filter(['attr1', '<>', false])
+            .filter(['AND', ['attr2', '=', null]])
+            .filter(['AND', ['attr3Not42', '<>', 42]])
+            .consistentRead(true)
+            .toUrlString();
+        return mocoQuery('').fromUrl(url).toUrlString();
+    }, () => mocoQuery('table1')
+        .select('COUNT')
+        .where(['pk', '=', 'Value1'])
+        .where('AND sk begins_with prefix')
+        .filter(['attr1', '<>', false])
+        .filter(['AND', ['attr2', '=', null]])
+        .filter(['AND', ['attr3Not42', '<>', 42]])
+        .consistentRead(true)
+        .toUrlString()), test('Out of Order Filters should give equiv URL objects', () => mocoQuery('table1')
+        .select('COUNT')
+        .where(['pk', '=', 'Value1'])
+        .where(['AND', ['sk', 'begins_with', 'prefix']])
+        .filter(['attr1', '<>', false])
+        .consistentRead(true)
+        .filter(['AND', ['attr3Not42', '<>', 42]])
+        .filter(['AND', ['attr2', '=', null]])
+        .toURL(), () => mocoQuery('table1')
         .select('COUNT')
         .where(['pk', '=', 'Value1'])
         .where(['AND', ['sk', 'begins_with', 'prefix']])
@@ -152,7 +193,7 @@ const allGroups = async () => {
         .filter(['AND', ['attr2', '=', null]])
         .filter(['AND', ['attr3Not42', '<>', 42]])
         .consistentRead(true)
-        .toUrlString()));
+        .toURL()), test('Basic URL', mocoQuery('table1').toURL(), new URL('dynamo://table1#Select=All')), test('dummy', 1, 1));
 };
 (async () => {
     if (module.parent) {

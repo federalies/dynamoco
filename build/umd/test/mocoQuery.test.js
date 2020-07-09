@@ -4,13 +4,14 @@
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "../src/index", "./index.test"], factory);
+        define(["require", "exports", "url", "./index.test", "../src/index"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    const index_1 = require("../src/index");
+    const url_1 = require("url");
     const index_test_1 = require("./index.test");
+    const index_1 = require("../src/index");
     const allGroups = async () => {
         const [test, groupTest] = index_test_1.testMaker(__filename);
         return groupTest('MocoQuery Query Builder', groupTest('Easy Tests', test('Check Defaults', index_1.mocoQuery('table1').extract(), {
@@ -138,6 +139,7 @@
             .filter(['attr1', '<>', false])
             .filter(['AND', ['attr2', '=', null]])
             .filter(['AND', ['attr3Not42', '<>', 42]])
+            .descending()
             .consistentRead(true)
             .toUrlString()).toUrlString(), () => index_1.mocoQuery('table1')
             .select('COUNT')
@@ -146,8 +148,20 @@
             .filter(['attr1', '<>', false])
             .filter(['AND', ['attr2', '=', null]])
             .filter(['AND', ['attr3Not42', '<>', 42]])
+            .descending()
             .consistentRead(true)
-            .toUrlString()), test('Dyanmo Query from URL', () => index_1.mocoQuery('').fromUrl(index_1.mocoQuery('table1')
+            .toUrlString()), test('Dyanmo Query from URL', () => {
+            const url = index_1.mocoQuery('table1')
+                .select('COUNT')
+                .where(['pk', '=', 'Value1'])
+                .where(['AND', ['sk', 'begins_with', 'prefix']])
+                .filter(['attr1', '<>', false])
+                .filter(['AND', ['attr2', '=', null]])
+                .filter(['AND', ['attr3Not42', '<>', 42]])
+                .consistentRead(true)
+                .toURL();
+            return index_1.mocoQuery('').fromUrl(url).toUrlString();
+        }, () => index_1.mocoQuery('table1')
             .select('COUNT')
             .where(['pk', '=', 'Value1'])
             .where(['AND', ['sk', 'begins_with', 'prefix']])
@@ -155,7 +169,34 @@
             .filter(['AND', ['attr2', '=', null]])
             .filter(['AND', ['attr3Not42', '<>', 42]])
             .consistentRead(true)
-            .toURL()).toUrlString(), () => index_1.mocoQuery('table1')
+            .toUrlString()), test('Dyanmo Query from URLString', () => {
+            const url = index_1.mocoQuery('table1')
+                .select('COUNT')
+                .where(['pk', '=', 'Value1'])
+                .where(['AND', ['sk', 'begins_with', 'prefix']])
+                .filter(['attr1', '<>', false])
+                .filter(['AND', ['attr2', '=', null]])
+                .filter(['AND', ['attr3Not42', '<>', 42]])
+                .consistentRead(true)
+                .toUrlString();
+            return index_1.mocoQuery('').fromUrl(url).toUrlString();
+        }, () => index_1.mocoQuery('table1')
+            .select('COUNT')
+            .where(['pk', '=', 'Value1'])
+            .where('AND sk begins_with prefix')
+            .filter(['attr1', '<>', false])
+            .filter(['AND', ['attr2', '=', null]])
+            .filter(['AND', ['attr3Not42', '<>', 42]])
+            .consistentRead(true)
+            .toUrlString()), test('Out of Order Filters should give equiv URL objects', () => index_1.mocoQuery('table1')
+            .select('COUNT')
+            .where(['pk', '=', 'Value1'])
+            .where(['AND', ['sk', 'begins_with', 'prefix']])
+            .filter(['attr1', '<>', false])
+            .consistentRead(true)
+            .filter(['AND', ['attr3Not42', '<>', 42]])
+            .filter(['AND', ['attr2', '=', null]])
+            .toURL(), () => index_1.mocoQuery('table1')
             .select('COUNT')
             .where(['pk', '=', 'Value1'])
             .where(['AND', ['sk', 'begins_with', 'prefix']])
@@ -163,7 +204,7 @@
             .filter(['AND', ['attr2', '=', null]])
             .filter(['AND', ['attr3Not42', '<>', 42]])
             .consistentRead(true)
-            .toUrlString()));
+            .toURL()), test('Basic URL', index_1.mocoQuery('table1').toURL(), new url_1.URL('dynamo://table1#Select=All')), test('dummy', 1, 1));
     };
     (async () => {
         if (module.parent) {

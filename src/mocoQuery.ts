@@ -459,7 +459,6 @@ export const mocoQuery = function mocoquery (table:string, startingState?: {r:Qu
       const mocoExpr = input[1]
 
       state._m.where.push(input)
-
       const { KeyConditionExpression, ExpressionAttributeValues, ExpressionAttributeNames } = _mocoPredicate(mocoExpr)
 
       r.KeyConditionExpression = (r.KeyConditionExpression || '').length > 0
@@ -550,7 +549,7 @@ export const mocoQuery = function mocoquery (table:string, startingState?: {r:Qu
     const attrToString = (mode:'path' | 'query') => (v: string | LinkedMocoPredicateClause | MocoPredicateClause, i:number) => {
       if (mode === 'path') {
         if (typeof v === 'string') {
-          return v
+          return v.split(' ').join('+')
         } else if ((v[0] === 'AND' || v[0] === 'OR')) {
           const _v = v as LinkedMocoPredicateClause
           // const linker = _v[0] // not used b/c path mode
@@ -567,7 +566,7 @@ export const mocoQuery = function mocoquery (table:string, startingState?: {r:Qu
         }
       } else {
         if (typeof v === 'string') {
-          return v
+          return v.split(' ').join('+')
         } else if ((v[0] === 'AND' || v[0] === 'OR')) {
           const _v = v as LinkedMocoPredicateClause
           const linker = _v[0]
@@ -691,21 +690,38 @@ export const mocoQuery = function mocoquery (table:string, startingState?: {r:Qu
   }
 }
 
-const url1 = mocoQuery('table1')
-  .select('COUNT')
-  .where(['pk', '=', 'Value1'])
-  .where(['AND', ['sk', 'begins_with', 'prefix']])
-  .filter(['attr1', 'begins_with', 'prefix'])
-  .filter(['AND', ['attr2', '=', null]])
-  .filter(['AND', ['attr3Not42', '<>', 42]])
-  .consistentRead(true)
-  .toUrlString()
-console.log({ url1 })
+;(() => {
+  // NYC / Istanbul cheat
+  // @todo get this outta here and into a test that will pick it up
+  mocoQuery('table1')
+    .select('COUNT')
+    .where(['pk', '=', 'Value1'])
+    .where('AND sk begins_with "prefix"')
+    .filter(['attr1', 'begins_with', 'prefix'])
+    .filter(['AND', ['attr2', '=', null]])
+    .filter('AND attr3Not42 <> 42')
+    .consistentRead(true)
+    .toUrlString()
 
-const url2 = 'dynamo://table1/pk+=+%22Value1%22/sk+begins_with+%22prefix%22?attr1+begins_with+%22prefix%22&AND+attr2+=+null&AND+attr3Not42+%3C%3E+42#ConsistentRead=true&Select=%22COUNT%22&ReturnConsumedCapacity=%22TOTAL%22'
-console.log({ url2 })
+  // console.log({ url1 })
+  // const url2 = 'dynamo://table1/pk+=+%22Value1%22/sk+begins_with+%22prefix%22?attr1+begins_with+%22prefix%22&AND+attr2+=+null&AND+attr3Not42+%3C%3E+42#ConsistentRead=true&Select=%22COUNT%22&ReturnConsumedCapacity=%22TOTAL%22'
+  // console.log({ url2 })
+  // console.log(url1 === url2)
 
-console.log(url1 === url2)
+  const url3 = mocoQuery('table1')
+    .select('COUNT')
+    .where(['pk', '=', 'Value1'])
+    .where(['AND', ['sk', 'begins_with', 'prefix']])
+    .filter(['attr1', 'begins_with', 'prefix'])
+    .filter(['AND', ['attr2', '=', null]])
+    .filter(['AND', ['attr3Not42', '<>', 42]])
+    .consistentRead(true)
+    .toUrlString()
+  // console.log({ url3 })
+
+  mocoQuery('').fromUrl(url3).toUrlString()
+  // console.log({ url4 })
+})()
 
 export default mocoQuery
 

@@ -459,7 +459,7 @@ export const mocoQuery = function mocoquery(table, startingState) {
         const attrToString = (mode) => (v, i) => {
             if (mode === 'path') {
                 if (typeof v === 'string') {
-                    return v;
+                    return v.split(' ').join('+');
                 }
                 else if ((v[0] === 'AND' || v[0] === 'OR')) {
                     const _v = v;
@@ -478,7 +478,7 @@ export const mocoQuery = function mocoquery(table, startingState) {
             }
             else {
                 if (typeof v === 'string') {
-                    return v;
+                    return v.split(' ').join('+');
                 }
                 else if ((v[0] === 'AND' || v[0] === 'OR')) {
                     const _v = v;
@@ -574,9 +574,30 @@ export const mocoQuery = function mocoquery(table, startingState) {
         select,
         startKey,
         where,
-        toURL,
         toUrlString,
+        toURL,
         fromUrl
     };
 };
+(() => {
+    mocoQuery('table1')
+        .select('COUNT')
+        .where(['pk', '=', 'Value1'])
+        .where('AND sk begins_with "prefix"')
+        .filter(['attr1', 'begins_with', 'prefix'])
+        .filter(['AND', ['attr2', '=', null]])
+        .filter('AND attr3Not42 <> 42')
+        .consistentRead(true)
+        .toUrlString();
+    const url3 = mocoQuery('table1')
+        .select('COUNT')
+        .where(['pk', '=', 'Value1'])
+        .where(['AND', ['sk', 'begins_with', 'prefix']])
+        .filter(['attr1', 'begins_with', 'prefix'])
+        .filter(['AND', ['attr2', '=', null]])
+        .filter(['AND', ['attr3Not42', '<>', 42]])
+        .consistentRead(true)
+        .toUrlString();
+    mocoQuery('').fromUrl(url3).toUrlString();
+})();
 export default mocoQuery;

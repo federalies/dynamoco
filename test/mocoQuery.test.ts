@@ -255,7 +255,7 @@ const allGroups = async () => {
       () => mocoQuery('table1')
         .select('COUNT')
         .where(['pk', '=', 'Value1'])
-        .where(['AND', ['sk', 'begins_with', 'prefix']])
+        .where('AND sk begins_with prefix')
         .filter(['attr1', '<>', false])
         .filter(['AND', ['attr2', '=', null]])
         .filter(['AND', ['attr3Not42', '<>', 42]])

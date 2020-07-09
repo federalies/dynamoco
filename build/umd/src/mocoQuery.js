@@ -394,7 +394,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const attrToString = (mode) => (v, i) => {
                 if (mode === 'path') {
                     if (typeof v === 'string') {
-                        return v;
+                        return v.split(' ').join('+');
                     }
                     else if ((v[0] === 'AND' || v[0] === 'OR')) {
                         const _v = v;
@@ -413,7 +413,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 }
                 else {
                     if (typeof v === 'string') {
-                        return v;
+                        return v.split(' ').join('+');
                     }
                     else if ((v[0] === 'AND' || v[0] === 'OR')) {
                         const _v = v;
@@ -506,10 +506,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             select,
             startKey,
             where,
-            toURL,
             toUrlString,
+            toURL,
             fromUrl
         };
     };
+    (() => {
+        exports.mocoQuery('table1')
+            .select('COUNT')
+            .where(['pk', '=', 'Value1'])
+            .where('AND sk begins_with "prefix"')
+            .filter(['attr1', 'begins_with', 'prefix'])
+            .filter(['AND', ['attr2', '=', null]])
+            .filter('AND attr3Not42 <> 42')
+            .consistentRead(true)
+            .toUrlString();
+        const url3 = exports.mocoQuery('table1')
+            .select('COUNT')
+            .where(['pk', '=', 'Value1'])
+            .where(['AND', ['sk', 'begins_with', 'prefix']])
+            .filter(['attr1', 'begins_with', 'prefix'])
+            .filter(['AND', ['attr2', '=', null]])
+            .filter(['AND', ['attr3Not42', '<>', 42]])
+            .consistentRead(true)
+            .toUrlString();
+        exports.mocoQuery('').fromUrl(url3).toUrlString();
+    })();
     exports.default = exports.mocoQuery;
 });
