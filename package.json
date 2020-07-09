@@ -1,22 +1,28 @@
 {
   "name": "@federalies/dynamoco",
-  "version": "0.5.5",
+  "version": "0.6.0",
   "description": "A small but mighty wrapper for AWS.DynamoDB that make it actually fun to use. (Maintained by The Federalies)",
   "author": "Eric D Moore",
   "license": "MIT",
   "type_creates_errors_for ts-node and nyc": "module",
   "main": "./build/umd/src/index.js",
-  "exports":{
-    "./esm":"./build/esm/src/index.js"
+  "exports": {
+    "./esm": "./build/esm/src/index.js"
   },
   "types": "./build/umd/src/index.d.ts",
   "@std/esm": "cjs",
-  "files": [ "build/" ],
-  "engines": { "node": ">=10.8.0" },
+  "files": [
+    "build/"
+  ],
+  "engines": {
+    "node": ">=10.8.0"
+  },
   "homepage": "https://federalies.github.io/dynamoco/",
-  "repository": { "type": "git", "url": "https://github.com/federalies/dynamoco" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/federalies/dynamoco"
+  },
   "scripts": {
-    
     "test": "npm run test:pre && npm run test:cmd && npm run test:post",
     "test:pre": "npm run dockerPull && npm run dockerStart",
     "test:cmd": "nyc ts-node test/index.test.ts",
@@ -24,20 +30,17 @@
     "dockerPull": "docker pull amazon/dynamodb-local",
     "dockerStart": "docker run -p 8000:8000 amazon/dynamodb-local &>/dev/null &",
     "reportCov": "nyc report --reporter=text-lcov | coveralls",
-    
     "build": "npm run build:clean && npm run build:esm && npm run build:umd && npm run build:packages && npm run build:prune",
-    "build:clean":"rm -rf build",
+    "build:clean": "rm -rf build",
     "build:esm": "tsc --outDir build/esm/ -t ES2020 -m ES2020 && cp utils/reserved.txt.br build/esm/src/reserved.txt.br",
     "build:umd": "tsc --outDir build/umd/ && cp utils/reserved.txt.br build/umd/src/reserved.txt.br",
-    "build:packages":"cp utils/CJSpackage.json build/umd/package.json && cp utils/ESMpackage.json build/esm/package.json",
-    "build:prune":"rm build/umd/*.tsbuildinfo && rm build/esm/*.tsbuildinfo",
-    
+    "build:packages": "cp utils/CJSpackage.json build/umd/package.json && cp utils/ESMpackage.json build/esm/package.json",
+    "build:prune": "rm build/umd/*.tsbuildinfo && rm build/esm/*.tsbuildinfo",
     "docs": "npm run contribs && typedoc",
     "contribs": "all-contributors generate",
     "contribs:add": "all-contributors add",
     "contribs:types": "ts-node utils/all-contrib-types.ts",
-
-    "pkgSize":"npm publish --dry-run",
+    "pkgSize": "npm publish --dry-run",
     "validate": "ts-node utils/validate.ts",
     "publish:before": "npm run build && npm run test",
     "publish:dryrun": "np --preview --no-yarn",
@@ -46,7 +49,6 @@
   "dependencies": {
     "aws-sdk": "^2.669.0"
   },
-  
   "husky": {
     "hooks": {
       "pre-commit": "npm run build && npm run lint && npm test ",
