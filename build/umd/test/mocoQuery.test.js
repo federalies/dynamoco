@@ -123,11 +123,54 @@
             .extract()), true), test('Is Error Thrown.1', index_test_1.isErrorThrown(() => index_1.mocoQuery('table1')
             .select('ALL_PROJECTED_ATTRIBUTES')
             .select('BAD INPUT')
-            .extract()), true));
+            .extract()), true), test('Expression Attr Values', () => index_1.mocoQuery('table1').expressionAttributeValues({ a: true }).extract(), () => { }), test('Dyanmo Query to URL', () => index_1.mocoQuery('table1')
+            .select('COUNT')
+            .where(['pk', '=', 'Value1'])
+            .where(['AND', ['sk', 'begins_with', 'prefix']])
+            .filter(['attr1', 'begins_with', 'prefix'])
+            .filter(['AND', ['attr2', '=', null]])
+            .filter(['AND', ['attr3Not42', '<>', 42]])
+            .consistentRead(true)
+            .toUrlString(), () => 'dynamo://table1/pk+=+%22Value1%22/sk+begins_with+%22prefix%22?attr1+begins_with+%22prefix%22&AND+attr2+=+null&AND+attr3Not42+%3C%3E+42#ConsistentRead=true&Select=%22COUNT%22&ReturnConsumedCapacity=%22TOTAL%22'), test('Dyanmo Query from URLstring', () => index_1.mocoQuery('').fromUrl(index_1.mocoQuery('table1')
+            .select('COUNT')
+            .where(['pk', '=', 'Value1'])
+            .where(['AND', ['sk', 'begins_with', 'prefix']])
+            .filter(['attr1', '<>', false])
+            .filter(['AND', ['attr2', '=', null]])
+            .filter(['AND', ['attr3Not42', '<>', 42]])
+            .consistentRead(true)
+            .toUrlString()).toUrlString(), () => index_1.mocoQuery('table1')
+            .select('COUNT')
+            .where(['pk', '=', 'Value1'])
+            .where(['AND', ['sk', 'begins_with', 'prefix']])
+            .filter(['attr1', '<>', false])
+            .filter(['AND', ['attr2', '=', null]])
+            .filter(['AND', ['attr3Not42', '<>', 42]])
+            .consistentRead(true)
+            .toUrlString()), test('Dyanmo Query from URL', () => index_1.mocoQuery('').fromUrl(index_1.mocoQuery('table1')
+            .select('COUNT')
+            .where(['pk', '=', 'Value1'])
+            .where(['AND', ['sk', 'begins_with', 'prefix']])
+            .filter(['attr1', '<>', false])
+            .filter(['AND', ['attr2', '=', null]])
+            .filter(['AND', ['attr3Not42', '<>', 42]])
+            .consistentRead(true)
+            .toURL()).toUrlString(), () => index_1.mocoQuery('table1')
+            .select('COUNT')
+            .where(['pk', '=', 'Value1'])
+            .where(['AND', ['sk', 'begins_with', 'prefix']])
+            .filter(['attr1', '<>', false])
+            .filter(['AND', ['attr2', '=', null]])
+            .filter(['AND', ['attr3Not42', '<>', 42]])
+            .consistentRead(true)
+            .toUrlString()));
     };
     (async () => {
-        if (!module.parent) {
-            const r = await allGroups();
+        if (module.parent) {
+            return allGroups;
+        }
+        else {
+            await allGroups().catch(er => { console.error(er); process.exitCode = 0; });
         }
     })();
     exports.default = allGroups;

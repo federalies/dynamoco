@@ -346,14 +346,15 @@ const allGroups = async () => {
           const pager = dynamoco(d).paginate(
             mocoQuery('Emails')
               .select('*')
-              .filter(['Date', '=', 1_589_303_429_255]).extract() as QueryReqState
+              .filter(['Date', '=', 1_589_303_429_255])
+              .extract() as QueryReqState
           )
           let collect: jsTypesFromDynamo[] = []
           for await (const pagedData of pager) {
             const _Items = pagedData._Items || []
             collect = [..._Items]
           }
-          console.log({ collect })
+          // console.log({ collect })
           return collect.length
         },
         expected: async () => 1

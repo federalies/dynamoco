@@ -302,7 +302,6 @@ const allGroups = async () => {
                 const _Items = pagedData._Items || [];
                 collect = [..._Items];
             }
-            console.log({ collect });
             return collect.length;
         },
         expected: async () => 1

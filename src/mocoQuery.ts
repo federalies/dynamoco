@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
-import type {
-  Key,
-  QueryInput
-} from 'aws-sdk/clients/dynamodb'
+import { URL } from 'url'
+import type { Key, QueryInput } from 'aws-sdk/clients/dynamodb'
 /* eslint-enable no-unused-vars */
 
 import { reservedWords } from './dynamoReservedWords'
@@ -138,6 +136,10 @@ export const queryOperators = (inputOpr:string, logLevel: number = 5): string =>
     '<=': '<=',
     LTE: '<=',
     '>=': '>=',
+    '<>': '<>',
+    '!=': '<>',
+    '!==': '<>',
+    NOT: '<>',
     GTE: '>=',
     BETWEEN: 'BETWEEN',
     between: 'BETWEEN',
@@ -150,7 +152,7 @@ export const queryOperators = (inputOpr:string, logLevel: number = 5): string =>
     return local[inputOpr]
   } else {
     if (logLevel >= 4) {
-      console.warn('the given operator () was unkown and is defaulting to ')
+      console.warn(`the given operator (${inputOpr}) : is an unkown operator and is defaulting to '='`)
     }
     return '='
   }
@@ -163,9 +165,11 @@ export const _giveDynamoTypesToValues = (i:validJs2DynamoDict):Key => {
   }), {} as Key)
 }
 
-export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: QueryMetaState}):MocoQuery => {
+export const mocoQuery = function mocoquery (table:string, startingState?: {r:QueryReqStateOpts, _m: QueryMetaStateOpts}):MocoQuery {
   const state = {
     _m: {
+      where: [],
+      filters: [],
       reserved: reservedWords(fs, path, brotliDecompressSync),
       ...startingState?._m
     } as QueryMetaState, // letter m for meta
@@ -362,12 +366,19 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
     }
   }
 
-  const filter = (_input: string | MocoPredicateClause | ['AND' | 'OR', MocoPredicateClause]) => {
+  /**
+   * Setup MocoQuery Filters.
+   *
+   * @param _input - a filter that Dynamo applies after the KeyExpressions are met.
+   * @example
+   * const t = mocoQuery('Table').filter(['Attrib','startsWith','Prefix'])
+   */
+  const filter = (_input: string | MocoPredicateClause | LinkedMocoPredicateClause) => {
     const r = { ...state.r }
 
     if (typeof _input === 'string') {
       const input = _input as string
-      // BYO linking word
+      // DIY Expression in strings means BYO linking word
       r.FilterExpression = (r.FilterExpression || '').length > 0
         ? `${r.FilterExpression} ${input}`
         : `${input}`
@@ -375,10 +386,11 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
     } else {
       if (isArray(_input) && typeof _input[0] === 'string' && isArray(_input[1])) {
         // merge with prior state if any
-        const input = _input as ['AND' | 'OR', MocoPredicateClause]
+        const input = _input as LinkedMocoPredicateClause
         const expressionLinkType = input[0]
         const mocoExpr = input[1]
 
+        state._m.filters.push(input)
         const { KeyConditionExpression, ExpressionAttributeValues, ExpressionAttributeNames } = _mocoPredicate(mocoExpr)
         const FilterExpression = KeyConditionExpression // key switch for the filter method
 
@@ -407,6 +419,7 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
       } else {
         // destroys prior state because zero linkage is available
         const input = _input as MocoPredicateClause
+        state._m.filters.push(input)
         const { KeyConditionExpression, ExpressionAttributeValues, ExpressionAttributeNames } = _mocoPredicate(input)
         const FilterExpression = KeyConditionExpression // key switch for the filter method
         return mocoQuery(state.r.TableName,
@@ -425,7 +438,7 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
     }
   }
 
-  const where = (_input: string | MocoPredicateClause | ['AND' | 'OR', MocoPredicateClause]) => {
+  const where = (_input: string | MocoPredicateClause | LinkedMocoPredicateClause) => {
     // input:: `Price`, '>', 1.00
     // input:: `Price`, 'BETEWEEN, [1.00, 5.00]
     // input:: `Descriptions`, 'begins_with, 'prefix'
@@ -433,6 +446,7 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
 
     if (typeof _input === 'string') {
       const input = _input as string
+      state._m.where.push(input.replace(' ', ':'))
       // BYO linking word
       r.KeyConditionExpression = (r.KeyConditionExpression || '').length > 0
         ? `${r.KeyConditionExpression} ${input}`
@@ -440,9 +454,11 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
       return mocoQuery(state.r.TableName, { r, _m: state._m })
     } else if (isArray(_input) && ['AND', 'OR'].includes(_input[0]) && isArray(_input[1])) {
       // merge with prior state if any
-      const input = _input as ['AND' | 'OR', MocoPredicateClause]
+      const input = _input as LinkedMocoPredicateClause
       const expressionLinkType = input[0]
       const mocoExpr = input[1]
+
+      state._m.where.push(input)
 
       const { KeyConditionExpression, ExpressionAttributeValues, ExpressionAttributeNames } = _mocoPredicate(mocoExpr)
 
@@ -471,20 +487,186 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
     } else {
       // destroys prior state
       const input = _input as MocoPredicateClause
+      state._m.where.push(_input)
       const { KeyConditionExpression, ExpressionAttributeValues, ExpressionAttributeNames } = _mocoPredicate(input)
       return mocoQuery(state.r.TableName,
         {
           r:
-                    {
-                      ...r,
-                      KeyConditionExpression,
-                      ...(Object.keys(ExpressionAttributeValues).length > 0 ? { ExpressionAttributeValues } : {}),
-                      ...(Object.keys(ExpressionAttributeNames).length > 0 ? { ExpressionAttributeNames } : {})
-                    },
+            {
+              ...r,
+              KeyConditionExpression,
+              ...(Object.keys(ExpressionAttributeValues).length > 0 ? { ExpressionAttributeValues } : {}),
+              ...(Object.keys(ExpressionAttributeNames).length > 0 ? { ExpressionAttributeNames } : {})
+            },
           _m: state._m
         }
       )
     }
+  }
+
+  /**
+   * To URL String.
+   *
+   * @see : https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#query-property
+   *
+   * Dynamo URLs + Credential'd Client --> VFiles[]
+   * dynamo://{{Table}} // not valid
+   * dynamo://{{Table}}/{{? PK=Value }} // Ready for a `GetItem` command
+   * dynamo://{{Table}}/{{? PK=Value }}?{{? Query Filter & OtherFilter | OrFilter }} // Ready for a `Query`
+   * dynamo://{{Table}}?{{? Query Filter & OtherFilter | OrFilter }} // Ready for a `Query`
+   *
+   * pk op ONLY allows =
+   *
+   * sk :ops
+   * -- [= , < , <= , > , >= , begins_with( sortKeyName, :sortkeyval ), BETWEEN]
+   *
+   * dynamo://Emails/sender+=+"Eric"?from+=+Something&OR+Date+>+12300000
+   *
+   * Path values:
+   * - Partition Key is path[0] - and has an {{Attr}}+{{Oper}}+{{ JSONified Val }}
+   * - Sort Key is the optional  path[1] - and has the same form
+   *
+   * Query Params:
+   * - Each Query param segment (sep by the usual &), maps to a filter clause
+   * - uses the same form as the path segments for the 1st term
+   * - but subsequent terms have an additional word in the front
+   * - {{Logical Connection= 'AND'|'OR'}}+{{Attr}}+{{Oper}}+{{ JSONified Val }}
+   *
+   * << dyanmoQueryUrl is more like SQL than an fs glob >>
+   *
+   */
+  const toUrlString = () => {
+    const directParams = {
+      Limit: state.r.Limit,
+      IndexName: state.r.IndexName,
+      ConsistentRead: state.r.ConsistentRead,
+      ExclusiveStartKey: state.r.ExclusiveStartKey,
+      ProjectionExpression: state.r.ProjectionExpression,
+      ScanIndexForward: state.r.ScanIndexForward,
+      Select: state.r.Select,
+      ReturnConsumedCapacity: state.r.ReturnConsumedCapacity
+    }
+
+    const attrToString = (mode:'path' | 'query') => (v: string | LinkedMocoPredicateClause | MocoPredicateClause, i:number) => {
+      if (mode === 'path') {
+        if (typeof v === 'string') {
+          return v
+        } else if ((v[0] === 'AND' || v[0] === 'OR')) {
+          const _v = v as LinkedMocoPredicateClause
+          // const linker = _v[0] // not used b/c path mode
+          const attr = _v[1][0]
+          const op = _v[1][1]
+          const val = _v[1][2]
+          return `${attr}+${op}+${JSON.stringify(val)}`
+        } else {
+          const _v = v as MocoPredicateClause
+          const attr = _v[0]
+          const op = _v[1]
+          const val = _v[2]
+          return `${attr}+${op}+${JSON.stringify(val)}`
+        }
+      } else {
+        if (typeof v === 'string') {
+          return v
+        } else if ((v[0] === 'AND' || v[0] === 'OR')) {
+          const _v = v as LinkedMocoPredicateClause
+          const linker = _v[0]
+          const attr = _v[1][0]
+          const op = _v[1][1]
+          const val = _v[1][2]
+          return `${linker}+${attr}+${op}+${JSON.stringify(val)}`
+        } else {
+          const _v = v as MocoPredicateClause
+          const attr = _v[0]
+          const op = _v[1]
+          const val = _v[2]
+          return `${attr}+${op}+${JSON.stringify(val)}`
+        }
+      }
+    }
+
+    return encodeURI(
+      `dynamo://${
+        state.r.TableName
+      }/${
+        state._m.where.map(attrToString('path')).join('/')
+      }${
+        state._m.filters.map(attrToString('query')).join('&').length > 0
+          ? `?${state._m.filters.map(attrToString('query')).join('&')}`
+          : ''
+      }${
+        Object.entries(directParams)
+        .filter(([key, val]) => val)
+        .map(([key, val]) => `${key}=${JSON.stringify(val)}`).join('&').length > 0
+        ? `#${Object.entries(directParams)
+              .filter(([key, val]) => val)
+              .map(([key, val]) => `${key}=${JSON.stringify(val)}`).join('&')}`
+        : ''
+      }`
+    )
+  }
+  const toURL = () => {
+    return new URL(toUrlString())
+  }
+  const fromUrl = (i:string | URL) => {
+    if (typeof i === 'string') i = new URL(i)
+
+    const pathSegs = i.pathname.split('/')
+      .filter(seg => seg.length > 1)
+      .map(seg => seg.split('+'))
+      .map(seg => seg.map(elem => decodeURI(elem)))
+      .map(seg => seg.map((elem, i) => i === 2 ? JSON.parse(elem) : elem))
+
+    // value just means = was used in the filter
+    // key formA: [AND|OR Attr Oper Val]->null
+    // key formB: [AND|OR Attr Oper]-> Val
+    // key init: [Attr Oper ?Val]-> ?Val // Val will be in one or the other
+    // but if you assume all in order...
+    // the same logic works for init and rest
+    const filters = [...i.searchParams.entries()].map(([key, val], i) => {
+      return val
+        ? [...key.split(' ').map(chunk => chunk.length === 0 ? '=' : chunk), val]
+        : [...key.split(' ').map(chunk => chunk.length === 0 ? '=' : chunk)]
+    }).map(wordArr => {
+      return wordArr.length === 4
+        ? [wordArr[0], [...wordArr.slice(1)]] as [string, [string, string, string]]
+        : wordArr as [string, string, string]
+    }).map(f => f.length === 3
+      ? [f[0], f[1], JSON.parse(f[2])] as MocoPredicateClause
+      : [f[0], [f[1][0], f[1][1], JSON.parse(f[1][2])]] as LinkedMocoPredicateClause
+    )
+
+    const hashParams = i.hash
+      .slice(1)
+      .split('&')
+      .map(seg => seg.split('='))
+      .map(seg => seg.map(elem => decodeURI(elem)))
+      .map(seg => seg.map((elem, i) => i === 1 ? JSON.parse(elem) : elem))
+      .reduce((p, [key, val]) => ({
+        ...p,
+        [key]: val
+      }), {} as {[direct: string]:unknown})
+
+    const directParams = {
+      Limit: hashParams?.Limit,
+      IndexName: hashParams?.IndexName,
+      ConsistentRead: hashParams?.ConsistentRead,
+      ExclusiveStartKey: hashParams?.ExclusiveStartKey,
+      ProjectionExpression: hashParams?.ProjectionExpression,
+      ScanIndexForward: hashParams?.ScanIndexForward,
+      Select: hashParams?.Select,
+      ReturnConsumedCapacity: hashParams?.ReturnConsumedCapacity
+    }
+
+    let ret = mocoQuery(i.host, { r: directParams as QueryReqStateOpts, _m: {} })
+    for (const pred of pathSegs) {
+      ret = ret.where(pred as MocoPredicateClause)
+    }
+    for (const f of filters) {
+      ret = ret.filter(f)
+    }
+
+    return ret
   }
 
   return {
@@ -502,9 +684,29 @@ export const mocoQuery = (table:string, startingState?: {r:QueryReqState, _m: Qu
     returnConsumedCapacity,
     select,
     startKey,
-    where
+    where,
+    toUrlString,
+    toURL,
+    fromUrl
   }
 }
+
+const url1 = mocoQuery('table1')
+  .select('COUNT')
+  .where(['pk', '=', 'Value1'])
+  .where(['AND', ['sk', 'begins_with', 'prefix']])
+  .filter(['attr1', 'begins_with', 'prefix'])
+  .filter(['AND', ['attr2', '=', null]])
+  .filter(['AND', ['attr3Not42', '<>', 42]])
+  .consistentRead(true)
+  .toUrlString()
+console.log({ url1 })
+
+const url2 = 'dynamo://table1/pk+=+%22Value1%22/sk+begins_with+%22prefix%22?attr1+begins_with+%22prefix%22&AND+attr2+=+null&AND+attr3Not42+%3C%3E+42#ConsistentRead=true&Select=%22COUNT%22&ReturnConsumedCapacity=%22TOTAL%22'
+console.log({ url2 })
+
+console.log(url1 === url2)
+
 export default mocoQuery
 
 // #region types
@@ -534,19 +736,22 @@ export type jsTypesFromDynamo = boolean | null | string | number | Buffer| strin
 export type validplainJSTypesInDynamo = boolean | null | string | number | Buffer | string[] | number[] | Buffer[]
 export type validJsDynamoTypes = validplainJSTypesInDynamo | {[Attribute:string]: validJsDynamoTypes }
 export type validJs2DynamoDict = {[Attribute: string]: validJsDynamoTypes}
-export type MocoPredicateClause = [string, '='| '<'| '>'| '<='| '>='| 'BETWEEN'| 'begins_with', null | boolean | string | number | Buffer | (Buffer | string| number)[] ]
+export type PredicateComparitorOperations = '='| '<>' | '<'| '>'| '<='| '>='| 'BETWEEN'| 'begins_with'
+export type MocoPredicateClause = [string, PredicateComparitorOperations, null | boolean | string | number | Buffer | (Buffer | string| number)[] ]
+export type LinkedMocoPredicateClause = ['AND' | 'OR', MocoPredicateClause]
 export interface MocoPredicateClauseReturn {
     KeyConditionExpression:string,
     ExpressionAttributeValues:{[attribute:string]: DynamoAttrValueType}
     ExpressionAttributeNames: {[attribute:string]: string}
+    linkingLogic?: 'AND' | 'OR'
 }
 
 export interface QueryMetaState {
-    table: string
-    predicateOpr: string
     reserved: {[word:string]:boolean}
-
+    where: (string | MocoPredicateClause | LinkedMocoPredicateClause) []
+    filters: (MocoPredicateClause | LinkedMocoPredicateClause) []
 }
+type QueryMetaStateOpts = Partial<QueryMetaState>
 
 export interface QueryReqState {
     TableName: string //!
@@ -567,6 +772,7 @@ export interface QueryReqState {
     ExpressionAttributeNames?: {[key: string]: string }
     ExpressionAttributeValues?: {[key: string]: DynamoAttrValueType};
 }
+type QueryReqStateOpts = Partial<QueryReqState>
 
 export interface ScanReqState{
     // TableName: string - omitted here - used once as is and added back in another time
@@ -586,6 +792,11 @@ export interface ScanReqState{
     ExpressionAttributeValues?: {[key: string]: DynamoAttrValueType};
 }
 
+interface MQueryBase {
+  (table: string, startingState?: {r:QueryReqState, _m: QueryMetaState}): MocoQuery
+  fromUrl: (input: string | URL)=>MocoQuery
+}
+
 export interface MocoQuery {
     ascending: ()=>MocoQuery
     descending: ()=>MocoQuery
@@ -601,7 +812,11 @@ export interface MocoQuery {
     filterExpression: (filterExpr: string)=>MocoQuery
     filter: (_input: string | MocoPredicateClause | ['AND' | 'OR', MocoPredicateClause])=>MocoQuery
     where: (_input: string | MocoPredicateClause | ['AND' | 'OR', MocoPredicateClause])=>MocoQuery
+    fromUrl: (input: string | URL)=>MocoQuery
     // --
     extract: ()=>QueryInput
-}
+    toURL: ()=>URL
+    toUrlString: ()=>string
+  }
+
 // #endregion types

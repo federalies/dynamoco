@@ -7,11 +7,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./dynamoReservedWords", "zlib", "fs", "path"], factory);
+        define(["require", "exports", "url", "./dynamoReservedWords", "zlib", "fs", "path"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    const url_1 = require("url");
     const dynamoReservedWords_1 = require("./dynamoReservedWords");
     const zlib_1 = require("zlib");
     const fs_1 = __importDefault(require("fs"));
@@ -138,6 +139,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             '<=': '<=',
             LTE: '<=',
             '>=': '>=',
+            '<>': '<>',
+            '!=': '<>',
+            '!==': '<>',
+            NOT: '<>',
             GTE: '>=',
             BETWEEN: 'BETWEEN',
             between: 'BETWEEN',
@@ -150,7 +155,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
         else {
             if (logLevel >= 4) {
-                console.warn('the given operator () was unkown and is defaulting to ');
+                console.warn(`the given operator (${inputOpr}) : is an unkown operator and is defaulting to '='`);
             }
             return '=';
         }
@@ -158,9 +163,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     exports._giveDynamoTypesToValues = (i) => {
         return Object.entries(i).reduce((acc, [attribute, value]) => (Object.assign(Object.assign({}, acc), { [attribute]: exports._inferDynamoValueTypes(value) })), {});
     };
-    exports.mocoQuery = (table, startingState) => {
+    exports.mocoQuery = function mocoquery(table, startingState) {
         const state = {
-            _m: Object.assign({ reserved: dynamoReservedWords_1.reservedWords(fs_1.default, path_1.default, zlib_1.brotliDecompressSync) }, startingState === null || startingState === void 0 ? void 0 : startingState._m),
+            _m: Object.assign({ where: [], filters: [], reserved: dynamoReservedWords_1.reservedWords(fs_1.default, path_1.default, zlib_1.brotliDecompressSync) }, startingState === null || startingState === void 0 ? void 0 : startingState._m),
             r: Object.assign({ TableName: table, Select: 'ALL_ATTRIBUTES', ReturnConsumedCapacity: 'TOTAL' }, startingState === null || startingState === void 0 ? void 0 : startingState.r)
         };
         const ascending = () => {
@@ -310,6 +315,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     const input = _input;
                     const expressionLinkType = input[0];
                     const mocoExpr = input[1];
+                    state._m.filters.push(input);
                     const { KeyConditionExpression, ExpressionAttributeValues, ExpressionAttributeNames } = _mocoPredicate(mocoExpr);
                     const FilterExpression = KeyConditionExpression;
                     r.FilterExpression = (r.FilterExpression || '').length > 0
@@ -326,6 +332,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 }
                 else {
                     const input = _input;
+                    state._m.filters.push(input);
                     const { KeyConditionExpression, ExpressionAttributeValues, ExpressionAttributeNames } = _mocoPredicate(input);
                     const FilterExpression = KeyConditionExpression;
                     return exports.mocoQuery(state.r.TableName, {
@@ -339,6 +346,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const r = Object.assign({}, state.r);
             if (typeof _input === 'string') {
                 const input = _input;
+                state._m.where.push(input.replace(' ', ':'));
                 r.KeyConditionExpression = (r.KeyConditionExpression || '').length > 0
                     ? `${r.KeyConditionExpression} ${input}`
                     : `${input}`;
@@ -348,6 +356,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 const input = _input;
                 const expressionLinkType = input[0];
                 const mocoExpr = input[1];
+                state._m.where.push(input);
                 const { KeyConditionExpression, ExpressionAttributeValues, ExpressionAttributeNames } = _mocoPredicate(mocoExpr);
                 r.KeyConditionExpression = (r.KeyConditionExpression || '').length > 0
                     ? `${r.KeyConditionExpression} ${expressionLinkType} ${KeyConditionExpression}`
@@ -363,12 +372,123 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             }
             else {
                 const input = _input;
+                state._m.where.push(_input);
                 const { KeyConditionExpression, ExpressionAttributeValues, ExpressionAttributeNames } = _mocoPredicate(input);
                 return exports.mocoQuery(state.r.TableName, {
                     r: Object.assign(Object.assign(Object.assign(Object.assign({}, r), { KeyConditionExpression }), (Object.keys(ExpressionAttributeValues).length > 0 ? { ExpressionAttributeValues } : {})), (Object.keys(ExpressionAttributeNames).length > 0 ? { ExpressionAttributeNames } : {})),
                     _m: state._m
                 });
             }
+        };
+        const toUrlString = () => {
+            const directParams = {
+                Limit: state.r.Limit,
+                IndexName: state.r.IndexName,
+                ConsistentRead: state.r.ConsistentRead,
+                ExclusiveStartKey: state.r.ExclusiveStartKey,
+                ProjectionExpression: state.r.ProjectionExpression,
+                ScanIndexForward: state.r.ScanIndexForward,
+                Select: state.r.Select,
+                ReturnConsumedCapacity: state.r.ReturnConsumedCapacity
+            };
+            const attrToString = (mode) => (v, i) => {
+                if (mode === 'path') {
+                    if (typeof v === 'string') {
+                        return v;
+                    }
+                    else if ((v[0] === 'AND' || v[0] === 'OR')) {
+                        const _v = v;
+                        const attr = _v[1][0];
+                        const op = _v[1][1];
+                        const val = _v[1][2];
+                        return `${attr}+${op}+${JSON.stringify(val)}`;
+                    }
+                    else {
+                        const _v = v;
+                        const attr = _v[0];
+                        const op = _v[1];
+                        const val = _v[2];
+                        return `${attr}+${op}+${JSON.stringify(val)}`;
+                    }
+                }
+                else {
+                    if (typeof v === 'string') {
+                        return v;
+                    }
+                    else if ((v[0] === 'AND' || v[0] === 'OR')) {
+                        const _v = v;
+                        const linker = _v[0];
+                        const attr = _v[1][0];
+                        const op = _v[1][1];
+                        const val = _v[1][2];
+                        return `${linker}+${attr}+${op}+${JSON.stringify(val)}`;
+                    }
+                    else {
+                        const _v = v;
+                        const attr = _v[0];
+                        const op = _v[1];
+                        const val = _v[2];
+                        return `${attr}+${op}+${JSON.stringify(val)}`;
+                    }
+                }
+            };
+            return encodeURI(`dynamo://${state.r.TableName}/${state._m.where.map(attrToString('path')).join('/')}${state._m.filters.map(attrToString('query')).join('&').length > 0
+                ? `?${state._m.filters.map(attrToString('query')).join('&')}`
+                : ''}${Object.entries(directParams)
+                .filter(([key, val]) => val)
+                .map(([key, val]) => `${key}=${JSON.stringify(val)}`).join('&').length > 0
+                ? `#${Object.entries(directParams)
+                    .filter(([key, val]) => val)
+                    .map(([key, val]) => `${key}=${JSON.stringify(val)}`).join('&')}`
+                : ''}`);
+        };
+        const toURL = () => {
+            return new url_1.URL(toUrlString());
+        };
+        const fromUrl = (i) => {
+            if (typeof i === 'string')
+                i = new url_1.URL(i);
+            const pathSegs = i.pathname.split('/')
+                .filter(seg => seg.length > 1)
+                .map(seg => seg.split('+'))
+                .map(seg => seg.map(elem => decodeURI(elem)))
+                .map(seg => seg.map((elem, i) => i === 2 ? JSON.parse(elem) : elem));
+            const filters = [...i.searchParams.entries()].map(([key, val], i) => {
+                return val
+                    ? [...key.split(' ').map(chunk => chunk.length === 0 ? '=' : chunk), val]
+                    : [...key.split(' ').map(chunk => chunk.length === 0 ? '=' : chunk)];
+            }).map(wordArr => {
+                return wordArr.length === 4
+                    ? [wordArr[0], [...wordArr.slice(1)]]
+                    : wordArr;
+            }).map(f => f.length === 3
+                ? [f[0], f[1], JSON.parse(f[2])]
+                : [f[0], [f[1][0], f[1][1], JSON.parse(f[1][2])]]);
+            const hashParams = i.hash
+                .slice(1)
+                .split('&')
+                .map(seg => seg.split('='))
+                .map(seg => seg.map(elem => decodeURI(elem)))
+                .map(seg => seg.map((elem, i) => i === 1 ? JSON.parse(elem) : elem))
+                .reduce((p, [key, val]) => (Object.assign(Object.assign({}, p), { [key]: val })), {});
+            const directParams = {
+                Limit: hashParams === null || hashParams === void 0 ? void 0 : hashParams.Limit,
+                IndexName: hashParams === null || hashParams === void 0 ? void 0 : hashParams.IndexName,
+                ConsistentRead: hashParams === null || hashParams === void 0 ? void 0 : hashParams.ConsistentRead,
+                ExclusiveStartKey: hashParams === null || hashParams === void 0 ? void 0 : hashParams.ExclusiveStartKey,
+                ProjectionExpression: hashParams === null || hashParams === void 0 ? void 0 : hashParams.ProjectionExpression,
+                ScanIndexForward: hashParams === null || hashParams === void 0 ? void 0 : hashParams.ScanIndexForward,
+                Select: hashParams === null || hashParams === void 0 ? void 0 : hashParams.Select,
+                ReturnConsumedCapacity: hashParams === null || hashParams === void 0 ? void 0 : hashParams.ReturnConsumedCapacity
+            };
+            let ret = exports.mocoQuery(i.host, { r: directParams, _m: {} });
+            for (const pred of pathSegs) {
+                ret = ret.where(pred);
+            }
+            for (const f of filters) {
+                ret = ret.filter(f);
+            }
+            return ret;
         };
         return {
             ascending,
@@ -385,7 +505,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             returnConsumedCapacity,
             select,
             startKey,
-            where
+            where,
+            toURL,
+            toUrlString,
+            fromUrl
         };
     };
     exports.default = exports.mocoQuery;

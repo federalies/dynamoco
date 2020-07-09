@@ -336,7 +336,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     }
                     finally { if (e_1) throw e_1.error; }
                 }
-                console.log({ collect });
                 return collect.length;
             },
             expected: async () => 1

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>fsLike | @federalies/dynamoco</title>
+	<title>MQueryBase | @federalies/dynamoco</title>
 	<meta name="description" content="Documentation for @federalies/dynamoco">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="fslike.html">fsLike</a>
+					<a href="mquerybase.html">MQueryBase</a>
 				</li>
 			</ul>
-			<h1>Interface fsLike</h1>
+			<h1>Interface MQueryBase</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +70,32 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">fsLike</span>
+						<span class="target">MQueryBase</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3 class="tsd-before-signature">Callable</h3>
+				<ul class="tsd-signatures tsd-kind-interface">
+					<li class="tsd-signature tsd-kind-icon">__call<span class="tsd-signature-symbol">(</span>table<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, startingState<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>_m<span class="tsd-signature-symbol">: </span><a href="querymetastate.html" class="tsd-signature-type">QueryMetaState</a><span class="tsd-signature-symbol">; </span>r<span class="tsd-signature-symbol">: </span><a href="queryreqstate.html" class="tsd-signature-type">QueryReqState</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mocoquery.html" class="tsd-signature-type">MocoQuery</a></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/9394f5c/src/mocoQuery.ts#L775">mocoQuery.ts:775</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>table: <span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> startingState: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>_m<span class="tsd-signature-symbol">: </span><a href="querymetastate.html" class="tsd-signature-type">QueryMetaState</a><span class="tsd-signature-symbol">; </span>r<span class="tsd-signature-symbol">: </span><a href="queryreqstate.html" class="tsd-signature-type">QueryReqState</a><span class="tsd-signature-symbol"> }</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="mocoquery.html" class="tsd-signature-type">MocoQuery</a></h4>
 					</li>
 				</ul>
 			</section>
@@ -81,7 +106,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="fslike.html#readfilesync" class="tsd-kind-icon">read<wbr>File<wbr>Sync</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mquerybase.html#fromurl" class="tsd-kind-icon">from<wbr>Url</a></li>
 							</ul>
 						</section>
 					</div>
@@ -90,12 +115,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="readfilesync" class="tsd-anchor"></a>
-					<h3>read<wbr>File<wbr>Sync</h3>
-					<div class="tsd-signature tsd-kind-icon">read<wbr>File<wbr>Sync<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">; </span>flag<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Buffer</span></div>
+					<a name="fromurl" class="tsd-anchor"></a>
+					<h3>from<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">from<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="mocoquery.html" class="tsd-signature-type">MocoQuery</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/9394f5c/src/dynamoReservedWords.ts#L11">dynamoReservedWords.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/9394f5c/src/mocoQuery.ts#L777">mocoQuery.ts:777</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -103,20 +128,17 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-signature">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">; </span>flag<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mocoquery.html" class="tsd-signature-type">MocoQuery</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>path: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">URL</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
-											</li>
-											<li>
-												<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-symbol">{ </span>encoding<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">; </span>flag<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+												<h5>input: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">URL</span></h5>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
+										<h4 class="tsd-returns-title">Returns <a href="mocoquery.html" class="tsd-signature-type">MocoQuery</a></h4>
 									</li>
 								</ul>
 							</li>
@@ -138,10 +160,10 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="fslike.html" class="tsd-kind-icon">fs<wbr>Like</a>
+						<a href="mquerybase.html" class="tsd-kind-icon">MQuery<wbr>Base</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="fslike.html#readfilesync" class="tsd-kind-icon">read<wbr>File<wbr>Sync</a>
+								<a href="mquerybase.html#fromurl" class="tsd-kind-icon">from<wbr>Url</a>
 							</li>
 						</ul>
 					</li>

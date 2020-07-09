@@ -1,4 +1,5 @@
 /// <reference types="node" />
+import { URL } from 'url';
 import type { Key, QueryInput } from 'aws-sdk/clients/dynamodb';
 export declare const parseNumber: (input: string) => Number | Error;
 export declare const parseNumberOrThrow: (input: string) => number;
@@ -8,8 +9,8 @@ export declare const _inferJsValues: (input: DynamoAttrValueType) => jsTypesFrom
 export declare const queryOperators: (inputOpr: string, logLevel?: number) => string;
 export declare const _giveDynamoTypesToValues: (i: validJs2DynamoDict) => Key;
 export declare const mocoQuery: (table: string, startingState?: {
-    r: QueryReqState;
-    _m: QueryMetaState;
+    r: Partial<QueryReqState>;
+    _m: Partial<QueryMetaState>;
 } | undefined) => MocoQuery;
 export default mocoQuery;
 export declare type DynamoString = {
@@ -55,7 +56,9 @@ export declare type validJsDynamoTypes = validplainJSTypesInDynamo | {
 export declare type validJs2DynamoDict = {
     [Attribute: string]: validJsDynamoTypes;
 };
-export declare type MocoPredicateClause = [string, '=' | '<' | '>' | '<=' | '>=' | 'BETWEEN' | 'begins_with', null | boolean | string | number | Buffer | (Buffer | string | number)[]];
+export declare type PredicateComparitorOperations = '=' | '<>' | '<' | '>' | '<=' | '>=' | 'BETWEEN' | 'begins_with';
+export declare type MocoPredicateClause = [string, PredicateComparitorOperations, null | boolean | string | number | Buffer | (Buffer | string | number)[]];
+export declare type LinkedMocoPredicateClause = ['AND' | 'OR', MocoPredicateClause];
 export interface MocoPredicateClauseReturn {
     KeyConditionExpression: string;
     ExpressionAttributeValues: {
@@ -64,13 +67,14 @@ export interface MocoPredicateClauseReturn {
     ExpressionAttributeNames: {
         [attribute: string]: string;
     };
+    linkingLogic?: 'AND' | 'OR';
 }
 export interface QueryMetaState {
-    table: string;
-    predicateOpr: string;
     reserved: {
         [word: string]: boolean;
     };
+    where: (string | MocoPredicateClause | LinkedMocoPredicateClause)[];
+    filters: (MocoPredicateClause | LinkedMocoPredicateClause)[];
 }
 export interface QueryReqState {
     TableName: string;
@@ -124,5 +128,8 @@ export interface MocoQuery {
     filterExpression: (filterExpr: string) => MocoQuery;
     filter: (_input: string | MocoPredicateClause | ['AND' | 'OR', MocoPredicateClause]) => MocoQuery;
     where: (_input: string | MocoPredicateClause | ['AND' | 'OR', MocoPredicateClause]) => MocoQuery;
+    fromUrl: (input: string | URL) => MocoQuery;
     extract: () => QueryInput;
+    toURL: () => URL;
+    toUrlString: () => string;
 }

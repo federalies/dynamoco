@@ -4,17 +4,17 @@ module.exports = {
   extends: '@istanbuljs/nyc-config-typescript',
   'skip-full': true,
   include: ['src/**/*.ts'],
-  'check-coverage': {
-    branches: 80,
-    lines: 80,
-    functions: 80,
-    statements: 80
-  },
   watermarks: {
     lines: [80, 90],
     functions: [80, 90],
     branches: [80, 90],
     statements: [80, 90]
+  },
+  'check-coverage': {
+    branches: 80,
+    lines: 80,
+    functions: 80,
+    statements: 80
   }
 }
 

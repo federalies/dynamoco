@@ -3,7 +3,8 @@ import { DynamoDB } from 'aws-sdk'
 import {
   // toDynamo,
   fromDynamo,
-  parseNumberOrThrow
+  parseNumberOrThrow,
+  _giveDynamoTypesToValues
   // __inferDynamoValueTypes,
   // ___inferJsValues
 } from '../src/index'
@@ -77,50 +78,16 @@ const allGroups = async () => {
         convertToJS(testFromDyanmo[2].input as any)
       )
     ),
-    // groupTest('Js To Dynamo',
-    //   test('a1.Number To Dynamo', toDynamo(1), { N: '1' }),
-    //   test('b1.String To Dynamo', toDynamo('1'), { S: '1' }),
-    //   test('c1.Buffer To Dynamo', toDynamo(Buffer.from('Buf1')), { B: Buffer.from('Buf1') }),
-    //   test('d1.String Set To Dynamo', toDynamo(['', '', '']), { SS: ['', '', ''] }),
-    //   test('e1.Buffer Set To Dynamo',
-    //     toDynamo([Buffer.from('Buf1'), Buffer.from('Buf1')]),
-    //     { BS: [Buffer.from('Buf1'), Buffer.from('Buf1')] }),
-    //   test('e2.Buffer Set To Dynamo',
-    //     toDynamo([Buffer.from('Buf1'), Buffer.from('Buf1')]),
-    //     { BS: [Buffer.from('Buf1'), Buffer.from('Buf1')] }),
-    //   test('f1.Number Set To Dynamo',
-    //     toDynamo([1, 2, 3]),
-    //     { NS: ['1', '2', '3'] }),
-    //   test('f2.Number Set To Dynamo',
-    //     toDynamo([1, 2, 3]),
-    //     { NS: ['1', '2', '3'] }),
-    //   test('g1.List To Dynamo',
-    //     toDynamo([1, true, '3', Buffer.from('Buf1'), null] as any),
-    //     { L: [{ N: '1' }, { BOOL: true }, { S: '3' }, { B: Buffer.from('Buf1') }, { NULL: true }] }),
-    //   test('g2.List To Dynamo',
-    //     toDynamo([1, true, '3', Buffer.from('Buf1'), null] as any),
-    //     { L: [{ N: '1' }, { BOOL: true }, { S: '3' }, { B: Buffer.from('Buf1') }, { NULL: true }] }),
-    //   test('1. toDynamo is equiv to built in converter',
-    //     toDynamo(testToDyanmo[0].input as any),
-    //     convertToDynamo(testToDyanmo[0].input)
-    //   ),
-    //   test('2. toDynamo is equiv to built in converter',
-    //     toDynamo(testToDyanmo[1].input as any),
-    //     convertToDynamo(testToDyanmo[1].input)
-    //   ),
-    //   test('3. toDynamo is equiv to built in converter',
-    //     toDynamo(testToDyanmo[2].input as any),
-    //     convertToDynamo(testToDyanmo[2].input)
-    //   ),
-    //   test('4. toDynamo throws an Error for odd inbound data types',
-    //     isErrorThrown(() => toDynamo(new Error('someStrange input type') as any)),
-    //     true
-    //   ),
-    //   test('5. toDynamo throws an Error for odd inbound data types',
-    //     isErrorThrown(() => toDynamo(new Date() as any)),
-    //     true
-    //   )
-    // ),
+    groupTest('Js To Dynamo',
+      test('Infer Dynamo Types ', _giveDynamoTypesToValues({ A: true }), { A: { BOOL: true } }),
+      test('Infer Dynamo Types ', _giveDynamoTypesToValues({ b: Buffer.from('A Buffer Test') }), { b: { B: Buffer.from('A Buffer Test') } }),
+      test('Infer Dynamo Types ', _giveDynamoTypesToValues({ n: null }), { n: { NULL: true } }),
+      test('Infer Dynamo Types ', _giveDynamoTypesToValues({ l: ['one', true, 3] } as any), { l: { L: [{ S: 'one' }, { BOOL: true }, { N: 3 }] } }),
+      test('Infer Dynamo Types ', _giveDynamoTypesToValues({ ss: ['one', 'two', 'three'] } as any), { ss: { SS: ['one', 'two', 'three'] } }),
+      test('Infer Dynamo Types ', _giveDynamoTypesToValues({ ns: [1, 2, 3] }), { ns: { NS: [1, 2, 3] } }),
+      test('Infer Dynamo Types ', _giveDynamoTypesToValues({ bs: [Buffer.from('Hello'), Buffer.from('World')] }), { bs: { BS: [Buffer.from('Hello'), Buffer.from('World')] } }),
+      test('Infer Dynamo Types ', _giveDynamoTypesToValues({ m: { a: true, b: Buffer.from('hi') } }), { m: { M: { a: { BOOL: true }, b: { B: Buffer.from('hi') } } } })
+    ),
     groupTest('Parsing Numbers',
       test('Parse Number.1', parseNumberOrThrow('1'), 1),
       test('Parse Number.2', parseNumberOrThrow('2.2'), 2.2),
