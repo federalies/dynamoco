@@ -73,9 +73,10 @@
 								<li class="tsd-kind-interface"><a href="interfaces/brotlioptions.html" class="tsd-kind-icon">Brotli<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/extraqueryoptions.html" class="tsd-kind-icon">Extra<wbr>Query<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/getitemopts.html" class="tsd-kind-icon">Get<wbr>Item<wbr>Opts</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/idynamoco.html" class="tsd-kind-icon">IDyna<wbr>Moco</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/imocoquery.html" class="tsd-kind-icon">IMoco<wbr>Query</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/mquerybase.html" class="tsd-kind-icon">MQuery<wbr>Base</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/mocopredicateclausereturn.html" class="tsd-kind-icon">Moco<wbr>Predicate<wbr>Clause<wbr>Return</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/mocoquery.html" class="tsd-kind-icon">Moco<wbr>Query</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/putitemopts.html" class="tsd-kind-icon">Put<wbr>Item<wbr>Opts</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/querymetastate.html" class="tsd-kind-icon">Query<wbr>Meta<wbr>State</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/queryreqstate.html" class="tsd-kind-icon">Query<wbr>Req<wbr>State</a></li>
@@ -89,6 +90,7 @@
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#dict" class="tsd-kind-icon">Dict</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#dynamoattrvaluetype" class="tsd-kind-icon">Dynamo<wbr>Attr<wbr>Value<wbr>Type</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#dynamobinary" class="tsd-kind-icon">Dynamo<wbr>Binary</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#dynamobinaryset" class="tsd-kind-icon">Dynamo<wbr>Binary<wbr>Set</a></li>
@@ -103,7 +105,10 @@
 								<li class="tsd-kind-type-alias"><a href="globals.html#ibrotlidecompresssync" class="tsd-kind-icon">Ibrotli<wbr>Decompress<wbr>Sync</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#linkedmocopredicateclause" class="tsd-kind-icon">Linked<wbr>Moco<wbr>Predicate<wbr>Clause</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#mocopredicateclause" class="tsd-kind-icon">Moco<wbr>Predicate<wbr>Clause</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#predicateclause" class="tsd-kind-icon">Predicate<wbr>Clause</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#predicateclauses" class="tsd-kind-icon">Predicate<wbr>Clauses</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#predicatecomparitoroperations" class="tsd-kind-icon">Predicate<wbr>Comparitor<wbr>Operations</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#predicatevalues" class="tsd-kind-icon">Predicate<wbr>Values</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#querymetastateopts" class="tsd-kind-icon">Query<wbr>Meta<wbr>State<wbr>Opts</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#queryreqstateopts" class="tsd-kind-icon">Query<wbr>Req<wbr>State<wbr>Opts</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#jstypesfromdynamo" class="tsd-kind-icon">js<wbr>Types<wbr>From<wbr>Dynamo</a></li>
@@ -125,6 +130,7 @@
 								<li class="tsd-kind-function"><a href="globals.html#_inferdynamovaluetypes" class="tsd-kind-icon">_infer<wbr>Dynamo<wbr>Value<wbr>Types</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#_inferjsvalues" class="tsd-kind-icon">_infer<wbr>JsValues</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#_stipdynamotypingsforvalues" class="tsd-kind-icon">_stip<wbr>Dynamo<wbr>Typings<wbr>For<wbr>Values</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#base64tobuff" class="tsd-kind-icon">base64to<wbr>Buff</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#dynamoco" class="tsd-kind-icon">dynamoco</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#fromdynamo" class="tsd-kind-icon">from<wbr>Dynamo</a></li>
 								<li class="tsd-kind-function"><a href="globals.html#isbinary" class="tsd-kind-icon">is<wbr>Binary</a></li>
@@ -146,13 +152,37 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
+					<a name="dict" class="tsd-anchor"></a>
+					<h3>Dict</h3>
+					<div class="tsd-signature tsd-kind-icon">Dict&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/dynamoco.ts#L359">dynamoco.ts:359</a></li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+						</li>
+					</ul>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-index-signature">
+								<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">T</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="dynamoattrvaluetype" class="tsd-anchor"></a>
 					<h3>Dynamo<wbr>Attr<wbr>Value<wbr>Type</h3>
 					<div class="tsd-signature tsd-kind-icon">Dynamo<wbr>Attr<wbr>Value<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="globals.html#dynamostring" class="tsd-signature-type">DynamoString</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#dynamonumber" class="tsd-signature-type">DynamoNumber</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#dynamobinary" class="tsd-signature-type">DynamoBinary</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#dynamostringset" class="tsd-signature-type">DynamoStringSet</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#dynamonumberset" class="tsd-signature-type">DynamoNumberSet</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#dynamobinaryset" class="tsd-signature-type">DynamoBinarySet</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#dynamomap" class="tsd-signature-type">DynamoMap</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#dynamolist" class="tsd-signature-type">DynamoList</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#dynamonull" class="tsd-signature-type">DynamoNull</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#dynamobool" class="tsd-signature-type">DynamoBool</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L737">mocoQuery.ts:737</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L737">mocoQuery.ts:737</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -162,7 +192,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dynamo<wbr>Binary<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>B<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L729">mocoQuery.ts:729</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L729">mocoQuery.ts:729</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -180,7 +210,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dynamo<wbr>Binary<wbr>Set<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>BS<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L732">mocoQuery.ts:732</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L732">mocoQuery.ts:732</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -198,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dynamo<wbr>Bool<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>BOOL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L734">mocoQuery.ts:734</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L734">mocoQuery.ts:734</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -216,7 +246,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dynamo<wbr>List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>L<span class="tsd-signature-symbol">: </span><a href="globals.html#dynamoattrvaluetype" class="tsd-signature-type">DynamoAttrValueType</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L736">mocoQuery.ts:736</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L736">mocoQuery.ts:736</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -234,7 +264,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dynamo<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>M<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L735">mocoQuery.ts:735</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L735">mocoQuery.ts:735</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -257,7 +287,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dynamo<wbr>Null<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>NULL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L733">mocoQuery.ts:733</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L733">mocoQuery.ts:733</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -275,7 +305,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dynamo<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>N<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L728">mocoQuery.ts:728</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L728">mocoQuery.ts:728</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -293,7 +323,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dynamo<wbr>Number<wbr>Set<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>NS<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L731">mocoQuery.ts:731</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L731">mocoQuery.ts:731</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -311,7 +341,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dynamo<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>S<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L727">mocoQuery.ts:727</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L727">mocoQuery.ts:727</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -329,7 +359,7 @@
 					<div class="tsd-signature tsd-kind-icon">Dynamo<wbr>String<wbr>Set<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>SS<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L730">mocoQuery.ts:730</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L730">mocoQuery.ts:730</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -347,7 +377,7 @@
 					<div class="tsd-signature tsd-kind-icon">Ibrotli<wbr>Decompress<wbr>Sync<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>buf<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span>, options<span class="tsd-signature-symbol">?: </span><a href="interfaces/brotlioptions.html" class="tsd-signature-type">BrotliOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Buffer</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/dynamoReservedWords.ts#L41">dynamoReservedWords.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/dynamoReservedWords.ts#L64">dynamoReservedWords.ts:64</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -381,17 +411,37 @@
 					<div class="tsd-signature tsd-kind-icon">Linked<wbr>Moco<wbr>Predicate<wbr>Clause<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"AND"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"OR"</span><span class="tsd-signature-symbol">, </span><a href="globals.html#mocopredicateclause" class="tsd-signature-type">MocoPredicateClause</a><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L755">mocoQuery.ts:755</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L756">mocoQuery.ts:756</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="mocopredicateclause" class="tsd-anchor"></a>
 					<h3>Moco<wbr>Predicate<wbr>Clause</h3>
-					<div class="tsd-signature tsd-kind-icon">Moco<wbr>Predicate<wbr>Clause<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="globals.html#predicatecomparitoroperations" class="tsd-signature-type">PredicateComparitorOperations</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></div>
+					<div class="tsd-signature tsd-kind-icon">Moco<wbr>Predicate<wbr>Clause<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="globals.html#predicatecomparitoroperations" class="tsd-signature-type">PredicateComparitorOperations</a><span class="tsd-signature-symbol">, </span><a href="globals.html#predicatevalues" class="tsd-signature-type">PredicateValues</a><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L754">mocoQuery.ts:754</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L755">mocoQuery.ts:755</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="predicateclause" class="tsd-anchor"></a>
+					<h3>Predicate<wbr>Clause</h3>
+					<div class="tsd-signature tsd-kind-icon">Predicate<wbr>Clause<span class="tsd-signature-symbol">:</span> <a href="globals.html#mocopredicateclause" class="tsd-signature-type">MocoPredicateClause</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#linkedmocopredicateclause" class="tsd-signature-type">LinkedMocoPredicateClause</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L757">mocoQuery.ts:757</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="predicateclauses" class="tsd-anchor"></a>
+					<h3>Predicate<wbr>Clauses</h3>
+					<div class="tsd-signature tsd-kind-icon">Predicate<wbr>Clauses<span class="tsd-signature-symbol">:</span> <a href="globals.html#predicateclause" class="tsd-signature-type">PredicateClause</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L758">mocoQuery.ts:758</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -401,7 +451,17 @@
 					<div class="tsd-signature tsd-kind-icon">Predicate<wbr>Comparitor<wbr>Operations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"&#x3D;"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"&lt;&gt;"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"&lt;"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"&gt;"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"&lt;&#x3D;"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"&gt;&#x3D;"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"BETWEEN"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"begins_with"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L753">mocoQuery.ts:753</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L753">mocoQuery.ts:753</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="predicatevalues" class="tsd-anchor"></a>
+					<h3>Predicate<wbr>Values</h3>
+					<div class="tsd-signature tsd-kind-icon">Predicate<wbr>Values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L754">mocoQuery.ts:754</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -411,7 +471,7 @@
 					<div class="tsd-signature tsd-kind-icon">Query<wbr>Meta<wbr>State<wbr>Opts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/querymetastate.html" class="tsd-signature-type">QueryMetaState</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L768">mocoQuery.ts:768</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L771">mocoQuery.ts:771</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -421,7 +481,7 @@
 					<div class="tsd-signature tsd-kind-icon">Query<wbr>Req<wbr>State<wbr>Opts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/queryreqstate.html" class="tsd-signature-type">QueryReqState</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L789">mocoQuery.ts:789</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L792">mocoQuery.ts:792</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -431,7 +491,7 @@
 					<div class="tsd-signature tsd-kind-icon">js<wbr>Types<wbr>From<wbr>Dynamo<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="globals.html#jstypesfromdynamo" class="tsd-signature-type">jsTypesFromDynamo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L749">mocoQuery.ts:749</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L749">mocoQuery.ts:749</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -441,7 +501,7 @@
 					<div class="tsd-signature tsd-kind-icon">valid<wbr>Js2<wbr>Dynamo<wbr>Dict<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L752">mocoQuery.ts:752</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L752">mocoQuery.ts:752</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -459,7 +519,7 @@
 					<div class="tsd-signature tsd-kind-icon">valid<wbr>JsDynamo<wbr>Types<span class="tsd-signature-symbol">:</span> <a href="globals.html#validplainjstypesindynamo" class="tsd-signature-type">validplainJSTypesInDynamo</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L751">mocoQuery.ts:751</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L751">mocoQuery.ts:751</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -469,7 +529,7 @@
 					<div class="tsd-signature tsd-kind-icon">validplainJSTypes<wbr>InDynamo<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L750">mocoQuery.ts:750</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L750">mocoQuery.ts:750</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -482,8 +542,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">isArray</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L11">mocoQuery.ts:11</a></li>
-							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/dynamoco.ts#L42">dynamoco.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L9">mocoQuery.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -500,7 +559,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L161">mocoQuery.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L159">mocoQuery.ts:159</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -523,7 +582,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L34">mocoQuery.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L32">mocoQuery.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -546,7 +605,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L83">mocoQuery.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L81">mocoQuery.ts:81</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -569,7 +628,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/dynamoco.ts#L111">dynamoco.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/dynamoco.ts#L120">dynamoco.ts:120</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -593,16 +652,39 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="dynamoco" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> dynamoco</h3>
+					<a name="base64tobuff" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> base64to<wbr>Buff</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">dynamoco<span class="tsd-signature-symbol">(</span>db<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DynamoDB</span>, defaults<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>_db<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DynamoDB</span><span class="tsd-signature-symbol">; </span>deleteBatch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">deleteBatch</span><span class="tsd-signature-symbol">; </span>describeTable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">describeTable</span><span class="tsd-signature-symbol">; </span>getBatch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">getBatch</span><span class="tsd-signature-symbol">; </span>getItem<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">getItem</span><span class="tsd-signature-symbol">; </span>paginate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">paginate</span><span class="tsd-signature-symbol">; </span>putBatch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">putBatch</span><span class="tsd-signature-symbol">; </span>putItem<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">putItem</span><span class="tsd-signature-symbol">; </span>query<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">query</span><span class="tsd-signature-symbol">; </span>scan<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">scan</span><span class="tsd-signature-symbol">; </span>updateTable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">updateTable</span><span class="tsd-signature-symbol"> }</span></li>
+						<li class="tsd-signature tsd-kind-icon">base64to<wbr>Buff<span class="tsd-signature-symbol">(</span>s<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/dynamoco.ts#L120">dynamoco.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/dynamoReservedWords.ts#L2">dynamoReservedWords.ts:2</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>s: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="dynamoco" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> dynamoco</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">dynamoco<span class="tsd-signature-symbol">(</span>db<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DynamoDB</span>, defaults<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/idynamoco.html" class="tsd-signature-type">IDynaMoco</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/dynamoco.ts#L129">dynamoco.ts:129</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -614,42 +696,7 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> defaults: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>_db<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DynamoDB</span><span class="tsd-signature-symbol">; </span>deleteBatch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">deleteBatch</span><span class="tsd-signature-symbol">; </span>describeTable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">describeTable</span><span class="tsd-signature-symbol">; </span>getBatch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">getBatch</span><span class="tsd-signature-symbol">; </span>getItem<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">getItem</span><span class="tsd-signature-symbol">; </span>paginate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">paginate</span><span class="tsd-signature-symbol">; </span>putBatch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">putBatch</span><span class="tsd-signature-symbol">; </span>putItem<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">putItem</span><span class="tsd-signature-symbol">; </span>query<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">query</span><span class="tsd-signature-symbol">; </span>scan<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">scan</span><span class="tsd-signature-symbol">; </span>updateTable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">updateTable</span><span class="tsd-signature-symbol"> }</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter">
-									<h5>_db<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DynamoDB</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>delete<wbr>Batch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">deleteBatch</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>describe<wbr>Table<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">describeTable</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>get<wbr>Batch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">getBatch</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>get<wbr>Item<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">getItem</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>paginate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">paginate</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>put<wbr>Batch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">putBatch</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>put<wbr>Item<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">putItem</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>query<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">query</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>scan<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">scan</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>update<wbr>Table<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">updateTable</span></h5>
-								</li>
-							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="interfaces/idynamoco.html" class="tsd-signature-type">IDynaMoco</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -663,7 +710,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L73">mocoQuery.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L71">mocoQuery.ts:71</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -686,7 +733,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L16">mocoQuery.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L14">mocoQuery.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -709,7 +756,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L14">mocoQuery.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L12">mocoQuery.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -732,7 +779,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L12">mocoQuery.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L10">mocoQuery.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -755,7 +802,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L17">mocoQuery.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L15">mocoQuery.ts:15</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -778,7 +825,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L15">mocoQuery.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L13">mocoQuery.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -801,7 +848,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L13">mocoQuery.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L11">mocoQuery.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -818,13 +865,13 @@
 					<a name="mocoquery" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> moco<wbr>Query</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">moco<wbr>Query<span class="tsd-signature-symbol">(</span>table<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, startingState<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>_m<span class="tsd-signature-symbol">: </span><a href="globals.html#querymetastateopts" class="tsd-signature-type">QueryMetaStateOpts</a><span class="tsd-signature-symbol">; </span>r<span class="tsd-signature-symbol">: </span><a href="globals.html#queryreqstateopts" class="tsd-signature-type">QueryReqStateOpts</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/mocoquery.html" class="tsd-signature-type">MocoQuery</a></li>
+						<li class="tsd-signature tsd-kind-icon">moco<wbr>Query<span class="tsd-signature-symbol">(</span>table<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, startingState<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>_m<span class="tsd-signature-symbol">: </span><a href="globals.html#querymetastateopts" class="tsd-signature-type">QueryMetaStateOpts</a><span class="tsd-signature-symbol">; </span>r<span class="tsd-signature-symbol">: </span><a href="globals.html#queryreqstateopts" class="tsd-signature-type">QueryReqStateOpts</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/imocoquery.html" class="tsd-signature-type">IMocoQuery</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L168">mocoQuery.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L166">mocoQuery.ts:166</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -836,7 +883,7 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> startingState: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>_m<span class="tsd-signature-symbol">: </span><a href="globals.html#querymetastateopts" class="tsd-signature-type">QueryMetaStateOpts</a><span class="tsd-signature-symbol">; </span>r<span class="tsd-signature-symbol">: </span><a href="globals.html#queryreqstateopts" class="tsd-signature-type">QueryReqStateOpts</a><span class="tsd-signature-symbol"> }</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="interfaces/mocoquery.html" class="tsd-signature-type">MocoQuery</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="interfaces/imocoquery.html" class="tsd-signature-type">IMocoQuery</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -850,7 +897,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L19">mocoQuery.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L17">mocoQuery.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -873,7 +920,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L25">mocoQuery.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L23">mocoQuery.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -896,7 +943,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/dynamoco.ts#L44">dynamoco.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/dynamoco.ts#L53">dynamoco.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -922,7 +969,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/mocoQuery.ts#L116">mocoQuery.ts:116</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/mocoQuery.ts#L114">mocoQuery.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -942,23 +989,17 @@
 					<a name="reservedwords" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> reserved<wbr>Words</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">reserved<wbr>Words<span class="tsd-signature-symbol">(</span>fs<span class="tsd-signature-symbol">: </span><a href="interfaces/fslike.html" class="tsd-signature-type">fsLike</a>, path<span class="tsd-signature-symbol">: </span><a href="interfaces/pathlike.html" class="tsd-signature-type">pathLike</a>, decompressSync<span class="tsd-signature-symbol">: </span><a href="globals.html#ibrotlidecompresssync" class="tsd-signature-type">IbrotliDecompressSync</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
+						<li class="tsd-signature tsd-kind-icon">reserved<wbr>Words<span class="tsd-signature-symbol">(</span>decompressSync<span class="tsd-signature-symbol">: </span><a href="globals.html#ibrotlidecompresssync" class="tsd-signature-type">IbrotliDecompressSync</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/8555b3b/src/dynamoReservedWords.ts#L2">dynamoReservedWords.ts:2</a></li>
+									<li>Defined in <a href="https://github.com/federalies/dynamoco/blob/eece056/src/dynamoReservedWords.ts#L3">dynamoReservedWords.ts:3</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
-								<li>
-									<h5>fs: <a href="interfaces/fslike.html" class="tsd-signature-type">fsLike</a></h5>
-								</li>
-								<li>
-									<h5>path: <a href="interfaces/pathlike.html" class="tsd-signature-type">pathLike</a></h5>
-								</li>
 								<li>
 									<h5>decompressSync: <a href="globals.html#ibrotlidecompresssync" class="tsd-signature-type">IbrotliDecompressSync</a></h5>
 								</li>
@@ -991,13 +1032,16 @@
 						<a href="interfaces/getitemopts.html" class="tsd-kind-icon">Get<wbr>Item<wbr>Opts</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/idynamoco.html" class="tsd-kind-icon">IDyna<wbr>Moco</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imocoquery.html" class="tsd-kind-icon">IMoco<wbr>Query</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/mquerybase.html" class="tsd-kind-icon">MQuery<wbr>Base</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/mocopredicateclausereturn.html" class="tsd-kind-icon">Moco<wbr>Predicate<wbr>Clause<wbr>Return</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/mocoquery.html" class="tsd-kind-icon">Moco<wbr>Query</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/putitemopts.html" class="tsd-kind-icon">Put<wbr>Item<wbr>Opts</a>
@@ -1022,6 +1066,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/pathlike.html" class="tsd-kind-icon">path<wbr>Like</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#dict" class="tsd-kind-icon">Dict</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#dynamoattrvaluetype" class="tsd-kind-icon">Dynamo<wbr>Attr<wbr>Value<wbr>Type</a>
@@ -1066,7 +1113,16 @@
 						<a href="globals.html#mocopredicateclause" class="tsd-kind-icon">Moco<wbr>Predicate<wbr>Clause</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#predicateclause" class="tsd-kind-icon">Predicate<wbr>Clause</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#predicateclauses" class="tsd-kind-icon">Predicate<wbr>Clauses</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#predicatecomparitoroperations" class="tsd-kind-icon">Predicate<wbr>Comparitor<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#predicatevalues" class="tsd-kind-icon">Predicate<wbr>Values</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#querymetastateopts" class="tsd-kind-icon">Query<wbr>Meta<wbr>State<wbr>Opts</a>
@@ -1100,6 +1156,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#_stipdynamotypingsforvalues" class="tsd-kind-icon">_stip<wbr>Dynamo<wbr>Typings<wbr>For<wbr>Values</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#base64tobuff" class="tsd-kind-icon">base64to<wbr>Buff</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#dynamoco" class="tsd-kind-icon">dynamoco</a>
