@@ -47,7 +47,8 @@
     "lint": "eslint ./src/*.ts"
   },
   "dependencies": {
-    "aws-sdk": "^2.669.0"
+    "aws-sdk": "^2.669.0",
+    "lodash": "^4.17.20"
   },
   "husky": {
     "hooks": {
