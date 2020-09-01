@@ -1,5 +1,4 @@
 import { mocoQuery, fromDynamo, _inferJsValues, _giveDynamoTypesToValues } from './mocoQuery';
-const { isArray } = Array;
 const parseTableProps = (table, tableDef) => {
     const preamble = `Table ${table} {\n`;
     const indexHeader = 'index {';
@@ -91,31 +90,44 @@ export const dynamoco = (db, defaults) => {
         const RequestItems = Object.entries(batchReq).reduce((acc, [table, keysForDelReqArr]) => ({ ...acc, [table]: keysForDelReqArr.map(v => ({ DeleteRequest: { Key: _giveDynamoTypesToValues(v) } })) }), {});
         return db.batchWriteItem({ RequestItems, ...opts }).promise();
     };
-    const query = async (table, mocoWhereClause, mocoFilterClause, opts) => {
-        const q = mocoQuery(table);
-        const query = isArray(mocoWhereClause)
-            ? mocoFilterClause
-                ? q.where(mocoWhereClause).filter(mocoFilterClause).extract()
-                : q.where(mocoWhereClause).extract()
-            : mocoWhereClause;
+    const query = async (input, mocoWhereClauses = [], mocoFilterClauses = [], opts) => {
+        const q = typeof input === 'string' ? mocoQuery(input) : input;
+        let query;
+        if ('extract' in q) {
+            let moco = q;
+            moco = mocoWhereClauses.reduce((p, c) => p.where(c), moco);
+            moco = mocoFilterClauses.reduce((p, c) => p.filter(c), moco);
+            query = moco.extract();
+        }
+        else {
+            query = q;
+        }
         const res = await db.query({ ...query, ...opts }).promise();
-        return {
+        const ret = {
             ...res,
             ...(res.Items
                 ? { _Items: res.Items.map(v => _stipDynamoTypingsForValues(v)) }
-                : {})
+                : { _Items: [] })
         };
+        return ret;
     };
-    const scan = async (table, mocoFilterClause, mocoScanState) => {
-        const scanParam = mocoQuery(table);
-        const scanWithThis = scanParam.filter(mocoFilterClause).extract();
+    const scan = async (input, mocoScanState = {}, ...mocoFilterClauses) => {
+        const scanParam = typeof input === 'string' ? mocoQuery(input) : input;
+        let scanWithThis;
+        if ('extract' in scanParam) {
+            scanWithThis = mocoFilterClauses.reduce((p, c) => p.filter(c), scanParam).extract();
+        }
+        else {
+            scanWithThis = scanParam;
+        }
         const res = await db.scan({ ...mocoScanState, ...scanWithThis }).promise();
-        return {
+        const ret = {
             ...res,
             ...(res.Items
                 ? { _Items: res.Items.map(v => _stipDynamoTypingsForValues(v)) }
                 : {})
         };
+        return ret;
     };
     const describeTable = async (TableName) => {
         const res = await db.describeTable({ TableName }).promise();

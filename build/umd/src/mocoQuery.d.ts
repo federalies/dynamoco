@@ -11,7 +11,7 @@ export declare const _giveDynamoTypesToValues: (i: validJs2DynamoDict) => Key;
 export declare const mocoQuery: (table: string, startingState?: {
     r: Partial<QueryReqState>;
     _m: Partial<QueryMetaState>;
-} | undefined) => MocoQuery;
+} | undefined) => IMocoQuery;
 export default mocoQuery;
 export declare type DynamoString = {
     'S': string;
@@ -57,8 +57,11 @@ export declare type validJs2DynamoDict = {
     [Attribute: string]: validJsDynamoTypes;
 };
 export declare type PredicateComparitorOperations = '=' | '<>' | '<' | '>' | '<=' | '>=' | 'BETWEEN' | 'begins_with';
-export declare type MocoPredicateClause = [string, PredicateComparitorOperations, null | boolean | string | number | Buffer | (Buffer | string | number)[]];
+export declare type PredicateValues = null | boolean | string | number | Buffer | (Buffer | string | number)[];
+export declare type MocoPredicateClause = [string, PredicateComparitorOperations, PredicateValues];
 export declare type LinkedMocoPredicateClause = ['AND' | 'OR', MocoPredicateClause];
+export declare type PredicateClause = MocoPredicateClause | LinkedMocoPredicateClause;
+export declare type PredicateClauses = PredicateClause[];
 export interface MocoPredicateClauseReturn {
     KeyConditionExpression: string;
     ExpressionAttributeValues: {
@@ -111,24 +114,24 @@ export interface ScanReqState {
         [key: string]: DynamoAttrValueType;
     };
 }
-export interface MocoQuery {
-    ascending: () => MocoQuery;
-    descending: () => MocoQuery;
-    consistentRead: (useConsistent: boolean) => MocoQuery;
-    expressionAttributeValues: (input: validJs2DynamoDict) => MocoQuery;
+export interface IMocoQuery {
+    ascending: () => IMocoQuery;
+    descending: () => IMocoQuery;
+    consistentRead: (useConsistent: boolean) => IMocoQuery;
+    expressionAttributeValues: (input: validJs2DynamoDict) => IMocoQuery;
     expressionAttributeNames: (input: {
         [key: string]: string;
-    }) => MocoQuery;
-    limit: (n: number) => MocoQuery;
-    projectionExpression: (...projectionExpr: string[]) => MocoQuery;
-    usingIndex: (index: string) => MocoQuery;
-    returnConsumedCapacity: (input?: 'INDEXES' | 'TOTAL' | 'NONE') => MocoQuery;
-    select: (input: '*' | 'COUNT' | 'ALL_PROJECTED_ATTRIBUTES' | string[]) => MocoQuery;
-    startKey: (lastKeyEvaluated: Key) => MocoQuery;
-    filterExpression: (filterExpr: string) => MocoQuery;
-    filter: (_input: string | MocoPredicateClause | ['AND' | 'OR', MocoPredicateClause]) => MocoQuery;
-    where: (_input: string | MocoPredicateClause | ['AND' | 'OR', MocoPredicateClause]) => MocoQuery;
-    fromUrl: (input: string | URL) => MocoQuery;
+    }) => IMocoQuery;
+    limit: (n: number) => IMocoQuery;
+    projectionExpression: (...projectionExpr: string[]) => IMocoQuery;
+    usingIndex: (index: string) => IMocoQuery;
+    returnConsumedCapacity: (input?: 'INDEXES' | 'TOTAL' | 'NONE') => IMocoQuery;
+    select: (input: '*' | 'COUNT' | 'ALL_PROJECTED_ATTRIBUTES' | string[]) => IMocoQuery;
+    startKey: (lastKeyEvaluated: Key) => IMocoQuery;
+    filterExpression: (filterExpr: string) => IMocoQuery;
+    filter: (_input: string | PredicateClause) => IMocoQuery;
+    where: (_input: string | PredicateClause) => IMocoQuery;
+    fromUrl: (input: string | URL) => IMocoQuery;
     extract: () => QueryInput;
     toURL: () => URL;
     toUrlString: () => string;

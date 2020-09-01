@@ -1,13 +1,10 @@
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "url", "./dynamoReservedWords", "zlib", "fs", "path"], factory);
+        define(["require", "exports", "url", "./dynamoReservedWords", "zlib"], factory);
     }
 })(function (require, exports) {
     "use strict";
@@ -15,8 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const url_1 = require("url");
     const dynamoReservedWords_1 = require("./dynamoReservedWords");
     const zlib_1 = require("zlib");
-    const fs_1 = __importDefault(require("fs"));
-    const path_1 = __importDefault(require("path"));
     const { isArray } = Array;
     const isError = (input) => input instanceof Error;
     const isString = (i) => typeof i === 'string' || i instanceof String;
@@ -165,7 +160,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     };
     exports.mocoQuery = function mocoquery(table, startingState) {
         const state = {
-            _m: Object.assign({ where: [], filters: [], reserved: dynamoReservedWords_1.reservedWords(fs_1.default, path_1.default, zlib_1.brotliDecompressSync) }, startingState === null || startingState === void 0 ? void 0 : startingState._m),
+            _m: Object.assign({ where: [], filters: [], reserved: dynamoReservedWords_1.reservedWords(zlib_1.brotliDecompressSync) }, startingState === null || startingState === void 0 ? void 0 : startingState._m),
             r: Object.assign({ TableName: table, Select: 'ALL_ATTRIBUTES', ReturnConsumedCapacity: 'TOTAL' }, startingState === null || startingState === void 0 ? void 0 : startingState.r)
         };
         const ascending = () => {

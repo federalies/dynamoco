@@ -6,7 +6,7 @@ import { promisify } from 'util'
 import { exec } from 'child_process'
 import { dynamoco, mocoQuery } from '../src'
 // eslint-disable-next-line no-unused-vars
-import type { QueryReqState, jsTypesFromDynamo } from '../src/mocoQuery'
+import type { QueryReqState, jsTypesFromDynamo, PredicateClause } from '../src/mocoQuery'
 // eslint-disable-next-line no-unused-vars
 import type { IGroupReturn } from './index.test' // IComparitorFn, ITestReturn, ITestFn
 
@@ -203,7 +203,7 @@ const allGroups = async () => {
             .where(['User', '=', 'myAlias'])
             .where(['AND', ['Date', '<=', 1589303460428 + 1]])
             .extract()
-          const ez = await dynamoco(d).query('Emails', queryParam)
+          const ez = await dynamoco(d).query(queryParam)
           return ez.Count
         },
         expected: async () => 3
@@ -216,7 +216,7 @@ const allGroups = async () => {
             .where(['User', '=', 'myAlias'])
             .where(['AND', ['Date', 'BETWEEN', [1_589_303_440_000, 1_589_303_459_000]]])
             .extract()
-          const ez = await dynamoco(d).query('Emails', queryParam)
+          const ez = await dynamoco(d).query(queryParam)
           return ez.Count
         },
         expected: async () => 1
@@ -331,10 +331,11 @@ const allGroups = async () => {
       {
         name: '11. Scan',
         actual: async (d:DynamoDB) => {
+          const start = 1_589_303_429_254 as number
+          const fin = 1_589_303_460_429 as number
+          const pred = ['Date', 'BETWEEN', [start, fin]] as PredicateClause
           const r = await dynamoco(d)
-            .scan('Emails', [
-              'Date', 'BETWEEN', [1_589_303_429_254, 1_589_303_460_429]],
-            { ReturnConsumedCapacity: 'TOTAL' })
+            .scan('Emails', { ReturnConsumedCapacity: 'TOTAL' }, pred)
           return r._Items.length
         },
         expected: async () => 3

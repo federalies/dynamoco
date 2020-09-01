@@ -1,86 +1,12 @@
 import type { DynamoDB } from 'aws-sdk';
-import type { DynamoAttrValueType, DynamoMap, jsTypesFromDynamo, validJs2DynamoDict, MocoPredicateClause, ScanReqState, QueryReqState } from './mocoQuery';
-import type { Key, CreateGlobalSecondaryIndexAction, UpdateGlobalSecondaryIndexAction, DeleteGlobalSecondaryIndexAction, StreamSpecification, SSESpecification, ReplicationGroupUpdateList } from 'aws-sdk/clients/dynamodb';
+import type { DynamoAttrValueType, DynamoMap, jsTypesFromDynamo, validJs2DynamoDict, PredicateClauses, ScanReqState, QueryReqState } from './mocoQuery';
+import type { Key, BatchGetItemOutput, GetItemOutput, PutItemOutput, QueryInput, QueryOutput, ScanInput, ScanOutput, BatchWriteItemOutput, CreateGlobalSecondaryIndexAction, UpdateGlobalSecondaryIndexAction, DeleteGlobalSecondaryIndexAction, StreamSpecification, SSESpecification, ReplicationGroupUpdateList, DescribeTableOutput, UpdateTableOutput } from 'aws-sdk/clients/dynamodb';
 export declare const _stipDynamoTypingsForValues: (input?: {
     [sttibuteName: string]: DynamoDB.AttributeValue | import("./mocoQuery").DynamoString | import("./mocoQuery").DynamoNumber | import("./mocoQuery").DynamoBinary | import("./mocoQuery").DynamoStringSet | import("./mocoQuery").DynamoNumberSet | import("./mocoQuery").DynamoBinarySet | DynamoMap | import("./mocoQuery").DynamoList | import("./mocoQuery").DynamoNull | import("./mocoQuery").DynamoBool;
 }) => {
     [sttibuteName: string]: jsTypesFromDynamo;
 };
-export declare const dynamoco: (db: DynamoDB, defaults?: {} | undefined) => {
-    getItem: (TableName: string, input: validJs2DynamoDict, opts?: GetItemOpts | undefined) => Promise<{
-        _Item: {
-            [sttibuteName: string]: jsTypesFromDynamo;
-        };
-        Item?: DynamoDB.AttributeMap | undefined;
-        ConsumedCapacity?: DynamoDB.ConsumedCapacity | undefined;
-        $response: import("aws-sdk").Response<DynamoDB.GetItemOutput, import("aws-sdk").AWSError>;
-    }>;
-    putItem: (TableName: string, item: validJs2DynamoDict, opts?: PutItemOpts | undefined) => Promise<{
-        _Attributes: {
-            [sttibuteName: string]: jsTypesFromDynamo;
-        };
-        Attributes?: DynamoDB.AttributeMap | undefined;
-        ConsumedCapacity?: DynamoDB.ConsumedCapacity | undefined;
-        ItemCollectionMetrics?: DynamoDB.ItemCollectionMetrics | undefined;
-        $response: import("aws-sdk").Response<DynamoDB.PutItemOutput, import("aws-sdk").AWSError>;
-    }>;
-    getBatch: (batchReq: {
-        [table: string]: validJs2DynamoDict[];
-    }) => Promise<{
-        _Responses: {
-            [table: string]: {
-                [attribute: string]: jsTypesFromDynamo;
-            }[];
-        };
-        Responses?: DynamoDB.BatchGetResponseMap | undefined;
-        UnprocessedKeys?: DynamoDB.BatchGetRequestMap | undefined;
-        ConsumedCapacity?: DynamoDB.ConsumedCapacityMultiple | undefined;
-        $response: import("aws-sdk").Response<DynamoDB.BatchGetItemOutput, import("aws-sdk").AWSError>;
-    }>;
-    putBatch: (batchReq: {
-        [table: string]: validJs2DynamoDict[];
-    }, opts?: WriteBatchOpts | undefined) => Promise<import("aws-sdk/lib/request").PromiseResult<DynamoDB.BatchWriteItemOutput, import("aws-sdk").AWSError>>;
-    deleteBatch: (batchReq: {
-        [table: string]: validJs2DynamoDict[];
-    }, opts?: WriteBatchOpts | undefined) => Promise<import("aws-sdk/lib/request").PromiseResult<DynamoDB.BatchWriteItemOutput, import("aws-sdk").AWSError>>;
-    query: (table: string, mocoWhereClause: DynamoDB.QueryInput | MocoPredicateClause, mocoFilterClause?: MocoPredicateClause | undefined, opts?: ExtraQueryOptions | undefined) => Promise<{
-        _Items?: {
-            [sttibuteName: string]: jsTypesFromDynamo;
-        }[] | {
-            [attribute: string]: jsTypesFromDynamo;
-        }[] | undefined;
-        Items?: DynamoDB.ItemList | undefined;
-        Count?: number | undefined;
-        ScannedCount?: number | undefined;
-        LastEvaluatedKey?: DynamoDB.Key | undefined;
-        ConsumedCapacity?: DynamoDB.ConsumedCapacity | undefined;
-    }>;
-    scan: (table: string, mocoFilterClause: MocoPredicateClause, mocoScanState?: ScanReqState | undefined) => Promise<{
-        _Items?: {
-            [sttibuteName: string]: jsTypesFromDynamo;
-        }[];
-        Items?: DynamoDB.ItemList | undefined;
-        Count?: number | undefined;
-        ScannedCount?: number | undefined;
-        LastEvaluatedKey?: DynamoDB.Key | undefined;
-        ConsumedCapacity?: DynamoDB.ConsumedCapacity | undefined;
-        $response: import("aws-sdk").Response<DynamoDB.ScanOutput, import("aws-sdk").AWSError>;
-    }>;
-    describeTable: (TableName: string) => Promise<{
-        DBML: string;
-        Table?: DynamoDB.TableDescription | undefined;
-        $response: import("aws-sdk").Response<DynamoDB.DescribeTableOutput, import("aws-sdk").AWSError>;
-    }>;
-    updateTable: (table: string, onDemandMode: boolean, opts?: UpdateTable | undefined) => Promise<import("aws-sdk/lib/request").PromiseResult<DynamoDB.UpdateTableOutput, import("aws-sdk").AWSError>>;
-    paginate: (req: QueryReqState | (ScanReqState & {
-        TableName: string;
-    })) => AsyncGenerator<(DynamoDB.QueryOutput & {
-        _Items?: jsTypesFromDynamo[] | undefined;
-    }) | (DynamoDB.ScanOutput & {
-        _Items?: jsTypesFromDynamo[] | undefined;
-    }), any, unknown>;
-    _db: DynamoDB;
-};
+export declare const dynamoco: (db: DynamoDB, defaults?: {} | undefined) => IDynaMoco;
 export default dynamoco;
 interface GetItemOpts {
     ConsistentRead?: boolean;
@@ -142,3 +68,41 @@ interface UpdateTable {
     SSE?: SSESpecification;
     replicaUpdates?: ReplicationGroupUpdateList;
 }
+export interface IDynaMoco {
+    getItem: (TableName: string, input: validJs2DynamoDict, opts?: GetItemOpts) => Promise<GetItemOutput & {
+        _Item: Dict<jsTypesFromDynamo>;
+    }>;
+    putItem: (TableName: string, item: validJs2DynamoDict, opts?: PutItemOpts) => Promise<PutItemOutput & {
+        _Attributes: Dict<jsTypesFromDynamo>;
+    }>;
+    getBatch: (batchReq: {
+        [table: string]: validJs2DynamoDict[];
+    }) => Promise<BatchGetItemOutput & {
+        _Responses: Dict<Dict<jsTypesFromDynamo>[]>;
+    }>;
+    putBatch: (batchReq: {
+        [table: string]: validJs2DynamoDict[];
+    }, opts?: WriteBatchOpts) => Promise<BatchWriteItemOutput>;
+    deleteBatch: (batchReq: {
+        [table: string]: validJs2DynamoDict[];
+    }, opts?: WriteBatchOpts) => Promise<BatchWriteItemOutput>;
+    query: (input: string | QueryInput, mocoWhereClauses?: PredicateClauses, mocoFilterClauses?: PredicateClauses, opts?: ExtraQueryOptions) => Promise<ScanOutput & {
+        _Items: Dict<jsTypesFromDynamo>[];
+    }>;
+    scan: (input: string | ScanInput, mocoScanState: Partial<ScanReqState>, ...mocoFilterClauses: PredicateClauses) => Promise<ScanOutput & {
+        _Items: Dict<jsTypesFromDynamo>[];
+    }>;
+    describeTable: (TableName: string) => Promise<DescribeTableOutput & {
+        DBML: string;
+    }>;
+    updateTable: (table: string, onDemandMode: boolean, opts?: UpdateTable) => Promise<UpdateTableOutput>;
+    paginate: (req: ScanReqState & {
+        TableName: string;
+    } | QueryReqState) => AsyncGenerator<(QueryOutput | ScanOutput) & {
+        _Items?: jsTypesFromDynamo[];
+    }>;
+    _db: DynamoDB;
+}
+declare type Dict<T> = {
+    [key: string]: T;
+};

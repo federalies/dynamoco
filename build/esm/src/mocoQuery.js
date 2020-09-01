@@ -1,8 +1,6 @@
 import { URL } from 'url';
 import { reservedWords } from './dynamoReservedWords';
 import { brotliDecompressSync } from 'zlib';
-import fs from 'fs';
-import path from 'path';
 const { isArray } = Array;
 const isError = (input) => input instanceof Error;
 const isString = (i) => typeof i === 'string' || i instanceof String;
@@ -166,7 +164,7 @@ export const mocoQuery = function mocoquery(table, startingState) {
         _m: {
             where: [],
             filters: [],
-            reserved: reservedWords(fs, path, brotliDecompressSync),
+            reserved: reservedWords(brotliDecompressSync),
             ...startingState?._m
         },
         r: {

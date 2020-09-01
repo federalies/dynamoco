@@ -5,8 +5,6 @@ import type { Key, QueryInput } from 'aws-sdk/clients/dynamodb'
 
 import { reservedWords } from './dynamoReservedWords'
 import { brotliDecompressSync } from 'zlib'
-import fs from 'fs'
-import path from 'path'
 
 const { isArray } = Array
 const isError = (input:any):input is Error => input instanceof Error
@@ -165,12 +163,12 @@ export const _giveDynamoTypesToValues = (i:validJs2DynamoDict):Key => {
   }), {} as Key)
 }
 
-export const mocoQuery = function mocoquery (table:string, startingState?: {r:QueryReqStateOpts, _m: QueryMetaStateOpts}):MocoQuery {
+export const mocoQuery = function mocoquery (table:string, startingState?: {r:QueryReqStateOpts, _m: QueryMetaStateOpts}):IMocoQuery {
   const state = {
     _m: {
       where: [],
       filters: [],
-      reserved: reservedWords(fs, path, brotliDecompressSync),
+      reserved: reservedWords(brotliDecompressSync),
       ...startingState?._m
     } as QueryMetaState, // letter m for meta
     r: {
@@ -753,8 +751,11 @@ export type validplainJSTypesInDynamo = boolean | null | string | number | Buffe
 export type validJsDynamoTypes = validplainJSTypesInDynamo | {[Attribute:string]: validJsDynamoTypes }
 export type validJs2DynamoDict = {[Attribute: string]: validJsDynamoTypes}
 export type PredicateComparitorOperations = '='| '<>' | '<'| '>'| '<='| '>='| 'BETWEEN'| 'begins_with'
-export type MocoPredicateClause = [string, PredicateComparitorOperations, null | boolean | string | number | Buffer | (Buffer | string| number)[] ]
+export type PredicateValues = null | boolean | string | number | Buffer | (Buffer | string| number)[]
+export type MocoPredicateClause = [string, PredicateComparitorOperations, PredicateValues ]
 export type LinkedMocoPredicateClause = ['AND' | 'OR', MocoPredicateClause]
+export type PredicateClause = MocoPredicateClause | LinkedMocoPredicateClause
+export type PredicateClauses = PredicateClause[]
 export interface MocoPredicateClauseReturn {
     KeyConditionExpression:string,
     ExpressionAttributeValues:{[attribute:string]: DynamoAttrValueType}
@@ -809,26 +810,26 @@ export interface ScanReqState{
 }
 
 interface MQueryBase {
-  (table: string, startingState?: {r:QueryReqState, _m: QueryMetaState}): MocoQuery
-  fromUrl: (input: string | URL)=>MocoQuery
+  (table: string, startingState?: {r:QueryReqState, _m: QueryMetaState}): IMocoQuery
+  fromUrl: (input: string | URL)=>IMocoQuery
 }
 
-export interface MocoQuery {
-    ascending: ()=>MocoQuery
-    descending: ()=>MocoQuery
-    consistentRead: (useConsistent:boolean)=>MocoQuery
-    expressionAttributeValues: (input: validJs2DynamoDict)=>MocoQuery
-    expressionAttributeNames: (input: {[key: string]: string })=>MocoQuery
-    limit: (n:number)=>MocoQuery
-    projectionExpression: (...projectionExpr: string[])=>MocoQuery
-    usingIndex: (index:string)=>MocoQuery
-    returnConsumedCapacity: (input?: 'INDEXES' | 'TOTAL' | 'NONE')=>MocoQuery
-    select: (input:'*'| 'COUNT'| 'ALL_PROJECTED_ATTRIBUTES' | string[])=>MocoQuery
-    startKey: (lastKeyEvaluated:Key)=>MocoQuery
-    filterExpression: (filterExpr: string)=>MocoQuery
-    filter: (_input: string | MocoPredicateClause | ['AND' | 'OR', MocoPredicateClause])=>MocoQuery
-    where: (_input: string | MocoPredicateClause | ['AND' | 'OR', MocoPredicateClause])=>MocoQuery
-    fromUrl: (input: string | URL)=>MocoQuery
+export interface IMocoQuery {
+    ascending: ()=>IMocoQuery
+    descending: ()=>IMocoQuery
+    consistentRead: (useConsistent:boolean)=>IMocoQuery
+    expressionAttributeValues: (input: validJs2DynamoDict)=>IMocoQuery
+    expressionAttributeNames: (input: {[key: string]: string })=>IMocoQuery
+    limit: (n:number)=>IMocoQuery
+    projectionExpression: (...projectionExpr: string[])=>IMocoQuery
+    usingIndex: (index:string)=>IMocoQuery
+    returnConsumedCapacity: (input?: 'INDEXES' | 'TOTAL' | 'NONE')=>IMocoQuery
+    select: (input:'*'| 'COUNT'| 'ALL_PROJECTED_ATTRIBUTES' | string[])=>IMocoQuery
+    startKey: (lastKeyEvaluated:Key)=>IMocoQuery
+    filterExpression: (filterExpr: string)=>IMocoQuery
+    filter: (_input: string | PredicateClause)=>IMocoQuery
+    where: (_input: string | PredicateClause)=>IMocoQuery
+    fromUrl: (input: string | URL)=>IMocoQuery
     // --
     extract: ()=>QueryInput
     toURL: ()=>URL

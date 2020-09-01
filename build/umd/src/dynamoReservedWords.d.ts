@@ -1,14 +1,5 @@
 /// <reference types="node" />
-export declare const reservedWords: (fs: fsLike, path: pathLike, decompressSync: IbrotliDecompressSync) => {};
-interface fsLike {
-    readFileSync: (path: string | Buffer | URL | number, options?: {
-        encoding?: null;
-        flag?: string;
-    } | null) => Buffer;
-}
-interface pathLike {
-    resolve(...pathSegments: string[]): string;
-}
+export declare const reservedWords: (decompressSync: IbrotliDecompressSync) => {};
 interface BrotliOptions {
     flush?: number;
     finishFlush?: number;

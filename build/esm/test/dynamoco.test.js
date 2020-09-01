@@ -169,7 +169,7 @@ const allGroups = async () => {
                 .where(['User', '=', 'myAlias'])
                 .where(['AND', ['Date', '<=', 1589303460428 + 1]])
                 .extract();
-            const ez = await dynamoco(d).query('Emails', queryParam);
+            const ez = await dynamoco(d).query(queryParam);
             return ez.Count;
         },
         expected: async () => 3
@@ -181,7 +181,7 @@ const allGroups = async () => {
                 .where(['User', '=', 'myAlias'])
                 .where(['AND', ['Date', 'BETWEEN', [1589303440000, 1589303459000]]])
                 .extract();
-            const ez = await dynamoco(d).query('Emails', queryParam);
+            const ez = await dynamoco(d).query(queryParam);
             return ez.Count;
         },
         expected: async () => 1
@@ -284,10 +284,11 @@ const allGroups = async () => {
     }, {
         name: '11. Scan',
         actual: async (d) => {
+            const start = 1589303429254;
+            const fin = 1589303460429;
+            const pred = ['Date', 'BETWEEN', [start, fin]];
             const r = await dynamoco(d)
-                .scan('Emails', [
-                'Date', 'BETWEEN', [1589303429254, 1589303460429]
-            ], { ReturnConsumedCapacity: 'TOTAL' });
+                .scan('Emails', { ReturnConsumedCapacity: 'TOTAL' }, pred);
             return r._Items.length;
         },
         expected: async () => 3
